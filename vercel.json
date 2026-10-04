@@ -1,12 +1,40 @@
 {
   "rewrites": [
-    { "source": "/word-counter", "destination": "/word-counter.html" },
-    { "source": "/symbols-accents", "destination": "/symbols-accents.html" },
-    { "source": "/color-picker", "destination": "/color-picker.html" },
-    { "source": "/fraction-calculator", "destination": "/fraction-calculator.html" },
-    { "source": "/interest-calculator", "destination": "/interest-calculator.html" },
-    { "source": "/unit-converter", "destination": "/unit-converter.html" },
-    { "source": "/file-converter", "destination": "/file-converter.html" },
-    { "source": "/time-sun", "destination": "/time-sun.html" }
+    {
+      "source": "/word-counter",
+      "destination": "/word-counter.html"
+    },
+    {
+      "source": "/symbols-accents",
+      "destination": "/symbols-accents.html"
+    },
+    {
+      "source": "/color-picker",
+      "destination": "/color-picker.html"
+    },
+    {
+      "source": "/fraction-calculator",
+      "destination": "/fraction-calculator.html"
+    },
+    {
+      "source": "/interest-calculator",
+      "destination": "/interest-calculator.html"
+    },
+    {
+      "source": "/unit-converter",
+      "destination": "/unit-converter.html"
+    },
+    {
+      "source": "/file-converter",
+      "destination": "/file-converter.html"
+    },
+    {
+      "source": "/time-sun",
+      "destination": "/time-sun.html"
+    },
+    {
+      "source": "/time-zones",
+      "destination": "/time-zones.html"
+    }
   ]
 }
