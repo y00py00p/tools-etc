@@ -382,7 +382,7 @@
     <section class="hero">
       <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Fast browser tools</div>
       <h1>Welcome to Tools, etc.</h1>
-      <p>Clean, focused utilities for writing, numbers, files, color, conversions, and everyday work.</p>
+      <p>Clean, focused utilities for everyday work.</p>
     </section>
 
     <section class="tools-wrap" id="tools" aria-label="Tools">
@@ -411,7 +411,7 @@
           </div>
           <div class="card-bottom">
             <h2>Word Counter</h2>
-            <p>Count words, characters, sentences, paragraphs, and reading time.</p>
+            <p>Count words, characters, sentences, and speaking time.</p>
             <span class="tag">Text</span>
           </div>
         </a>
@@ -544,13 +544,30 @@
       const cards = Array.from(document.querySelectorAll('.card'));
       const empty = document.getElementById('empty');
 
+      const normalize = value => value
+        .toLowerCase()
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, ' ')
+        .trim();
+
       search.addEventListener('input', () => {
-        const query = search.value.trim().toLowerCase();
+        const query = normalize(search.value);
+        const queryTokens = query ? query.split(/\s+/).filter(Boolean) : [];
         let visible = 0;
 
         cards.forEach(card => {
-          const haystack = (card.dataset.tool || '').toLowerCase();
-          const match = !query || haystack.includes(query);
+          const title = card.querySelector('h2')?.textContent || '';
+          const description = card.querySelector('p')?.textContent || '';
+          const tags = card.querySelector('.tag')?.textContent || '';
+          const keywords = card.dataset.tool || '';
+          const haystack = normalize(`${title} ${description} ${tags} ${keywords}`);
+          const words = haystack.split(/\s+/).filter(Boolean);
+
+          const match = !query ||
+            haystack.includes(query) ||
+            queryTokens.every(token => words.some(word => word.startsWith(token) || word.includes(token)));
+
           card.style.display = match ? '' : 'none';
           if (match) visible++;
         });
