@@ -59,6 +59,7 @@
       display: inline-flex;
       align-items: center;
       gap: 11px;
+      margin-left: clamp(2px, calc((100vw - 1132px) / 2), 40px);
       font-weight: 750;
       letter-spacing: -0.03em;
       font-size: 19px;
@@ -330,6 +331,7 @@
     @media (max-width: 620px) {
       .shell { width: min(100% - 22px, 1180px); padding-top: 14px; }
       header { padding-bottom: 14px; }
+      .brand { margin-left: 1px; }
       .header-link span { display: none; }
       .hero { padding: 44px 0 26px; }
       .toolbar { align-items: stretch; flex-direction: column; }
