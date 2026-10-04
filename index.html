@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#635bff" />
-  <meta name="description" content="Simple, fast, premium browser tools for everyday work." />
-  <title>Tools, etc. — Simple tools, done well</title>
+  <meta name="description" content="A fast, clean browser-based word counter." />
+  <title>Word Counter — Tools, etc.</title>
   <style>
     :root {
       --bg: #f7f7f9;
@@ -17,7 +17,7 @@
       --accent: #635bff;
       --accent-soft: #eeecff;
       --shadow: 0 10px 30px rgba(20, 20, 30, 0.06);
-      --shadow-hover: 0 18px 48px rgba(20, 20, 30, 0.11);
+      --shadow-hover: 0 18px 48px rgba(20, 20, 30, 0.10);
       --radius-lg: 24px;
       --radius-md: 16px;
     }
@@ -38,11 +38,10 @@
     }
 
     a { color: inherit; text-decoration: none; }
-
-    button, input { font: inherit; }
+    button, textarea { font: inherit; }
 
     .shell {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1080px, calc(100% - 32px));
       margin: 0 auto;
       padding: 24px 0 42px;
     }
@@ -77,7 +76,7 @@
 
     .brand-mark svg { width: 18px; height: 18px; }
 
-    .header-link {
+    .back-link {
       display: inline-flex;
       align-items: center;
       gap: 7px;
@@ -87,17 +86,17 @@
       transition: background .18s ease, color .18s ease;
     }
 
-    .header-link:hover,
-    .header-link:focus-visible {
+    .back-link:hover,
+    .back-link:focus-visible {
       background: var(--surface);
       color: var(--text);
       outline: none;
     }
 
-    .header-link svg { width: 16px; height: 16px; }
+    .back-link svg { width: 16px; height: 16px; }
 
     .hero {
-      padding: 46px 0 34px;
+      padding: 40px 0 28px;
       text-align: center;
     }
 
@@ -126,7 +125,7 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(42px, 7vw, 78px);
+      font-size: clamp(42px, 7vw, 66px);
       line-height: .96;
       letter-spacing: -0.055em;
       font-weight: 800;
@@ -134,186 +133,177 @@
 
     .hero p {
       max-width: 650px;
-      margin: 20px auto 0;
+      margin: 18px auto 0;
       color: var(--muted);
-      font-size: clamp(16px, 2vw, 19px);
+      font-size: 17px;
       line-height: 1.55;
     }
 
-    .tools-wrap {
-      margin-top: 24px;
+    .workspace {
+      display: grid;
+      gap: 14px;
     }
 
-    .toolbar {
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      min-height: 102px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.90);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .stat-value {
+      margin-top: 8px;
+      font-size: 27px;
+      line-height: 1;
+      font-weight: 780;
+      letter-spacing: -0.03em;
+    }
+
+    .editor-card {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+    }
+
+    .editor-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 14px;
+      gap: 12px;
+      padding: 4px 4px 12px;
     }
 
-    .section-title {
-      margin: 0;
+    .editor-title {
       font-size: 14px;
       font-weight: 730;
       letter-spacing: -0.01em;
     }
 
-    .search {
-      position: relative;
-      width: min(320px, 100%);
-    }
-
-    .search svg {
-      position: absolute;
-      left: 13px;
-      top: 50%;
-      width: 17px;
-      height: 17px;
-      transform: translateY(-50%);
+    .editor-hint {
       color: var(--muted);
-      pointer-events: none;
+      font-size: 12px;
     }
 
-    .search input {
+    textarea {
+      display: block;
       width: 100%;
-      height: 42px;
-      padding: 0 14px 0 39px;
+      min-height: 400px;
+      padding: 20px;
+      resize: vertical;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 16px;
       outline: none;
-      background: rgba(255,255,255,.86);
+      background: var(--surface-2);
       color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
       transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
     }
 
-    .search input:focus {
+    textarea::placeholder { color: #9697a0; }
+
+    textarea:focus {
       background: var(--surface);
       border-color: rgba(99,91,255,.45);
       box-shadow: 0 0 0 4px rgba(99,91,255,.10);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      align-items: stretch;
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 4px 0;
     }
 
-    .card {
-      position: relative;
+    .left-actions,
+    .right-actions {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 220px;
-      padding: 22px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .button {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 13px;
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,.92);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-
-    .card:hover,
-    .card:focus-visible {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-      border-color: #dcdce5;
-      outline: none;
-    }
-
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .icon-box {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 13px;
-      background: var(--surface-2);
+      border-radius: 11px;
+      background: var(--surface);
       color: var(--text);
-      transition: background .18s ease, color .18s ease, transform .18s ease;
-      flex: 0 0 auto;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
     }
 
-    .card:hover .icon-box,
-    .card:focus-visible .icon-box {
-      background: var(--accent-soft);
-      color: var(--accent);
+    .button:hover {
+      border-color: #d8d8e2;
+      background: #fafafd;
       transform: translateY(-1px);
     }
 
-    .icon-box svg { width: 21px; height: 21px; }
+    .button:focus-visible {
+      outline: none;
+      border-color: rgba(99,91,255,.45);
+      box-shadow: 0 0 0 4px rgba(99,91,255,.10);
+    }
 
-    .arrow {
-      position: relative;
-      z-index: 1;
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
+    .button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .button.primary:hover {
+      border-color: var(--accent);
+      background: #5a52eb;
+    }
+
+    .button svg { width: 16px; height: 16px; }
+
+    .status {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translate(-50%, 12px);
+      opacity: 0;
+      pointer-events: none;
+      padding: 10px 13px;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--muted);
-      background: rgba(255,255,255,.74);
-      transition: color .18s ease, border-color .18s ease, transform .18s ease;
+      border-radius: 11px;
+      background: rgba(23,23,27,.94);
+      color: #fff;
+      font-size: 12px;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 20;
     }
 
-    .card:hover .arrow,
-    .card:focus-visible .arrow {
-      color: var(--accent);
-      border-color: #d9d7ff;
-      transform: translate(1px, -1px);
-    }
-
-    .arrow svg { width: 16px; height: 16px; }
-
-    .card-bottom {
-      position: relative;
-      z-index: 1;
-      margin-top: 34px;
-    }
-
-    .card h2 {
-      margin: 0;
-      font-size: 21px;
-      line-height: 1.15;
-      letter-spacing: -0.025em;
-    }
-
-    .card p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-      max-width: 330px;
-    }
-
-    .tag {
-      display: inline-block;
-      margin-top: 13px;
-      padding: 5px 8px;
-      border-radius: 8px;
-      background: var(--surface-2);
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 650;
-    }
-
-    .empty {
-      display: none;
-      padding: 44px 20px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed var(--border);
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,.52);
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
     }
 
     .footer {
@@ -327,17 +317,27 @@
       font-size: 12px;
     }
 
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
     @media (max-width: 620px) {
-      .shell { width: min(100% - 22px, 1180px); padding-top: 14px; }
+      .shell { width: min(100% - 22px, 1080px); padding-top: 14px; }
       header { padding-bottom: 14px; }
-      .header-link span { display: none; }
       .hero { padding: 44px 0 26px; }
-      .toolbar { align-items: stretch; flex-direction: column; }
-      .search { width: 100%; }
-      .grid { grid-template-columns: 1fr; }
-      .card { min-height: 190px; padding: 19px; }
-      .card-bottom { margin-top: 27px; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      textarea { min-height: 330px; padding: 16px; }
+      .actions { align-items: stretch; flex-direction: column; }
+      .left-actions, .right-actions { width: 100%; }
+      .left-actions .button, .right-actions .button { flex: 1; }
+      .editor-hint { display: none; }
       .footer { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 390px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat { padding: 15px; }
+      .stat:nth-child(5) { grid-column: 1 / -1; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -359,193 +359,144 @@
         </span>
         <span>Tools, etc.</span>
       </a>
-      <a class="header-link" href="#tools">
-        <span>Explore tools</span>
+      <a class="back-link" href="/" aria-label="Back to all tools">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M5 12h14" />
-          <path d="m13 6 6 6-6 6" />
+          <path d="M19 12H5" />
+          <path d="m11 18-6-6 6-6" />
         </svg>
+        <span>All tools</span>
       </a>
     </header>
 
     <section class="hero">
-      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Fast browser tools</div>
-      <h1>Welcome to Tools, etc.</h1>
-      <p>Clean, focused utilities for writing, numbers, files, color, conversions, and everyday work.</p>
+      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Text</div>
+      <h1>Word Counter</h1>
+      <p>Count words, characters, sentences, paragraphs, and estimated reading time as you type.</p>
     </section>
 
-    <section class="tools-wrap" id="tools" aria-label="Tools">
-      <div class="toolbar">
-        <h2 class="section-title">All tools</h2>
-        <label class="search" aria-label="Search tools">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="6.5" />
-            <path d="m16 16 4.2 4.2" />
-          </svg>
-          <input id="search" type="search" placeholder="Search tools" autocomplete="off" />
-        </label>
+    <section class="workspace" aria-label="Word counter">
+      <div class="editor-card">
+        <div class="editor-top">
+          <div class="editor-title">Your text</div>
+          <div class="editor-hint">Everything stays in your browser</div>
+        </div>
+        <textarea id="text" spellcheck="true" placeholder="Start typing or paste your text here..."></textarea>
+        <div class="actions">
+          <div class="left-actions">
+            <button class="button" id="clear" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 7h16" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="m9 7 .7-2h4.6l.7 2" /><path d="M6 7l.8 13h10.4L18 7" />
+              </svg>
+              Clear
+            </button>
+          </div>
+          <div class="right-actions">
+            <span class="status" id="status">0 words</span>
+            <button class="button primary" id="copy" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="8" y="8" width="11" height="11" rx="2" />
+                <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+              </svg>
+              Copy text
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div class="grid" id="toolGrid">
-        <a class="card wide" data-tool="word counter writing text characters" href="/word-counter">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 6.5h16" /><path d="M4 11.5h10" /><path d="M4 16.5h13" /><path d="M17 14v6" /><path d="m14.5 18 2.5 2 2.5-2" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-            </span>
-          </div>
-          <div class="card-bottom">
-            <h2>Word Counter</h2>
-            <p>Count words, characters, sentences, paragraphs, and reading time.</p>
-            <span class="tag">Text</span>
-          </div>
-        </a>
-
-        <a class="card mid" data-tool="symbols accents special characters" href="/symbols-accents">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 18h10" /><path d="M9 15 12 6l3 9" /><path d="M10 12h4" /><path d="M5 5h2" /><path d="M17 5h2" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Symbols &amp; Accents</h2>
-            <p>Quickly find and copy useful symbols, accents, and special characters.</p>
-            <span class="tag">Text</span>
-          </div>
-        </a>
-
-        <a class="card mid" data-tool="hex color finder rgb hsl eyedropper" href="/color-picker">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3a9 9 0 1 0 9 9" /><path d="M12 3v6a3 3 0 0 0 3 3h6" /><path d="M7.5 12h.01" /><path d="M9.5 16h.01" /><path d="M13 18h.01" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Color Picker</h2>
-            <p>Pick a color and get clean HEX, RGB, and HSL values instantly.</p>
-            <span class="tag">Design</span>
-          </div>
-        </a>
-
-        <a class="card small" data-tool="math fraction calculator algebra" href="/fraction-calculator">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14" /><path d="M12 5v14" /><path d="M7 7l-2 2 2 2" /><path d="M17 13l2 2-2 2" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Fraction Calculator</h2>
-            <p>Handle fractions, percentages, and everyday calculations.</p>
-            <span class="tag">Math</span>
-          </div>
-        </a>
-
-        <a class="card small" data-tool="interest finance compound savings" href="/interest-calculator">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 19V10" /><path d="M12 19V5" /><path d="M19 19v-6" /><path d="M3 19h18" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Interest Calculator</h2>
-            <p>See how compound interest grows over time.</p>
-            <span class="tag">Math</span>
-          </div>
-        </a>
-
-        <a class="card wide" data-tool="imperial metric conversion units kg lb celsius temperature" href="/unit-converter">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 7h13" /><path d="m17 3 4 4-4 4" /><path d="M17 17H4" /><path d="m7 13-4 4 4 4" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Unit Converter</h2>
-            <p>Convert common metric and imperial measurements without clutter.</p>
-            <span class="tag">Conversions</span>
-          </div>
-        </a>
-
-        <a class="card mid" data-tool="file converters jpg png webp images convert" href="/file-converter">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 3h8l4 4v14H6z" /><path d="M14 3v5h5" /><path d="M9 16h6" /><path d="M9 12h3" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>File Converter</h2>
-            <p>Convert common image formats directly in your browser.</p>
-            <span class="tag">Conversions</span>
-          </div>
-        </a>
-
-        <a class="card mid" data-tool="time sun timezone sunrise sunset moon" href="/time-sun">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3.5" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m4.93 19.07 1.41-1.41" /><path d="m17.66 6.34 1.41-1.41" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Time &amp; Sun</h2>
-            <p>Check local time, UTC, daylight details, and solar timing.</p>
-            <span class="tag">Time</span>
-          </div>
-        </a>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Words</div><div class="stat-value" id="words">0</div></div>
+        <div class="stat"><div class="stat-label">Characters</div><div class="stat-value" id="characters">0</div></div>
+        <div class="stat"><div class="stat-label">No spaces</div><div class="stat-value" id="noSpaces">0</div></div>
+        <div class="stat"><div class="stat-label">Sentences</div><div class="stat-value" id="sentences">0</div></div>
+        <div class="stat"><div class="stat-label">Paragraphs</div><div class="stat-value" id="paragraphs">0</div></div>
       </div>
-
-      <div class="empty" id="empty">No tools match your search.</div>
     </section>
 
     <footer class="footer">
       <span>Tools, etc.</span>
-      <span>Fast, focused, browser-based.</span>
+      <span id="readingTime">Estimated reading time: 0 sec</span>
     </footer>
   </main>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script>
     (() => {
-      const search = document.getElementById('search');
-      const cards = Array.from(document.querySelectorAll('.card'));
-      const empty = document.getElementById('empty');
+      const text = document.getElementById('text');
+      const wordsEl = document.getElementById('words');
+      const charactersEl = document.getElementById('characters');
+      const noSpacesEl = document.getElementById('noSpaces');
+      const sentencesEl = document.getElementById('sentences');
+      const paragraphsEl = document.getElementById('paragraphs');
+      const statusEl = document.getElementById('status');
+      const readingTimeEl = document.getElementById('readingTime');
+      const toastEl = document.getElementById('toast');
 
-      search.addEventListener('input', () => {
-        const query = search.value.trim().toLowerCase();
-        let visible = 0;
+      function getStats(value) {
+        const normalized = value.replace(/\r\n?/g, '\n');
+        const trimmed = normalized.trim();
+        const words = trimmed ? trimmed.split(/\s+/u).length : 0;
+        const characters = value.length;
+        const noSpaces = value.replace(/\s/gu, '').length;
+        const sentences = trimmed ? (trimmed.match(/[^.!?]+[.!?]+(?=\s|$)|[^.!?]+$/gu) || []).filter(s => s.trim()).length : 0;
+        const paragraphs = trimmed ? normalized.split(/\n\s*\n/).filter(p => p.trim()).length : 0;
+        const seconds = words ? Math.max(1, Math.ceil(words / 200 * 60)) : 0;
+        return { words, characters, noSpaces, sentences, paragraphs, seconds };
+      }
 
-        cards.forEach(card => {
-          const haystack = (card.dataset.tool || '').toLowerCase();
-          const match = !query || haystack.includes(query);
-          card.style.display = match ? '' : 'none';
-          if (match) visible++;
-        });
+      function formatTime(seconds) {
+        if (seconds < 60) return `${seconds} sec`;
+        const minutes = Math.floor(seconds / 60);
+        const remaining = seconds % 60;
+        return remaining ? `${minutes} min ${remaining} sec` : `${minutes} min`;
+      }
 
-        empty.style.display = visible ? 'none' : 'block';
+      function update() {
+        const stats = getStats(text.value);
+        wordsEl.textContent = stats.words.toLocaleString();
+        charactersEl.textContent = stats.characters.toLocaleString();
+        noSpacesEl.textContent = stats.noSpaces.toLocaleString();
+        sentencesEl.textContent = stats.sentences.toLocaleString();
+        paragraphsEl.textContent = stats.paragraphs.toLocaleString();
+        statusEl.textContent = `${stats.words.toLocaleString()} word${stats.words === 1 ? '' : 's'}`;
+        readingTimeEl.textContent = `Estimated reading time: ${formatTime(stats.seconds)}`;
+      }
+
+      function toast(message) {
+        toastEl.textContent = message;
+        toastEl.classList.add('show');
+        clearTimeout(toast.timeout);
+        toast.timeout = setTimeout(() => toastEl.classList.remove('show'), 1600);
+      }
+
+      text.addEventListener('input', update);
+
+      document.getElementById('clear').addEventListener('click', () => {
+        text.value = '';
+        update();
+        text.focus();
+        toast('Text cleared');
       });
+
+      document.getElementById('copy').addEventListener('click', async () => {
+        if (!text.value) {
+          toast('There is no text to copy');
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(text.value);
+          toast('Text copied');
+        } catch {
+          text.focus();
+          text.select();
+          const copied = document.execCommand('copy');
+          text.setSelectionRange(text.value.length, text.value.length);
+          toast(copied ? 'Text copied' : 'Copy failed');
+        }
+      });
+
+      update();
     })();
   </script>
 </body>
