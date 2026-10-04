@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#635bff" />
+  <meta name="description" content="Simple, fast, premium browser tools for everyday work." />
+  <title>Tools, etc. — Simple tools, done well</title>
+  <style>
+    :root {
+      --bg: #f7f7f9;
+      --surface: #ffffff;
+      --surface-2: #f1f1f5;
+      --text: #17171b;
+      --muted: #6f7078;
+      --border: #e7e7ec;
+      --accent: #635bff;
+      --accent-soft: #eeecff;
+      --shadow: 0 10px 30px rgba(20, 20, 30, 0.06);
+      --shadow-hover: 0 18px 48px rgba(20, 20, 30, 0.11);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(99, 91, 255, 0.08), transparent 34%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    button, input { font: inherit; }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 42px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 8px 0 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 750;
+      letter-spacing: -0.03em;
+      font-size: 19px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--text);
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark svg { width: 18px; height: 18px; }
+
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--muted);
+      transition: background .18s ease, color .18s ease;
+    }
+
+    .header-link:hover,
+    .header-link:focus-visible {
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+    }
+
+    .header-link svg { width: 16px; height: 16px; }
+
+    .hero {
+      padding: 46px 0 34px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: .02em;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: .96;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 20px auto 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.55;
+    }
+
+    .tools-wrap {
+      margin-top: 24px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 730;
+      letter-spacing: -0.01em;
+    }
+
+    .search {
+      position: relative;
+      width: min(320px, 100%);
+    }
+
+    .search svg {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      width: 17px;
+      height: 17px;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .search input {
+      width: 100%;
+      height: 42px;
+      padding: 0 14px 0 39px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: rgba(255,255,255,.86);
+      color: var(--text);
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .search input:focus {
+      background: var(--surface);
+      border-color: rgba(99,91,255,.45);
+      box-shadow: 0 0 0 4px rgba(99,91,255,.10);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .card:hover,
+    .card:focus-visible {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: #dcdce5;
+      outline: none;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .icon-box {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--surface-2);
+      color: var(--text);
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+      flex: 0 0 auto;
+    }
+
+    .card:hover .icon-box,
+    .card:focus-visible .icon-box {
+      background: var(--accent-soft);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .icon-box svg { width: 21px; height: 21px; }
+
+    .arrow {
+      position: relative;
+      z-index: 1;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      background: rgba(255,255,255,.74);
+      transition: color .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .card:hover .arrow,
+    .card:focus-visible .arrow {
+      color: var(--accent);
+      border-color: #d9d7ff;
+      transform: translate(1px, -1px);
+    }
+
+    .arrow svg { width: 16px; height: 16px; }
+
+    .card-bottom {
+      position: relative;
+      z-index: 1;
+      margin-top: 34px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    .card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 330px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 13px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .empty {
+      display: none;
+      padding: 44px 20px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.52);
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 20px;
+      padding: 10px 2px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 22px, 1180px); padding-top: 14px; }
+      header { padding-bottom: 14px; }
+      .header-link span { display: none; }
+      .hero { padding: 44px 0 26px; }
+      .toolbar { align-items: stretch; flex-direction: column; }
+      .search { width: 100%; }
+      .grid { grid-template-columns: 1fr; }
+      .card { min-height: 190px; padding: 19px; }
+      .card-bottom { margin-top: 27px; }
+      .footer { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <a class="brand" href="/" aria-label="Tools, etc. home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3h6" />
+            <path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3" />
+            <path d="M8.2 15h7.6" />
+          </svg>
+        </span>
+        <span>Tools, etc.</span>
+      </a>
+      <a class="header-link" href="#tools">
+        <span>Explore tools</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="m13 6 6 6-6 6" />
+        </svg>
+      </a>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Fast browser tools</div>
+      <h1>Welcome to Tools, etc.</h1>
+      <p>Clean, focused utilities for writing, numbers, files, color, conversions, and everyday work.</p>
+    </section>
+
+    <section class="tools-wrap" id="tools" aria-label="Tools">
+      <div class="toolbar">
+        <h2 class="section-title">All tools</h2>
+        <label class="search" aria-label="Search tools">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5" />
+            <path d="m16 16 4.2 4.2" />
+          </svg>
+          <input id="search" type="search" placeholder="Search tools" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="grid" id="toolGrid">
+        <a class="card wide" data-tool="word counter writing text characters" href="/word-counter">
+          <div class="card-top">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6.5h16" /><path d="M4 11.5h10" /><path d="M4 16.5h13" /><path d="M17 14v6" /><path d="m14.5 18 2.5 2 2.5-2" />
+              </svg>
+            </span>
+            <span class="arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </span>
+          </div>
+          <div class="card-bottom">
+            <h2>Word Counter</h2>
+            <p>Count words, characters, sentences, paragraphs, and reading time.</p>
+            <span class="tag">Text</span>
+          </div>
+        </a>
+
+        <a class="card mid" data-tool="symbols accents special characters" href="/symbols-accents">
+          <div class="card-top">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 18h10" /><path d="M9 15 12 6l3 9" /><path d="M10 12h4" /><path d="M5 5h2" /><path d="M17 5h2" />
+              </svg>
+            </span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="card-bottom">
+            <h2>Symbols &amp; Accents</h2>
+            <p>Quickly find and copy useful symbols, accents, and special characters.</p>
+            <span class="tag">Text</span>
+          </div>
+        </a>
+
+        <a class="card mid" data-tool="hex color finder rgb hsl eyedropper" href="/color-picker">
+          <div class="card-top">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a9 9 0 1 0 9 9" /><path d="M12 3v6a3 3 0 0 0 3 3h6" /><path d="M7.5 12h.01" /><path d="M9.5 16h.01" /><path d="M13 18h.01" />
+              </svg>
+            </span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="card-bottom">
+            <h2>Color Picker</h2>
+            <p>Pick a color and get clean HEX, RGB, and HSL values instantly.</p>
+            <span class="tag">Design</span>
+          </div>
+        </a>
+
+        <a class="card small" data-tool="math fraction calculator algebra" href="/fraction-calculator">
+          <div class="card-top">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" /><path d="M12 5v14" /><path d="M7 7l-2 2 2 2" /><path d="M17 13l2 2-2 2" />
+              </svg>
+            </span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="card-bottom">
+            <h2>Fraction Calculator</h2>
+            <p>Handle fractions, percentages, and everyday calculations.</p>
+            <span class="tag">Math</span>
+          </div>
+        </a>
+
+        <a class="card small" data-tool="interest finance compound savings" href="/interest-calculator">
+          <div class="card-top">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 19V10" /><path d="M12 19V5" /><path d="M19 19v-6" /><path d="M3 19h18" />
+              </svg>
+            </span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="card-bottom">
+            <h2>Interest Calculator</h2>
+            <p>See how compound interest grows over time.</p>
+            <span class="tag">Math</span>
+          </div>
+        </a>
+
+        <a class="card wide" data-tool="imperial metric conversion units kg lb celsius temperature" href="/unit-converter">
+          <div class="card-top">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 7h13" /><path d="m17 3 4 4-4 4" /><path d="M17 17H4" /><path d="m7 13-4 4 4 4" />
+              </svg>
+            </span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="card-bottom">
+            <h2>Unit Converter</h2>
+            <p>Convert common metric and imperial measurements without clutter.</p>
+            <span class="tag">Conversions</span>
+          </div>
+        </a>
+
+        <a class="card mid" data-tool="file converters jpg png webp images convert" href="/file-converter">
+          <div class="card-top">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 3h8l4 4v14H6z" /><path d="M14 3v5h5" /><path d="M9 16h6" /><path d="M9 12h3" />
+              </svg>
+            </span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="card-bottom">
+            <h2>File Converter</h2>
+            <p>Convert common image formats directly in your browser.</p>
+            <span class="tag">Conversions</span>
+          </div>
+        </a>
+
+        <a class="card mid" data-tool="time sun timezone sunrise sunset moon" href="/time-sun">
+          <div class="card-top">
+            <span class="icon-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3.5" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m4.93 19.07 1.41-1.41" /><path d="m17.66 6.34 1.41-1.41" />
+              </svg>
+            </span>
+            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="card-bottom">
+            <h2>Time &amp; Sun</h2>
+            <p>Check local time, UTC, daylight details, and solar timing.</p>
+            <span class="tag">Time</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="empty" id="empty">No tools match your search.</div>
+    </section>
+
+    <footer class="footer">
+      <span>Tools, etc.</span>
+      <span>Fast, focused, browser-based.</span>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const search = document.getElementById('search');
+      const cards = Array.from(document.querySelectorAll('.card'));
+      const empty = document.getElementById('empty');
+
+      search.addEventListener('input', () => {
+        const query = search.value.trim().toLowerCase();
+        let visible = 0;
+
+        cards.forEach(card => {
+          const haystack = (card.dataset.tool || '').toLowerCase();
+          const match = !query || haystack.includes(query);
+          card.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+
+        empty.style.display = visible ? 'none' : 'block';
+      });
+    })();
+  </script>
+</body>
+</html>
