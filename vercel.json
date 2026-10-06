@@ -35,6 +35,10 @@
     {
       "source": "/time-zones",
       "destination": "/time-zones.html"
+    },
+    {
+      "source": "/triangle-solver",
+      "destination": "/triangle-solver.html"
     }
   ]
 }
