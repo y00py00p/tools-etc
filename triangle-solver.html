@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#635bff">
+<meta name="description" content="Solve general triangles from known sides and angles, with perimeter, area, and a scale-aware diagram.">
+<link rel="canonical" href="https://tools-etc.vercel.app/triangle-solver">
+<meta property="og:title" content="Triangle Solver — Sides, Angles, Area & Perimeter | Tools, etc.">
+<meta property="og:description" content="Solve general triangles from known sides and angles, with perimeter, area, and a scale-aware diagram.">
+<meta property="og:url" content="https://tools-etc.vercel.app/triangle-solver">
+<meta property="og:type" content="website">
+<title>Triangle Solver — Sides, Angles, Area & Perimeter | Tools, etc.</title>
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+:root{--bg:#f7f7f9;--surface:#fff;--surface2:#f1f1f5;--text:#17171b;--muted:#6f7078;--border:#e7e7ec;--accent:#635bff;--accentSoft:#eeecff;--danger:#b42318;--radius:22px;--shadow:0 10px 30px rgba(20,20,30,.06)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(99,91,255,.08),transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+input,button{font:inherit}
+.shell{width:min(1100px,calc(100% - 36px));margin:0 auto;padding:24px 0 56px}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 0 28px}
+.brand{display:inline-flex;align-items:center;gap:11px;margin-left:clamp(2px,calc((100vw - 1050px)/2),40px);font-weight:750;letter-spacing:-.03em;font-size:19px}
+.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--text);color:#fff;flex:0 0 auto}.brand-mark svg{width:18px;height:18px}
+.header-link{display:inline-flex;align-items:center;gap:7px;padding:10px 12px;border-radius:10px;color:var(--muted);font-size:14px;font-weight:650}.header-link:hover{background:var(--surface);color:var(--text)}.header-link svg{width:16px;height:16px}
+.hero{padding:44px 0 28px}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.82);color:var(--muted);font-size:12px;font-weight:650}.hero h1{font-size:clamp(34px,5vw,54px);line-height:1.02;letter-spacing:-.055em;margin:16px 0 12px}.hero p{max-width:700px;color:var(--muted);font-size:16px;line-height:1.65;margin:0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.panel{padding:22px}.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}.panel h2{margin:0;font-size:17px;letter-spacing:-.02em}.panel-sub{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+.input-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.field-wrap{display:grid;gap:7px}.field-label{font-size:12px;font-weight:750;color:var(--muted)}.field{width:100%;min-height:48px;padding:12px 13px;border:1px solid var(--border);border-radius:14px;background:#fff;color:var(--text);font-size:16px}.field:focus{outline:3px solid rgba(99,91,255,.14);border-color:rgba(99,91,255,.5)}.unit{font-size:11px;color:var(--muted);font-weight:650}
+.section-gap{height:14px}.notice{padding:13px 14px;border-radius:14px;background:var(--surface2);color:var(--muted);font-size:13px;line-height:1.55}.notice strong{color:var(--text)}
+.results{display:grid;gap:14px;margin-top:14px}.solution{overflow:hidden}.solution-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--border)}.solution-title{font-weight:800}.solution-badge{padding:6px 9px;border-radius:999px;background:var(--accentSoft);color:var(--accent);font-size:11px;font-weight:800}.solution-body{padding:18px 20px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:18px;align-items:center}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.value{padding:13px 14px;border:1px solid var(--border);border-radius:14px;background:var(--surface2)}.value-label{font-size:11px;font-weight:750;color:var(--muted)}.value-num{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-top:4px}.meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}.meta{padding:13px 14px;border:1px solid var(--border);border-radius:14px}.meta-label{font-size:11px;color:var(--muted);font-weight:750}.meta-value{margin-top:4px;font-size:18px;font-weight:800}
+.diagram-wrap{min-height:320px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(180deg,#fbfbfd,#f6f6f9);display:grid;place-items:center;padding:8px}.diagram{width:100%;height:310px}.diagram text{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:var(--text);font-size:12px;font-weight:750}.diagram .dim{fill:var(--muted);font-size:11px;font-weight:700}.diagram .angle{fill:var(--accent);font-size:11px;font-weight:800}.diagram .tri{fill:rgba(99,91,255,.06);stroke:var(--accent);stroke-width:2.2;stroke-linejoin:round}.diagram .helper{stroke:#cfd0d8;stroke-width:1.3;stroke-dasharray:4 4}
+.empty{padding:25px 8px;text-align:center;color:var(--muted);font-size:14px}.error{margin-top:14px;padding:14px;border-radius:14px;background:#fff4f2;border:1px solid #ffd4ce;color:var(--danger);font-size:13px;line-height:1.55}.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:820px){.solution-body{grid-template-columns:1fr}.diagram-wrap{min-height:280px}.diagram{height:280px}}
+@media(max-width:680px){.shell{width:calc(100% - 24px);padding-top:16px}header{padding-bottom:18px}.brand{margin-left:0}.hero{padding:34px 0 22px}.input-grid{grid-template-columns:1fr 1fr}.values{grid-template-columns:1fr 1fr}.meta-grid{grid-template-columns:1fr}.solution-body{padding:14px}.panel{padding:16px}.panel-head{margin-bottom:14px}}
+@media(max-width:430px){.input-grid{grid-template-columns:1fr}.values{grid-template-columns:1fr 1fr}.hero h1{font-size:38px}.current{} }
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+<a class="brand" href="/" aria-label="Tools, etc. home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"/><path d="M8.2 15h7.6"/></svg></span><span>Tools, etc.</span></a>
+<a class="header-link" href="/"><span>All tools</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+</header>
+<section class="hero"><span class="eyebrow">Math</span><h1>Triangle Solver</h1><p>Enter the known sides and angles of a triangle to solve the rest, including perimeter and area.</p></section>
+<main>
+<section class="card panel">
+<div class="panel-head"><div><h2>Known values</h2><p class="panel-sub">Use degrees for angles and any consistent unit for side lengths. Enter at least two values.</p></div></div>
+<div class="input-grid">
+<div class="field-wrap"><label class="field-label" for="A">Angle A <span class="unit">degrees</span></label><input class="field angle-input" id="A" inputmode="decimal" autocomplete="off" placeholder="e.g. 45"></div>
+<div class="field-wrap"><label class="field-label" for="B">Angle B <span class="unit">degrees</span></label><input class="field angle-input" id="B" inputmode="decimal" autocomplete="off" placeholder="e.g. 60"></div>
+<div class="field-wrap"><label class="field-label" for="C">Angle C <span class="unit">degrees</span></label><input class="field angle-input" id="C" inputmode="decimal" autocomplete="off" placeholder="e.g. 75"></div>
+<div class="field-wrap"><label class="field-label" for="a">Side a</label><input class="field side-input" id="a" inputmode="decimal" autocomplete="off" placeholder="opposite A"></div>
+<div class="field-wrap"><label class="field-label" for="b">Side b</label><input class="field side-input" id="b" inputmode="decimal" autocomplete="off" placeholder="opposite B"></div>
+<div class="field-wrap"><label class="field-label" for="c">Side c</label><input class="field side-input" id="c" inputmode="decimal" autocomplete="off" placeholder="opposite C"></div>
+</div>
+<div class="section-gap"></div>
+<div class="notice"><strong>Important:</strong> a general triangle needs enough information to fix both its shape and scale. Two angles determine the shape but not the side lengths; two sides alone also leave infinitely many possibilities. Add a side or angle when needed.</div>
+<div id="error" class="error" hidden></div>
+</section>
+<section id="results" class="results"><div class="card"><div class="empty">Enter your values above to solve the triangle.</div></div></section>
+</main>
+</div>
+<script>
+(() => {
+  const eps = 1e-10;
+  const ids = ['A','B','C','a','b','c'];
+  const els = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+  const resultsEl = document.getElementById('results');
+  const errorEl = document.getElementById('error');
+  const deg = r => r * 180 / Math.PI;
+  const rad = d => d * Math.PI / 180;
+  const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
+  const near = (a,b,t=1e-8) => Math.abs(a-b) <= t * Math.max(1, Math.abs(a), Math.abs(b));
+  const fmt = (x, max=6) => {
+    if (!Number.isFinite(x)) return '—';
+    const ax = Math.abs(x);
+    if (ax && (ax >= 1e9 || ax < 1e-6)) return x.toExponential(4).replace('e+','e');
+    return Number(x.toFixed(max)).toLocaleString(undefined,{maximumFractionDigits:max,useGrouping:false});
+  };
+  const parse = id => {
+    const s = els[id].value.trim();
+    return s === '' ? null : Number(s);
+  };
+  function cleanSolutions(solutions){
+    const out=[];
+    for(const s of solutions){
+      if(!s) continue;
+      for(const k of ['A','B','C','a','b','c']) s[k] = Math.abs(s[k]) < 1e-10 ? 0 : s[k];
+      if(s.A>0&&s.B>0&&s.C>0&&s.a>0&&s.b>0&&s.c>0){
+        const sum=s.A+s.B+s.C;
+        if(Math.abs(sum-180)>1e-6) continue;
+        if(!(s.a+s.b>s.c-eps && s.a+s.c>s.b-eps && s.b+s.c>s.a-eps)) continue;
+        if(!out.some(o => near(o.A,s.A,1e-7)&&near(o.B,s.B,1e-7)&&near(o.C,s.C,1e-7)&&near(o.a,s.a,1e-7)&&near(o.b,s.b,1e-7)&&near(o.c,s.c,1e-7))) out.push(s);
+      }
+    }
+    return out;
+  }
+  function solveKnown(v){
+    let {A,B,C,a,b,c}=v;
+    let sols=[];
+    const countAngles=[A,B,C].filter(x=>x!=null).length;
+    const countSides=[a,b,c].filter(x=>x!=null).length;
+    if([A,B,C,a,b,c].filter(x=>x!=null).length<2) return {type:'empty'};
+    // validate basic entered values
+    for(const k of ['A','B','C']) if(v[k]!=null && !(v[k]>0&&v[k]<180)) return {error:`Angle ${k} must be greater than 0° and less than 180°.`};
+    for(const k of ['a','b','c']) if(v[k]!=null && !(v[k]>0&&Number.isFinite(v[k]))) return {error:`Side ${k} must be greater than 0.`};
+    if(countAngles===2 && countSides===0){
+      const missing=['A','B','C'].find(k=>v[k]==null); const M=180-v.A-v.B-v.C+([missing==='A'?(0):0]);
+      const sumKnown=(A??0)+(B??0)+(C??0); const m=180-sumKnown;
+      if(m<=0) return {error:'The two angles must add to less than 180°.'};
+      const shape={A:A??m,B:B??m,C:C??m,a:null,b:null,c:null,shapeOnly:true};
+      // use proportional sides with c=1 only for the visual shape
+      const scaleC=1/Math.sin(rad(shape.C)); shape.a=Math.sin(rad(shape.A))*scaleC; shape.b=Math.sin(rad(shape.B))*scaleC; shape.c=1;
+      return {type:'shapeOnly',solutions:[shape]};
+    }
+    if(countSides===2 && countAngles===0){
+      return {error:'Two side lengths alone do not uniquely determine a general triangle. Add an angle (or a third side).'};
+    }
+    // SSS
+    if(countSides===3){
+      if(!(a+b>c+eps && a+c>b+eps && b+c>a+eps)) return {error:'Those three side lengths cannot form a triangle.'};
+      A=deg(Math.acos(clamp((b*b+c*c-a*a)/(2*b*c),-1,1)));
+      B=deg(Math.acos(clamp((a*a+c*c-b*b)/(2*a*c),-1,1)));
+      C=180-A-B;
+      sols.push({A,B,C,a,b,c});
+    }
+    // all 3 angles (plus no sides): only shape, no scale
+    else if(countAngles===3 && countSides===0){
+      if(Math.abs(A+B+C-180)>1e-6) return {error:'The three angles must add to 180°.'};
+      const scale=1/Math.sin(rad(C));
+      sols.push({A,B,C,a:Math.sin(rad(A))*scale,b:Math.sin(rad(B))*scale,c:1,shapeOnly:true});
+      return {type:'shapeOnly',solutions:sols};
+    }
+    // ASA / AAS: two angles + at least one side
+    if(countAngles>=2 && countSides>=1){
+      if(countAngles===3){ if(Math.abs(A+B+C-180)>1e-6) return {error:'The angles must add to 180°.'}; }
+      else { const missing=['A','B','C'].find(k=>v[k]==null); v[missing]=180-(v.A??0)-(v.B??0)-(v.C??0); A=v.A;B=v.B;C=v.C; if(v[missing]<=0) return {error:'The entered angles must leave a positive third angle.'}; }
+      const ratio=[]; if(a!=null) ratio.push(['a',a,A]); if(b!=null) ratio.push(['b',b,B]); if(c!=null) ratio.push(['c',c,C]);
+      const base=ratio[0]; const R=base[1]/Math.sin(rad(base[2]));
+      const s={A,B,C,a:a??R*Math.sin(rad(A)),b:b??R*Math.sin(rad(B)),c:c??R*Math.sin(rad(C))}; sols.push(s);
+    }
+    // SAS: two sides and included angle
+    const sas = (a!=null&&b!=null&&C!=null)||(a!=null&&c!=null&&B!=null)||(b!=null&&c!=null&&A!=null);
+    if(sas){
+      if(a!=null&&b!=null&&C!=null){ c=Math.sqrt(a*a+b*b-2*a*b*Math.cos(rad(C))); A=deg(Math.asin(clamp(a*Math.sin(rad(C))/c,-1,1))); B=180-C-A; sols.push({A,B,C,a,b,c}); }
+      else if(a!=null&&c!=null&&B!=null){ b=Math.sqrt(a*a+c*c-2*a*c*Math.cos(rad(B))); A=deg(Math.asin(clamp(a*Math.sin(rad(B))/b,-1,1))); C=180-B-A; sols.push({A,B,C,a,b,c}); }
+      else if(b!=null&&c!=null&&A!=null){ a=Math.sqrt(b*b+c*c-2*b*c*Math.cos(rad(A))); B=deg(Math.asin(clamp(b*Math.sin(rad(A))/a,-1,1))); C=180-A-B; sols.push({A,B,C,a,b,c}); }
+    }
+    // SSA ambiguous: one angle and its opposite side + another side
+    // Handles all permutations by solving the known-angle pair via Law of Sines.
+    const ssaPairs=[['A','a','b','B','c','C'],['B','b','a','A','c','C'],['C','c','a','A','b','B']];
+    for(const [ang,opp,otherSide,otherAng,thirdSide,thirdAng] of ssaPairs){
+      const theta=v[ang], opposite=v[opp], knownOther=v[otherSide];
+      if(theta!=null&&opposite!=null&&knownOther!=null && v[otherAng]==null){
+        const sinOther=knownOther*Math.sin(rad(theta))/opposite;
+        if(sinOther>1+1e-9) return {error:'Those values cannot form a triangle.'};
+        const cl=clamp(sinOther,-1,1);
+        const first=deg(Math.asin(cl));
+        const candidates=[first];
+        const alt=180-first; if(Math.abs(alt-first)>1e-7) candidates.push(alt);
+        for(const ob of candidates){
+          const third=180-theta-ob; if(third<=0) continue;
+          const R=opposite/Math.sin(rad(theta));
+          const s={A:null,B:null,C:null,a:null,b:null,c:null}; s[ang]=theta; s[otherAng]=ob; s[thirdAng]=third; s[opp]=opposite; s[otherSide]=knownOther; s[thirdSide]=R*Math.sin(rad(third)); sols.push(s);
+        }
+      }
+    }
+    // One angle + one side (not necessarily opposite): only uniquely solvable when enough relation exists; generally ambiguous/underdetermined.
+    if(countAngles===1 && countSides===1 && !sols.length){
+      return {error:'One angle and one side are not always enough to fix a general triangle. If the side is opposite the angle, it works only with another value; otherwise multiple triangles can fit. Add another angle or side.'};
+    }
+    // 2 values that are one side + one angle where the two happen to be an opposite pair still remain scale+shape-underdetermined.
+    if(countAngles===1 && countSides===1 && sols.length===0){ return {error:'Add one more side or angle to determine the triangle.'}; }
+    // Try a common 2-value pairing only if valid relation was used above.
+    sols=cleanSolutions(sols);
+    if(!sols.length){
+      const supplied=Object.values(v).filter(x=>x!=null).length;
+      return supplied<3 ? {error:'These two values do not uniquely determine a general triangle. Add one more known value.'} : {error:'Those values do not form a valid triangle.'};
+    }
+    return {type:'solutions',solutions:sols};
+  }
+  function svgFor(s){
+    // Coordinates from sides, always normalized to the SVG viewport.
+    const W=620,H=310,pad=48;
+    const xA=0,yA=0,xB=s.c,yB=0;
+    const xC=(s.b*s.b+s.c*s.c-s.a*s.a)/(2*s.c);
+    const yC=Math.sqrt(Math.max(0,s.b*s.b-xC*xC));
+    const pts=[[xA,yA],[xB,yB],[xC,yC]];
+    const minX=Math.min(...pts.map(p=>p[0])),maxX=Math.max(...pts.map(p=>p[0])),minY=Math.min(...pts.map(p=>p[1])),maxY=Math.max(...pts.map(p=>p[1]));
+    const scale=Math.min((W-2*pad)/Math.max(1e-12,maxX-minX),(H-2*pad)/Math.max(1e-12,maxY-minY));
+    const map=p=>({x:pad+(p[0]-minX)*scale,y:H-pad-(p[1]-minY)*scale});
+    const A=map([xA,yA]),B=map([xB,yB]),C=map([xC,yC]);
+    const midpoint=(p,q)=>({x:(p.x+q.x)/2,y:(p.y+q.y)/2});
+    const off=(p,q,amount)=>{const dx=q.x-p.x,dy=q.y-p.y;const len=Math.hypot(dx,dy)||1;return {x:-dy/len*amount,y:dx/len*amount};};
+    const ab=midpoint(A,B), bc=midpoint(B,C), ca=midpoint(C,A);
+    const oAB=off(A,B,16),oBC=off(B,C,16),oCA=off(C,A,16);
+    const anglePos=(vtx,p1,p2)=>{const dx1=p1.x-vtx.x,dy1=p1.y-vtx.y,dx2=p2.x-vtx.x,dy2=p2.y-vtx.y;let ux1=dx1/Math.hypot(dx1,dy1),uy1=dy1/Math.hypot(dx1,dy1),ux2=dx2/Math.hypot(dx2,dy2),uy2=dy2/Math.hypot(dx2,dy2);return {x:vtx.x+(ux1+ux2)*22,y:vtx.y+(uy1+uy2)*22};};
+    const aP=anglePos(A,B,C),bP=anglePos(B,A,C),cP=anglePos(C,A,B);
+    return `<svg class="diagram" viewBox="0 0 ${W} ${H}" role="img" aria-label="Triangle diagram"><polygon class="tri" points="${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}"/><line class="helper" x1="${C.x}" y1="${C.y}" x2="${C.x}" y2="${B.y}"/><text x="${A.x-8}" y="${A.y+17}">A</text><text x="${B.x+6}" y="${B.y+17}">B</text><text x="${C.x-5}" y="${C.y-8}">C</text><text class="dim" x="${ab.x+oAB.x}" y="${ab.y+oAB.y}">c = ${fmt(s.c)}</text><text class="dim" x="${bc.x+oBC.x}" y="${bc.y+oBC.y}">a = ${fmt(s.a)}</text><text class="dim" x="${ca.x+oCA.x}" y="${ca.y+oCA.y}">b = ${fmt(s.b)}</text><text class="angle" x="${aP.x}" y="${aP.y}">${fmt(s.A,3)}°</text><text class="angle" x="${bP.x}" y="${bP.y}">${fmt(s.B,3)}°</text><text class="angle" x="${cP.x}" y="${cP.y}">${fmt(s.C,3)}°</text></svg>`;
+  }
+  function render(result){
+    errorEl.hidden=true; errorEl.textContent='';
+    if(result.error){resultsEl.innerHTML=''; errorEl.textContent=result.error; errorEl.hidden=false; return;}
+    if(result.type==='empty'){resultsEl.innerHTML='<div class="card"><div class="empty">Enter your values above to solve the triangle.</div></div>'; return;}
+    if(result.type==='shapeOnly'){
+      const s=result.solutions[0];
+      resultsEl.innerHTML=`<article class="card solution"><div class="solution-head"><div class="solution-title">Triangle shape</div><span class="solution-badge">Scale not fixed</span></div><div class="solution-body"><div><div class="values"><div class="value"><div class="value-label">Angle A</div><div class="value-num">${fmt(s.A,4)}°</div></div><div class="value"><div class="value-label">Angle B</div><div class="value-num">${fmt(s.B,4)}°</div></div><div class="value"><div class="value-label">Angle C</div><div class="value-num">${fmt(s.C,4)}°</div></div></div><div class="notice" style="margin-top:10px"><strong>Need exact side lengths:</strong> enter any one side. Then the calculator can determine all sides, perimeter, and area.</div></div><div class="diagram-wrap">${svgFor(s)}</div></div></article>`; return;
+    }
+    resultsEl.innerHTML=result.solutions.map((s,i)=>{
+      const perimeter=s.a+s.b+s.c;
+      const area=.5*s.b*s.c*Math.sin(rad(s.A));
+      const label=result.solutions.length>1?`Solution ${i+1}`:'Solution';
+      return `<article class="card solution"><div class="solution-head"><div class="solution-title">${label}</div><span class="solution-badge">Solved</span></div><div class="solution-body"><div><div class="values"><div class="value"><div class="value-label">Angle A</div><div class="value-num">${fmt(s.A,4)}°</div></div><div class="value"><div class="value-label">Angle B</div><div class="value-num">${fmt(s.B,4)}°</div></div><div class="value"><div class="value-label">Angle C</div><div class="value-num">${fmt(s.C,4)}°</div></div><div class="value"><div class="value-label">Side a</div><div class="value-num">${fmt(s.a)}</div></div><div class="value"><div class="value-label">Side b</div><div class="value-num">${fmt(s.b)}</div></div><div class="value"><div class="value-label">Side c</div><div class="value-num">${fmt(s.c)}</div></div></div><div class="meta-grid"><div class="meta"><div class="meta-label">Perimeter</div><div class="meta-value">${fmt(perimeter)}</div></div><div class="meta"><div class="meta-label">Area</div><div class="meta-value">${fmt(area)}</div></div></div></div><div class="diagram-wrap">${svgFor(s)}</div></div></article>`;
+    }).join('');
+  }
+  function recalc(){
+    const v=Object.fromEntries(ids.map(id=>[id,parse(id)]));
+    // If two values are present, solve/flag as appropriate; empty fields stay empty.
+    render(solveKnown(v));
+  }
+  ids.forEach(id=>els[id].addEventListener('input',()=>{
+    if(/^[ABC]$/.test(id)) els[id].value=els[id].value.replace(/[^0-9.\-]/g,'');
+    else els[id].value=els[id].value.replace(/[^0-9.\-]/g,'');
+    recalc();
+  }));
+  render({type:'empty'});
+})();
+</script>
+</body>
+</html>
