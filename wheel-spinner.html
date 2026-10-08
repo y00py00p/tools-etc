@@ -268,7 +268,7 @@
     if (value === '' || value == null) return '';
     const n = Number(value);
     if (!Number.isFinite(n)) return '';
-    return String(round1(Math.max(0.1, Math.min(n, 100))));
+    return String(Math.max(0.1, Math.min(n, 100)));
   };
   const defaultItems = () => [
     { id:uid(), text:'Option 1', percent:'' },
@@ -307,11 +307,18 @@
   function getEffectiveWeights() {
     if (!manualMode) return items.map(() => 1);
     if (!items.length) return [];
-    const weights = items.map(item => parsePercent(item.percent));
-    const priorTotal = weights.slice(0, -1).reduce((sum, value) => sum + value, 0);
-    const remainder = round1(100 - priorTotal);
-    weights[weights.length - 1] = Math.max(0, remainder);
-    return weights;
+
+    const weights = items.map((item, index) => {
+      if (index === items.length - 1) return null;
+      return item.percent === '' ? null : parsePercent(item.percent);
+    });
+
+    const fixedTotal = weights.reduce((sum, value) => sum + (value == null ? 0 : value), 0);
+    const blankCount = weights.filter(value => value == null).length;
+    const remaining = Math.max(0, 100 - fixedTotal);
+    const blankShare = blankCount ? remaining / blankCount : 0;
+
+    return weights.map(value => value == null ? blankShare : value);
   }
 
   function updateModeLabel() {
@@ -333,10 +340,17 @@
   function getPercentStatus() {
     if (!manualMode) return {invalid:false, text:'All items have an equal chance.'};
     if (!items.length) return {invalid:false, text:'Add items to set percentages.'};
-    const priorTotal = items.slice(0, -1).reduce((sum, item) => sum + parsePercent(item.percent), 0);
-    const remainder = round1(100 - priorTotal);
-    if (remainder < 0.1) return {invalid:true, text:'Not enough percentage remains for the final item. Earlier values have been capped automatically.'};
-    return {invalid:false, text:`Total: 100% • Last item remainder: ${remainder.toFixed(1)}%`};
+
+    const effective = getEffectiveWeights();
+    const total = effective.reduce((sum, value) => sum + value, 0);
+    const fixedTotal = items.slice(0, -1).reduce((sum, item) => sum + (item.percent === '' ? 0 : parsePercent(item.percent)), 0);
+    const blankCount = items.slice(0, -1).filter(item => item.percent === '').length + 1;
+    const remaining = Math.max(0, 100 - fixedTotal);
+    const blankShare = blankCount ? remaining / blankCount : 0;
+    const roundedTotal = round1(total);
+
+    if (roundedTotal < 99.9) return {invalid:true, text:'The percentages cannot be completed with the current values.'};
+    return {invalid:false, text:`Total: 100% • Blank items share ${round1(blankShare).toFixed(1)}% each`};
   }
 
   function renderItems() {
@@ -374,10 +388,10 @@
       probWrap.className = 'prob-wrap';
       const prob = document.createElement('input');
       prob.className = 'field prob';
-      prob.type = 'number';
+      prob.type = 'text';
       prob.min = '0.1';
       prob.max = '100';
-      prob.step = '0.1';
+      prob.step = 'any';
       prob.inputMode = 'decimal';
       const isLast = index === items.length - 1;
       if (!manualMode) {
@@ -398,35 +412,54 @@
       prob.setAttribute('aria-label', `Percentage for item ${index + 1}`);
       prob.addEventListener('input', () => {
         if (!manualMode || isLast) return;
-        const raw = prob.value;
+        const raw = prob.value.trim();
         if (raw === '') {
           item.percent = '';
           saveState();
-          renderItems();
+          percentStatusEl.textContent = getPercentStatus().text;
+          percentStatusEl.classList.remove('invalid');
           drawWheel();
           return;
         }
-        const maxAllowed = getEditableMax(index);
+
         const parsed = Number(raw);
         if (!Number.isFinite(parsed)) return;
-        const capped = round1(Math.max(0.1, Math.min(parsed, maxAllowed)));
-        item.percent = String(capped);
+        const maxAllowed = getEditableMax(index);
+        const capped = Math.max(0.1, Math.min(parsed, maxAllowed));
+        if (parsed > maxAllowed) {
+          item.percent = String(round1(capped));
+          prob.value = item.percent;
+        } else {
+          item.percent = raw;
+        }
         saveState();
-        renderItems();
+        const statusNow = getPercentStatus();
+        percentStatusEl.textContent = statusNow.text;
+        percentStatusEl.classList.toggle('invalid', statusNow.invalid);
         drawWheel();
       });
       prob.addEventListener('blur', () => {
         if (!manualMode || isLast) return;
         const maxAllowed = getEditableMax(index);
-        const raw = prob.value;
+        const raw = prob.value.trim();
         if (raw === '') {
           item.percent = '';
+          prob.value = '';
         } else {
           const parsed = Number(raw);
-          item.percent = Number.isFinite(parsed) ? String(round1(Math.max(0.1, Math.min(parsed, maxAllowed)))) : '';
+          if (!Number.isFinite(parsed)) {
+            item.percent = '';
+            prob.value = '';
+          } else {
+            const capped = Math.max(0.1, Math.min(parsed, maxAllowed));
+            item.percent = parsed > maxAllowed ? String(round1(capped)) : raw;
+            prob.value = item.percent;
+          }
         }
         saveState();
-        renderItems();
+        const statusNow = getPercentStatus();
+        percentStatusEl.textContent = statusNow.text;
+        percentStatusEl.classList.toggle('invalid', statusNow.invalid);
         drawWheel();
       });
       probWrap.appendChild(prob);
