@@ -39,6 +39,10 @@
     {
       "source": "/triangle-solver",
       "destination": "/triangle-solver.html"
+    },
+    {
+      "source": "/age-calculator",
+      "destination": "/age-calculator.html"
     }
   ]
 }
