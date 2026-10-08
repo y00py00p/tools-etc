@@ -67,7 +67,7 @@
 
   .wheel-stage { position:relative; width:min(100%, 500px); aspect-ratio:1; margin:0 auto; display:grid; place-items:center; }
   #wheel { width:100%; height:100%; display:block; filter:drop-shadow(0 14px 24px rgba(20,20,30,.08)); transform:rotate(0deg); transition:transform 3.7s cubic-bezier(.12,.78,.18,1); }
-  .wheel-pointer { position:absolute; top:-1px; left:50%; width:0; height:0; transform:translateX(-50%); border-left:13px solid transparent; border-right:13px solid transparent; border-top:0; border-bottom:27px solid var(--text); z-index:3; filter:drop-shadow(0 3px 3px rgba(0,0,0,.14)); }
+  .wheel-pointer { position:absolute; top:-1px; left:50%; width:0; height:0; transform:translateX(-50%); border-left:13px solid transparent; border-right:13px solid transparent; border-top:27px solid var(--text); border-bottom:0; z-index:3; filter:drop-shadow(0 3px 3px rgba(0,0,0,.14)); }
   .wheel-center { position:absolute; left:50%; top:50%; width:74px; height:74px; transform:translate(-50%,-50%); border-radius:50%; border:8px solid #fff; background:var(--text); box-shadow:0 4px 12px rgba(0,0,0,.14); z-index:2; }
   .wheel-center::after { content:""; position:absolute; inset:11px; border-radius:50%; background:var(--accent); }
   .spin-wrap { margin-top:18px; display:flex; justify-content:center; }
@@ -86,6 +86,15 @@
 
   .editor { padding:20px; }
   .editor-top { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; }
+  .editor-actions { display:flex; align-items:center; gap:9px; }
+  .mode-toggle { display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:var(--surface); color:var(--muted); font-size:12px; font-weight:700; cursor:pointer; user-select:none; }
+  .mode-toggle input { width:16px; height:16px; margin:0; accent-color:var(--accent); }
+  .mode-toggle.enabled { color:var(--text); border-color:rgba(99,91,255,.35); background:var(--accent-soft); }
+  .prob:disabled { color:var(--muted); background:var(--surface-2); cursor:not-allowed; }
+  .prob.remainder { color:var(--accent); font-weight:750; }
+  .prob.error { border-color:#e5aaa2; box-shadow:0 0 0 4px rgba(180,35,24,.08); }
+  .percent-status { margin:10px 1px 0; color:var(--muted); font-size:11px; line-height:1.45; }
+  .percent-status.invalid { color:var(--danger); font-weight:700; }
   .subtle-btn { border:1px solid var(--border); border-radius:10px; padding:8px 10px; background:var(--surface); color:var(--muted); font-size:12px; font-weight:700; transition:background .16s ease,color .16s ease,border-color .16s ease; }
   .subtle-btn:hover { background:var(--surface-2); color:var(--text); }
   .subtle-btn.danger:hover { background:#fff2f0; color:var(--danger); border-color:#f1c8c2; }
@@ -126,6 +135,8 @@
     .back span { display:none; }
     .hero { padding:40px 0 24px; }
     .wheel-panel,.editor,.history { padding:16px; }
+    .editor-top { align-items:flex-start; flex-direction:column; }
+    .editor-actions { width:100%; justify-content:space-between; }
     .wheel-stage { width:min(100%,390px); }
     .bottom-grid { grid-template-columns:1fr; }
     .item-row { grid-template-columns:30px minmax(0,1fr) 82px 32px; gap:6px; padding:7px; }
@@ -186,11 +197,18 @@
   <div class="panel editor">
     <div class="editor-top">
       <h2 class="panel-title">Wheel items</h2>
-      <button id="clearItems" class="subtle-btn danger" type="button">Clear all</button>
+      <div class="editor-actions">
+        <label id="modeToggleLabel" class="mode-toggle">
+          <input id="manualMode" type="checkbox" />
+          <span>Manual percentages</span>
+        </label>
+        <button id="clearItems" class="subtle-btn danger" type="button">Clear all</button>
+      </div>
     </div>
     <div id="items" class="items"></div>
     <button id="addItem" class="add-btn" type="button">+ Add item</button>
-    <p class="hint">Each probability is a relative weight. A blank or zero weight gives that item no chance. Weights do not need to add to 100.</p>
+    <p id="percentStatus" class="percent-status"></p>
+    <p class="hint">Manual percentages are optional. With manual mode off, every item has an equal chance and the percent boxes stay blank. With manual mode on, enter percentages for the earlier items; the last item automatically gets the remaining percentage so the total is 100%.</p>
   </div>
 </section>
 
@@ -227,22 +245,36 @@
   const resultValueEl = $('resultValue');
   const spinBtn = $('spin');
   const pointerEl = $('pointer');
+  const manualModeEl = $('manualMode');
+  const modeToggleLabel = $('modeToggleLabel');
+  const percentStatusEl = $('percentStatus');
   let items = [];
   let history = [];
+  let manualMode = false;
   let rotation = 0;
   let spinning = false;
 
   const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-  const clampProb = value => {
+  const parsePercent = value => {
+    if (value === '' || value == null) return 0;
     const n = Number(value);
-    if (!Number.isFinite(n) || n <= 0) return 0;
-    return Math.min(n, 1000000000);
+    if (!Number.isFinite(n) || n < 0) return 0;
+    return Math.min(n, 100);
+  };
+
+  const round1 = value => Math.round((value + Number.EPSILON) * 10) / 10;
+
+  const normalizePercentInput = value => {
+    if (value === '' || value == null) return '';
+    const n = Number(value);
+    if (!Number.isFinite(n) || n < 0) return '';
+    return String(round1(Math.min(n, 100)));
   };
   const defaultItems = () => [
-    { id:uid(), text:'Option 1', weight:1 },
-    { id:uid(), text:'Option 2', weight:1 },
-    { id:uid(), text:'Option 3', weight:1 },
-    { id:uid(), text:'Option 4', weight:1 }
+    { id:uid(), text:'Option 1', percent:'' },
+    { id:uid(), text:'Option 2', percent:'' },
+    { id:uid(), text:'Option 3', percent:'' },
+    { id:uid(), text:'Option 4', percent:'' }
   ];
 
   function loadState() {
@@ -251,8 +283,9 @@
       if (saved && Array.isArray(saved.items)) items = saved.items.slice(0, MAX_ITEMS).map(item => ({
         id: String(item.id || uid()),
         text: String(item.text ?? ''),
-        weight: clampProb(item.weight ?? 1)
+        percent: normalizePercentInput(item.percent ?? '')
       }));
+      manualMode = saved?.manualMode === true;
       history = Array.isArray(saved?.history) ? saved.history.slice(0, MAX_HISTORY).map(x => ({
         text:String(x.text ?? ''), time:String(x.time ?? '')
       })) : [];
@@ -260,18 +293,48 @@
       items = [];
       history = [];
     }
+    manualModeEl.checked = manualMode;
+    updateModeLabel();
     renderItems();
     renderHistory();
     drawWheel();
   }
 
   function saveState() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({items, history})); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({items, history, manualMode})); } catch {}
+  }
+
+  function getEffectiveWeights() {
+    if (!manualMode) return items.map(() => 1);
+    if (!items.length) return [];
+    const weights = items.map(item => parsePercent(item.percent));
+    const priorTotal = weights.slice(0, -1).reduce((sum, value) => sum + value, 0);
+    const remainder = round1(100 - priorTotal);
+    weights[weights.length - 1] = Math.max(0, remainder);
+    return weights;
+  }
+
+  function updateModeLabel() {
+    modeToggleLabel.classList.toggle('enabled', manualMode);
+  }
+
+  function getPercentStatus() {
+    if (!manualMode) return {invalid:false, text:'All items have an equal chance.'};
+    if (!items.length) return {invalid:false, text:'Add items to set percentages.'};
+    const priorTotal = items.slice(0, -1).reduce((sum, item) => sum + parsePercent(item.percent), 0);
+    const remainder = round1(100 - priorTotal);
+    if (priorTotal > 100) return {invalid:true, text:`Manual percentages exceed 100% by ${round1(priorTotal - 100)}%. Lower one of the earlier values.`};
+    return {invalid:false, text:`Total: 100% • Last item remainder: ${Math.max(0, remainder).toFixed(1)}%`};
   }
 
   function renderItems() {
     itemCountEl.textContent = `${items.length} ${items.length === 1 ? 'item' : 'items'}`;
     itemsEl.innerHTML = '';
+    const effective = getEffectiveWeights();
+    const status = getPercentStatus();
+    percentStatusEl.textContent = status.text;
+    percentStatusEl.classList.toggle('invalid', status.invalid);
+
     items.forEach((item, index) => {
       const row = document.createElement('div');
       row.className = 'item-row';
@@ -301,12 +364,36 @@
       prob.className = 'field prob';
       prob.type = 'number';
       prob.min = '0';
-      prob.step = 'any';
-      prob.value = item.weight === 0 ? '0' : String(item.weight);
-      prob.setAttribute('aria-label', `Probability for item ${index + 1}`);
+      prob.max = '100';
+      prob.step = '0.1';
+      prob.inputMode = 'decimal';
+      const isLast = index === items.length - 1;
+      if (!manualMode) {
+        prob.value = '';
+        prob.disabled = true;
+        prob.title = 'Manual percentages are off; all items have equal chance.';
+      } else if (isLast) {
+        prob.value = Number.isFinite(effective[index]) ? effective[index].toFixed(1) : '0.0';
+        prob.disabled = true;
+        prob.classList.add('remainder');
+        prob.title = 'This value is automatically calculated as the remaining percentage.';
+      } else {
+        prob.value = item.percent;
+        prob.title = 'Enter 0 to 100%, up to one decimal place.';
+      }
+      prob.setAttribute('aria-label', `Percentage for item ${index + 1}`);
       prob.addEventListener('input', () => {
-        item.weight = clampProb(prob.value);
+        if (!manualMode || isLast) return;
+        item.percent = prob.value;
         saveState();
+        renderItems();
+        drawWheel();
+      });
+      prob.addEventListener('blur', () => {
+        if (!manualMode || isLast) return;
+        item.percent = normalizePercentInput(prob.value);
+        saveState();
+        renderItems();
         drawWheel();
       });
       probWrap.appendChild(prob);
@@ -328,7 +415,7 @@
       itemsEl.appendChild(row);
     });
 
-    spinBtn.disabled = items.length === 0 || items.every(item => clampProb(item.weight) <= 0) || spinning;
+    spinBtn.disabled = items.length === 0 || effective.reduce((sum, value) => sum + value, 0) <= 0 || status.invalid || spinning;
   }
 
   function drawWheel() {
@@ -338,7 +425,7 @@
     const cy = h / 2;
     const radius = Math.min(w, h) / 2 - 18;
     ctx.clearRect(0, 0, w, h);
-    const active = items.filter(x => clampProb(x.weight) > 0);
+    const effective = getEffectiveWeights();
     if (!items.length) {
       ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.fillStyle = '#ededf2'; ctx.fill();
@@ -346,7 +433,7 @@
       return;
     }
 
-    const weightTotal = items.reduce((sum, item) => sum + clampProb(item.weight), 0);
+    const weightTotal = effective.reduce((sum, value) => sum + value, 0);
     if (weightTotal <= 0) {
       ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.fillStyle = '#ededf2'; ctx.fill();
@@ -356,7 +443,7 @@
 
     let start = -Math.PI / 2;
     items.forEach((item, index) => {
-      const weight = clampProb(item.weight);
+      const weight = effective[index] || 0;
       const span = weightTotal ? (Math.PI * 2 * weight / weightTotal) : 0;
       if (!span) return;
       ctx.beginPath();
@@ -374,7 +461,7 @@
     // Draw labels only where they remain readable.
     start = -Math.PI / 2;
     items.forEach((item, index) => {
-      const weight = clampProb(item.weight);
+      const weight = effective[index] || 0;
       const span = weightTotal ? (Math.PI * 2 * weight / weightTotal) : 0;
       if (!span) return;
       if (items.length <= 24 && span > 0.115) {
@@ -401,7 +488,8 @@
   }
 
   function chooseWeighted() {
-    const valid = items.map((item, index) => ({item, index, weight:clampProb(item.weight)})).filter(x => x.weight > 0);
+    const effective = getEffectiveWeights();
+    const valid = effective.map((weight, index) => ({index, weight})).filter(x => x.weight > 0);
     if (!valid.length) return null;
     const total = valid.reduce((sum, x) => sum + x.weight, 0);
     let r = Math.random() * total;
@@ -413,11 +501,12 @@
   }
 
   function buildAngles() {
-    const total = items.reduce((sum, item) => sum + clampProb(item.weight), 0);
+    const effective = getEffectiveWeights();
+    const total = effective.reduce((sum, value) => sum + value, 0);
     const angles = [];
     let start = 0;
-    items.forEach((item) => {
-      const span = total > 0 ? 360 * clampProb(item.weight) / total : 0;
+    effective.forEach(value => {
+      const span = total > 0 ? 360 * value / total : 0;
       angles.push({start, end:start + span, center:start + span / 2});
       start += span;
     });
@@ -487,7 +576,7 @@
 
   $('addItem').addEventListener('click', () => {
     if (spinning || items.length >= MAX_ITEMS) return;
-    items.push({id:uid(), text:`Option ${items.length + 1}`, weight:1});
+    items.push({id:uid(), text:`Option ${items.length + 1}`, percent:''});
     saveState();
     renderItems();
     drawWheel();
@@ -505,6 +594,14 @@
   });
 
   spinBtn.addEventListener('click', spin);
+  manualModeEl.addEventListener('change', () => {
+    if (spinning) { manualModeEl.checked = manualMode; return; }
+    manualMode = manualModeEl.checked;
+    saveState();
+    updateModeLabel();
+    renderItems();
+    drawWheel();
+  });
   loadState();
 })();
 </script>
