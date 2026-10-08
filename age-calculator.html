@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#635bff" />
+  <meta name="description" content="Calculate your exact age in years, days, hours, minutes, and seconds." />
+  <link rel="canonical" href="https://tools-etc.vercel.app/age-calculator" />
+  <title>Age Calculator — Exact Age in Years, Days & Seconds | Tools, etc.</title>
+  <style>
+    :root{--bg:#f7f7f9;--surface:#fff;--surface-2:#f1f1f5;--text:#17171b;--muted:#6f7078;--border:#e7e7ec;--accent:#635bff;--accent-soft:#eeecff;--shadow:0 10px 30px rgba(20,20,30,.06);--radius:24px}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(99,91,255,.08),transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}button,input{font:inherit}
+    .shell{width:min(900px,calc(100% - 32px));margin:0 auto;padding:24px 0 50px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 0 28px}
+    .brand{display:inline-flex;align-items:center;gap:11px;margin-left:clamp(2px,calc((100vw - 1132px)/2),40px);font-weight:750;letter-spacing:-.03em;font-size:19px}
+    .brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--text);color:#fff;flex:0 0 auto}
+    .brand-mark svg{width:18px;height:18px}
+    .header-link{display:inline-flex;align-items:center;gap:7px;padding:10px 12px;border-radius:10px;color:var(--muted);transition:background .18s ease,color .18s ease}
+    .header-link:hover,.header-link:focus-visible{background:var(--surface);color:var(--text);outline:none}
+    .header-link svg{width:16px;height:16px}
+    .hero{padding:42px 0 28px;text-align:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;margin-bottom:18px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.82);color:var(--muted);font-size:12px;font-weight:650;letter-spacing:.02em}
+    .eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+    h1{margin:0;font-size:clamp(40px,7vw,68px);line-height:.96;letter-spacing:-.055em;font-weight:800}
+    .hero p{max-width:640px;margin:18px auto 0;color:var(--muted);font-size:17px;line-height:1.55}
+    .card{padding:22px;border:1px solid var(--border);border-radius:var(--radius);background:rgba(255,255,255,.92);box-shadow:var(--shadow)}
+    .label{display:block;margin:0 0 8px;color:var(--muted);font-size:12px;font-weight:750}
+    .date-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}
+    .date-input{width:100%;height:50px;padding:0 14px;border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--text);outline:none}
+    .date-input:focus{border-color:rgba(99,91,255,.45);box-shadow:0 0 0 4px rgba(99,91,255,.10)}
+    .clear-btn{height:50px;padding:0 16px;border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--muted);font-weight:700;cursor:pointer}
+    .clear-btn:hover{color:var(--text);background:var(--surface-2)}
+    .result{margin-top:18px;padding:30px 22px;border-radius:20px;background:var(--surface-2);border:1px solid var(--border);text-align:center}
+    .empty{color:var(--muted);font-size:15px;line-height:1.5}
+    .age-main{display:flex;justify-content:center;align-items:baseline;gap:12px;flex-wrap:wrap}
+    .years-number{font-size:clamp(64px,12vw,108px);line-height:.86;letter-spacing:-.07em;font-weight:850}
+    .years-unit{font-size:clamp(24px,4.5vw,38px);font-weight:800;letter-spacing:-.04em}
+    .days-line{margin-top:18px;font-size:clamp(40px,8vw,68px);line-height:.95;letter-spacing:-.055em;font-weight:830}
+    .time-line{margin-top:16px;color:var(--muted);font-size:16px;font-weight:750;letter-spacing:.01em}
+    .details{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px;text-align:left}
+    .detail{padding:14px;border:1px solid var(--border);border-radius:15px;background:rgba(255,255,255,.72)}
+    .detail-value{font-size:16px;font-weight:800}
+    .note{margin-top:16px;color:var(--muted);font-size:12px;line-height:1.5}
+    @media(max-width:620px){.shell{width:min(100% - 22px,900px);padding-top:14px}header{padding-bottom:14px}.brand{margin-left:clamp(1px,calc((100vw - 1132px)/2),40px)}.header-link span{display:none}.hero{padding:42px 0 22px}.card{padding:18px}.date-row{grid-template-columns:1fr}.clear-btn{width:100%}.details{grid-template-columns:1fr}.result{padding:24px 14px}}
+  </style>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <a class="brand" href="/" aria-label="Tools, etc. home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3h6"/><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"/><path d="M8.2 15h7.6"/>
+          </svg>
+        </span>
+        <span>Tools, etc.</span>
+      </a>
+      <a class="header-link" href="/"><span>All tools</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+    </header>
+    <section class="hero">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Math</div>
+      <h1>Age Calculator</h1>
+      <p>Enter your birthday to see your exact age, updating every second.</p>
+    </section>
+    <section class="card">
+      <label class="label" for="birthday">Your birthday</label>
+      <div class="date-row">
+        <input id="birthday" class="date-input" type="date" autocomplete="bday" />
+        <button id="clear" class="clear-btn" type="button">Clear</button>
+      </div>
+      <div class="result" aria-live="polite">
+        <div id="empty" class="empty">Enter your birthday to calculate your age.</div>
+        <div id="ageResult" hidden>
+          <div class="age-main"><span id="years" class="years-number">0</span><span class="years-unit">years</span></div>
+          <div class="days-line"><span id="days">0</span> days</div>
+          <div id="timeLine" class="time-line">00h 00m 00s</div>
+          <div class="details">
+            <div class="detail"><div class="label">Birthday</div><div id="birthdayText" class="detail-value">—</div></div>
+            <div class="detail"><div class="label">Next birthday</div><div id="nextBirthday" class="detail-value">—</div></div>
+          </div>
+          <div class="note">Age is measured from midnight at the start of your birthday in your current local time. For an exact birth-time age, a birth time would also be needed.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const birthday = document.getElementById('birthday');
+      const clear = document.getElementById('clear');
+      const empty = document.getElementById('empty');
+      const result = document.getElementById('ageResult');
+      const years = document.getElementById('years');
+      const days = document.getElementById('days');
+      const timeLine = document.getElementById('timeLine');
+      const birthdayText = document.getElementById('birthdayText');
+      const nextBirthday = document.getElementById('nextBirthday');
+
+      const pad = n => String(n).padStart(2,'0');
+      const dateAtMidnight = (y,m,d) => new Date(y,m,d,0,0,0,0);
+      const daysInMonth = (y,m) => new Date(y,m+1,0).getDate();
+      const addYears = (d,n) => dateAtMidnight(d.getFullYear()+n,d.getMonth(),Math.min(d.getDate(),daysInMonth(d.getFullYear()+n,d.getMonth())));
+      const parseInput = value => {
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+        const [y,m,d] = value.split('-').map(Number);
+        const date = dateAtMidnight(y,m-1,d);
+        return date.getFullYear()===y && date.getMonth()===m-1 && date.getDate()===d ? date : null;
+      };
+      const fmtDate = d => new Intl.DateTimeFormat(undefined,{year:'numeric',month:'long',day:'numeric'}).format(d);
+
+      function update(){
+        const birth = parseInput(birthday.value), now = new Date();
+        if(!birth){ empty.textContent='Enter your birthday to calculate your age.'; empty.hidden=false; result.hidden=true; return; }
+        if(birth > now){ empty.textContent="Your birthday can't be in the future."; empty.hidden=false; result.hidden=true; return; }
+        let ageYears = now.getFullYear()-birth.getFullYear();
+        let anniversary = addYears(birth,ageYears);
+        if(anniversary>now){ ageYears--; anniversary=addYears(birth,ageYears); }
+        const totalSeconds = Math.floor((now-anniversary)/1000);
+        const wholeDays = Math.floor(totalSeconds/86400);
+        const remainder = totalSeconds%86400;
+        const hours = Math.floor(remainder/3600);
+        const minutes = Math.floor((remainder%3600)/60);
+        const seconds = remainder%60;
+        years.textContent = ageYears.toLocaleString();
+        days.textContent = wholeDays.toLocaleString();
+        timeLine.textContent = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+        birthdayText.textContent = fmtDate(birth);
+        nextBirthday.textContent = fmtDate(addYears(birth,ageYears+1));
+        empty.hidden=true; result.hidden=false;
+      }
+      birthday.addEventListener('input',update);
+      clear.addEventListener('click',()=>{birthday.value='';update();birthday.focus();});
+      update();
+      setInterval(update,250);
+    })();
+  </script>
+</body>
+</html>
