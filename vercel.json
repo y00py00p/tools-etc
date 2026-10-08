@@ -47,6 +47,10 @@
     {
       "source": "/feedback",
       "destination": "/feedback.html"
+    },
+    {
+      "source": "/random-number",
+      "destination": "/random-number.html"
     }
   ]
 }

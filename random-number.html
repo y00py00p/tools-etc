@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#635bff" />
+  <meta name="description" content="Generate random numbers with custom ranges and up to 50 decimal places." />
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <link rel="canonical" href="https://tools-etc.vercel.app/random-number" />
+  <meta property="og:title" content="Random Number Generator — Tools etc." />
+  <meta property="og:description" content="Generate random numbers with custom ranges and up to 50 decimal places." />
+  <meta property="og:url" content="https://tools-etc.vercel.app/random-number" />
+  <meta property="og:type" content="website" />
+  <title>Random Number Generator — Tools etc.</title>
+  <style>
+    :root {
+      --bg: #f7f7f9;
+      --surface: #ffffff;
+      --surface-2: #f1f1f5;
+      --text: #17171b;
+      --muted: #6f7078;
+      --border: #e7e7ec;
+      --accent: #635bff;
+      --accent-soft: #eeecff;
+      --danger-soft: #fff0f0;
+      --danger: #b42318;
+      --shadow: 0 10px 30px rgba(20, 20, 30, 0.06);
+      --shadow-hover: 0 18px 48px rgba(20, 20, 30, 0.11);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% -10%, rgba(99, 91, 255, 0.08), transparent 34%), var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .shell {
+      width: min(760px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 42px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 8px 0 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 750;
+      letter-spacing: -0.03em;
+      font-size: 19px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--text);
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark svg { width: 18px; height: 18px; }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--muted);
+      transition: background .18s ease, color .18s ease;
+    }
+
+    .back:hover, .back:focus-visible {
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+    }
+
+    .back svg { width: 16px; height: 16px; }
+
+    .hero {
+      padding: 42px 0 26px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: .02em;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 64px);
+      line-height: .98;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 14px;
+      align-items: end;
+    }
+
+    .field-group { min-width: 0; }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .field {
+      width: 100%;
+      height: 46px;
+      padding: 0 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .field:focus {
+      border-color: rgba(99,91,255,.45);
+      box-shadow: 0 0 0 4px rgba(99,91,255,.10);
+    }
+
+    .hint {
+      margin: 7px 2px 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .result-wrap {
+      margin-top: 18px;
+      padding: 24px 18px 20px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface-2);
+      text-align: center;
+    }
+
+    .result-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .result-value {
+      min-height: 1.2em;
+      margin-top: 8px;
+      font-size: clamp(42px, 9vw, 72px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      overflow-wrap: anywhere;
+      transition: opacity .11s ease, transform .11s ease, filter .11s ease;
+      transform-origin: center;
+    }
+
+    .result-value.rolling {
+      opacity: .6;
+      transform: scale(.985);
+      filter: blur(.15px);
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .btn {
+      min-width: 160px;
+      height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .btn.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(99,91,255,.18);
+    }
+
+    .btn:hover:not(:disabled), .btn:focus-visible:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-hover);
+      outline: none;
+    }
+
+    .btn.primary:hover:not(:disabled), .btn.primary:focus-visible:not(:disabled) {
+      background: #584ff5;
+      border-color: #584ff5;
+    }
+
+    .btn:disabled {
+      opacity: .65;
+      cursor: wait;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .error {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 13px;
+      border-radius: 12px;
+      background: var(--danger-soft);
+      color: var(--danger);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .error.show { display: block; }
+
+    .history {
+      margin-top: 18px;
+      padding: 20px 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+    }
+
+    .history-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .history-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+    }
+
+    .clear {
+      border: 0;
+      padding: 7px 9px;
+      border-radius: 9px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .clear:hover, .clear:focus-visible {
+      background: var(--surface-2);
+      color: var(--text);
+      outline: none;
+    }
+
+    .history-empty {
+      padding: 18px 4px 4px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 8px;
+      max-height: 470px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .history-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+
+    .history-number {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .history-meta {
+      color: var(--muted);
+      font-size: 11px;
+      text-align: right;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 20px;
+      padding: 10px 2px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 22px, 760px); padding-top: 14px; }
+      header { padding-bottom: 14px; }
+      .hero { padding: 38px 0 24px; }
+      .fields { grid-template-columns: 1fr; }
+      .card, .history { padding: 18px; }
+      .footer { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <a class="brand" href="/" aria-label="Tools etc. home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3h6" />
+            <path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3" />
+            <path d="M8.2 15h7.6" />
+          </svg>
+        </span>
+        <span>Tools etc.</span>
+      </a>
+      <a class="back" href="/">
+        <span>All tools</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
+      </a>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Math</div>
+      <h1>Random Number</h1>
+      <p>Spin a random number from 1 up to your chosen maximum, with up to 50 decimal places.</p>
+    </section>
+
+    <section class="card">
+      <div class="fields">
+        <div class="field-group">
+          <label class="label" for="max">Maximum</label>
+          <input id="max" class="field" type="text" inputmode="numeric" autocomplete="off" value="100" aria-describedby="maxHint" />
+          <p id="maxHint" class="hint">Enter a whole number from 1 to 1 followed by 48 zeros.</p>
+        </div>
+        <div class="field-group">
+          <label class="label" for="decimals">Decimal places</label>
+          <input id="decimals" class="field" type="number" inputmode="numeric" min="0" max="50" step="1" value="0" />
+        </div>
+      </div>
+
+      <div class="result-wrap" aria-live="polite" aria-atomic="true">
+        <div class="result-label">Result</div>
+        <div id="result" class="result-value">—</div>
+      </div>
+
+      <div class="button-row">
+        <button id="spin" class="btn primary" type="button">Spin</button>
+      </div>
+      <div id="error" class="error" role="alert"></div>
+    </section>
+
+    <section class="history" aria-label="History">
+      <div class="history-head">
+        <h2 class="history-title">History</h2>
+        <button id="clear" class="clear" type="button">Clear all</button>
+      </div>
+      <div id="historyEmpty" class="history-empty">Your generated numbers will appear here.</div>
+      <div id="historyList" class="history-list" hidden></div>
+    </section>
+
+    <footer class="footer">
+      <span>Tools etc.</span>
+      <span>Fast, focused, browser-based.</span>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const MAX_MAX = 10n ** 48n;
+      const HISTORY_KEY = 'toolsEtcRandomNumberHistoryV1';
+      const maxInput = document.getElementById('max');
+      const decimalsInput = document.getElementById('decimals');
+      const result = document.getElementById('result');
+      const spin = document.getElementById('spin');
+      const error = document.getElementById('error');
+      const historyList = document.getElementById('historyList');
+      const historyEmpty = document.getElementById('historyEmpty');
+      const clear = document.getElementById('clear');
+
+      let history = [];
+      let spinning = false;
+
+      const showError = (message) => {
+        error.textContent = message;
+        error.classList.add('show');
+      };
+
+      const hideError = () => {
+        error.textContent = '';
+        error.classList.remove('show');
+      };
+
+      const getSettings = () => {
+        const rawMax = maxInput.value.trim();
+        const decimals = Number(decimalsInput.value);
+
+        if (!/^\d+$/.test(rawMax)) {
+          throw new Error('Maximum must be a whole number.');
+        }
+
+        const max = BigInt(rawMax);
+        if (max < 1n) {
+          throw new Error('Maximum must be at least 1.');
+        }
+        if (max > MAX_MAX) {
+          throw new Error('Maximum cannot be greater than 1 followed by 48 zeros.');
+        }
+        if (!Number.isInteger(decimals) || decimals < 0 || decimals > 50) {
+          throw new Error('Decimal places must be a whole number from 0 to 50.');
+        }
+
+        return { max, decimals };
+      };
+
+      const randomBigIntBelow = (exclusive) => {
+        if (exclusive <= 0n) throw new Error('Invalid random range.');
+        if (exclusive === 1n) return 0n;
+
+        const bits = (exclusive - 1n).toString(2).length;
+        const bytes = Math.ceil(bits / 8);
+        const extraBits = bytes * 8 - bits;
+        const mask = extraBits ? (0xff >>> extraBits) : 0xff;
+        const buffer = new Uint8Array(bytes);
+
+        for (;;) {
+          crypto.getRandomValues(buffer);
+          buffer[0] &= mask;
+          let value = 0n;
+          for (const byte of buffer) value = (value << 8n) | BigInt(byte);
+          if (value < exclusive) return value;
+        }
+      };
+
+      const formatScaled = (value, decimals) => {
+        if (decimals === 0) return value.toString();
+        const raw = value.toString().padStart(decimals + 1, '0');
+        return raw.slice(0, -decimals) + '.' + raw.slice(-decimals);
+      };
+
+      const randomFormatted = (settings) => {
+        const scale = 10n ** BigInt(settings.decimals);
+        const min = scale;
+        const max = settings.max * scale;
+        const value = min + randomBigIntBelow(max - min + 1n);
+        return formatScaled(value, settings.decimals);
+      };
+
+      const renderHistory = () => {
+        historyList.innerHTML = '';
+        const visible = history.slice(0, 100);
+        historyEmpty.hidden = visible.length > 0;
+        historyList.hidden = visible.length === 0;
+        if (!visible.length) return;
+
+        const fragment = document.createDocumentFragment();
+        for (const item of visible) {
+          const row = document.createElement('div');
+          row.className = 'history-item';
+
+          const number = document.createElement('div');
+          number.className = 'history-number';
+          number.textContent = item.value;
+
+          const meta = document.createElement('div');
+          meta.className = 'history-meta';
+          meta.textContent = item.range + ' · ' + item.decimals + (item.decimals === 1 ? ' decimal' : ' decimals');
+
+          row.append(number, meta);
+          fragment.appendChild(row);
+        }
+        historyList.appendChild(fragment);
+      };
+
+      const saveHistory = () => {
+        history = history.slice(0, 100);
+        try {
+          localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        } catch {}
+      };
+
+      const loadHistory = () => {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+          history = Array.isArray(parsed) ? parsed.slice(0, 100) : [];
+        } catch {
+          history = [];
+        }
+        renderHistory();
+      };
+
+      const addHistory = (value, settings) => {
+        history.unshift({
+          value,
+          range: '1–' + settings.max.toString(),
+          decimals: settings.decimals,
+          time: Date.now()
+        });
+        saveHistory();
+        renderHistory();
+      };
+
+      const spinOnce = async () => {
+        if (spinning) return;
+        hideError();
+
+        let settings;
+        try {
+          settings = getSettings();
+        } catch (err) {
+          showError(err.message);
+          return;
+        }
+
+        spinning = true;
+        spin.disabled = true;
+        maxInput.disabled = true;
+        decimalsInput.disabled = true;
+        result.classList.add('rolling');
+
+        const start = performance.now();
+        const duration = 500;
+        while (performance.now() - start < duration) {
+          result.textContent = randomFormatted(settings);
+          await new Promise(resolve => setTimeout(resolve, 48));
+        }
+
+        const finalValue = randomFormatted(settings);
+        result.textContent = finalValue;
+        result.classList.remove('rolling');
+        addHistory(finalValue, settings);
+
+        maxInput.disabled = false;
+        decimalsInput.disabled = false;
+        spin.disabled = false;
+        spinning = false;
+      };
+
+      spin.addEventListener('click', spinOnce);
+      maxInput.addEventListener('input', hideError);
+      decimalsInput.addEventListener('input', hideError);
+
+      clear.addEventListener('click', () => {
+        history = [];
+        saveHistory();
+        renderHistory();
+      });
+
+      loadHistory();
+    })();
+  </script>
+</body>
+</html>
