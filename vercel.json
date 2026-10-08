@@ -51,6 +51,10 @@
     {
       "source": "/random-number",
       "destination": "/random-number.html"
+    },
+    {
+      "source": "/wheel-spinner",
+      "destination": "/wheel-spinner.html"
     }
   ]
 }
