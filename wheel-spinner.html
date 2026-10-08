@@ -208,7 +208,7 @@
     <div id="items" class="items"></div>
     <button id="addItem" class="add-btn" type="button">+ Add item</button>
     <p id="percentStatus" class="percent-status"></p>
-    <p class="hint">Manual percentages are optional. With manual mode off, every item has an equal chance and the percent boxes stay blank. With manual mode on, enter percentages for the earlier items; the last item automatically gets the remaining percentage so the total is 100%.</p>
+    <p class="hint">Manual percentages are optional. With manual mode off, every item has an equal chance and the percent boxes stay blank. With manual mode on, each entered percentage is at least 0.1%; the last item automatically gets the remainder, and entered values are capped so every remaining item can still have at least 0.1%.</p>
   </div>
 </section>
 
@@ -258,8 +258,8 @@
   const parsePercent = value => {
     if (value === '' || value == null) return 0;
     const n = Number(value);
-    if (!Number.isFinite(n) || n < 0) return 0;
-    return Math.min(n, 100);
+    if (!Number.isFinite(n)) return 0;
+    return Math.max(0.1, Math.min(n, 100));
   };
 
   const round1 = value => Math.round((value + Number.EPSILON) * 10) / 10;
@@ -267,8 +267,8 @@
   const normalizePercentInput = value => {
     if (value === '' || value == null) return '';
     const n = Number(value);
-    if (!Number.isFinite(n) || n < 0) return '';
-    return String(round1(Math.min(n, 100)));
+    if (!Number.isFinite(n)) return '';
+    return String(round1(Math.max(0.1, Math.min(n, 100))));
   };
   const defaultItems = () => [
     { id:uid(), text:'Option 1', percent:'' },
@@ -318,13 +318,25 @@
     modeToggleLabel.classList.toggle('enabled', manualMode);
   }
 
+  function getEditableMax(index) {
+    if (!manualMode || index >= items.length - 1) return null;
+    const otherEntered = items.reduce((sum, item, i) => {
+      if (i === index || i === items.length - 1) return sum;
+      return sum + (item.percent === '' ? 0 : parsePercent(item.percent));
+    }, 0);
+    const otherBlankEditable = items.slice(index + 1, -1).filter(item => item.percent === '').length
+      + items.slice(0, index).filter(item => item.percent === '').length;
+    const reservedMinimums = 0.1 * (otherBlankEditable + 1);
+    return round1(Math.max(0.1, 100 - otherEntered - reservedMinimums));
+  }
+
   function getPercentStatus() {
     if (!manualMode) return {invalid:false, text:'All items have an equal chance.'};
     if (!items.length) return {invalid:false, text:'Add items to set percentages.'};
     const priorTotal = items.slice(0, -1).reduce((sum, item) => sum + parsePercent(item.percent), 0);
     const remainder = round1(100 - priorTotal);
-    if (priorTotal > 100) return {invalid:true, text:`Manual percentages exceed 100% by ${round1(priorTotal - 100)}%. Lower one of the earlier values.`};
-    return {invalid:false, text:`Total: 100% • Last item remainder: ${Math.max(0, remainder).toFixed(1)}%`};
+    if (remainder < 0.1) return {invalid:true, text:'Not enough percentage remains for the final item. Earlier values have been capped automatically.'};
+    return {invalid:false, text:`Total: 100% • Last item remainder: ${remainder.toFixed(1)}%`};
   }
 
   function renderItems() {
@@ -363,7 +375,7 @@
       const prob = document.createElement('input');
       prob.className = 'field prob';
       prob.type = 'number';
-      prob.min = '0';
+      prob.min = '0.1';
       prob.max = '100';
       prob.step = '0.1';
       prob.inputMode = 'decimal';
@@ -379,19 +391,40 @@
         prob.title = 'This value is automatically calculated as the remaining percentage.';
       } else {
         prob.value = item.percent;
-        prob.title = 'Enter 0 to 100%, up to one decimal place.';
+        const maxAllowed = getEditableMax(index);
+        prob.max = String(maxAllowed);
+        prob.title = `Enter 0.1% to ${maxAllowed}%, up to one decimal place.`;
       }
       prob.setAttribute('aria-label', `Percentage for item ${index + 1}`);
       prob.addEventListener('input', () => {
         if (!manualMode || isLast) return;
-        item.percent = prob.value;
+        const raw = prob.value;
+        if (raw === '') {
+          item.percent = '';
+          saveState();
+          renderItems();
+          drawWheel();
+          return;
+        }
+        const maxAllowed = getEditableMax(index);
+        const parsed = Number(raw);
+        if (!Number.isFinite(parsed)) return;
+        const capped = round1(Math.max(0.1, Math.min(parsed, maxAllowed)));
+        item.percent = String(capped);
         saveState();
         renderItems();
         drawWheel();
       });
       prob.addEventListener('blur', () => {
         if (!manualMode || isLast) return;
-        item.percent = normalizePercentInput(prob.value);
+        const maxAllowed = getEditableMax(index);
+        const raw = prob.value;
+        if (raw === '') {
+          item.percent = '';
+        } else {
+          const parsed = Number(raw);
+          item.percent = Number.isFinite(parsed) ? String(round1(Math.max(0.1, Math.min(parsed, maxAllowed)))) : '';
+        }
         saveState();
         renderItems();
         drawWheel();
