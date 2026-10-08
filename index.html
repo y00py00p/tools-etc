@@ -321,6 +321,68 @@
       background: rgba(255,255,255,.52);
     }
 
+    .feedback-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 18px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+    }
+
+    .feedback-kicker {
+      margin-bottom: 7px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .feedback-card h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    .feedback-card p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .feedback-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 750;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .feedback-button:hover,
+    .feedback-button:focus-visible {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: #d9d7ff;
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .feedback-button svg { width: 16px; height: 16px; }
+
     .footer {
       display: flex;
       align-items: center;
@@ -343,7 +405,69 @@
       .grid { grid-template-columns: 1fr; }
       .card { min-height: 190px; padding: 19px; }
       .card-bottom { margin-top: 27px; }
-      .footer { align-items: flex-start; flex-direction: column; }
+      .feedback-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 18px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+    }
+
+    .feedback-kicker {
+      margin-bottom: 7px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .feedback-card h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    .feedback-card p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .feedback-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 750;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .feedback-button:hover,
+    .feedback-button:focus-visible {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: #d9d7ff;
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .feedback-button svg { width: 16px; height: 16px; }
+
+    .footer { align-items: flex-start; flex-direction: column; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -583,6 +707,17 @@
       </div>
 
       <div class="empty" id="empty">No tools match your search.</div>
+    </section>
+
+    <section class="feedback-card" aria-label="Feedback">
+      <div class="feedback-copy">
+        <div class="feedback-kicker">Feedback</div>
+        <h2>Help improve Tools, etc.</h2>
+        <p>Found something that could be better, or have an idea for a new tool?</p>
+      </div>
+      <a class="feedback-button" href="/feedback">Give feedback
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
     </section>
 
     <footer class="footer">

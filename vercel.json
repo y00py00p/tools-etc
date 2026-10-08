@@ -43,6 +43,10 @@
     {
       "source": "/age-calculator",
       "destination": "/age-calculator.html"
+    },
+    {
+      "source": "/feedback",
+      "destination": "/feedback.html"
     }
   ]
 }
