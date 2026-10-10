@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#635bff" />
-  <meta name="description" content="Free online tools including a word counter, symbols and accents, color picker, calculators, unit converter, file converter, and time tools." />
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#635bff" name="theme-color"/>
+<meta content="Useful online tools for text, math, conversions, calendars, and skills." name="description"/>
+<script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <title>Tools etc. — Free Online Tools for Text, Math & Conversions</title>
-  <style>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<title>Tools etc. — Online Tools</title>
+<style>
     :root {
       --bg: #f7f7f9;
       --surface: #ffffff;
@@ -22,7 +22,7 @@
       --accent-soft: #eeecff;
       --shadow: 0 10px 30px rgba(20, 20, 30, 0.06);
       --shadow-hover: 0 18px 48px rgba(20, 20, 30, 0.11);
-      --radius-lg: 24px;
+      --radius-lg: 15px;
       --radius-md: 16px;
     }
 
@@ -33,9 +33,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background:
-        radial-gradient(circle at 50% -10%, rgba(99, 91, 255, 0.08), transparent 34%),
-        var(--bg);
+      background: var(--bg);
       color: var(--text);
       font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -102,7 +100,7 @@
     .header-link svg { width: 16px; height: 16px; }
 
     .hero {
-      padding: 46px 0 34px;
+      padding: 54px 0 38px;
       text-align: center;
     }
 
@@ -129,13 +127,9 @@
       box-shadow: 0 0 0 4px var(--accent-soft);
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(42px, 7vw, 78px);
-      line-height: .96;
-      letter-spacing: -0.055em;
-      font-weight: 800;
-    }
+    h1 { margin: 0; line-height: 1; letter-spacing: -0.045em; font-weight: 800; }
+    .welcome-line { display:block; font-size:clamp(24px,3.3vw,38px); font-weight:650; letter-spacing:-.035em; margin-bottom:10px; }
+    .brand-line { display:block; font-size:clamp(58px,9vw,104px); }
 
     .hero p {
       max-width: 650px;
@@ -210,12 +204,12 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 220px;
-      padding: 22px;
+      min-height: 158px;
+      padding: 18px;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       background: rgba(255,255,255,.92);
-      box-shadow: var(--shadow);
+      box-shadow: 0 1px 3px rgba(20,20,30,.035);
       overflow: hidden;
       transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
@@ -282,7 +276,7 @@
     .card-bottom {
       position: relative;
       z-index: 1;
-      margin-top: 34px;
+      margin-top: 18px;
     }
 
     .card h2 {
@@ -302,8 +296,9 @@
 
     .tag {
       display: inline-block;
-      margin-top: 13px;
-      padding: 5px 8px;
+      margin-top: 10px;
+      margin-right: 5px;
+      padding: 4px 7px;
       border-radius: 8px;
       background: var(--surface-2);
       color: var(--muted);
@@ -403,8 +398,8 @@
       .toolbar { align-items: stretch; flex-direction: column; }
       .search { width: 100%; }
       .grid { grid-template-columns: 1fr; }
-      .card { min-height: 190px; padding: 19px; }
-      .card-bottom { margin-top: 27px; }
+      .card { min-height: 148px; padding: 17px; }
+      .card-bottom { margin-top: 18px; }
       .feedback-card {
       display: flex;
       align-items: center;
@@ -475,297 +470,270 @@
       *, *::before, *::after { transition: none !important; }
     }
   </style>
-<link rel="canonical" href="https://tools-etc.vercel.app/" />
-<meta property="og:title" content="Tools etc. — Free Online Tools for Text, Math & Conversions" />
-<meta property="og:description" content="Free online tools including a word counter, symbols and accents, color picker, calculators, unit converter, file converter, and time tools." />
-<meta property="og:url" content="https://tools-etc.vercel.app/" />
-<meta property="og:type" content="website" />
+<link href="https://tools-etc.vercel.app/" rel="canonical"/>
+<meta content="Tools etc. — Online Tools" property="og:title"/>
+<meta content="Useful online tools for text, math, conversions, calendars, and skills." property="og:description"/>
+<meta content="https://tools-etc.vercel.app/" property="og:url"/>
+<meta content="website" property="og:type"/>
 </head>
 <body>
-  <main class="shell">
-    <header>
-      <a class="brand" href="/" aria-label="Tools etc. home">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 3h6" />
-            <path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3" />
-            <path d="M8.2 15h7.6" />
-          </svg>
-        </span>
-        <span>Tools etc.</span>
-      </a>
-      <a class="header-link" href="#tools">
-        <span>Explore tools</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M5 12h14" />
-          <path d="m13 6 6 6-6 6" />
-        </svg>
-      </a>
-    </header>
+<main class="shell">
+<header>
+<a aria-label="Tools etc. home" class="brand" href="/">
+<span aria-hidden="true" class="brand-mark">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24">
+<path d="M9 3h6"></path>
+<path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"></path>
+<path d="M8.2 15h7.6"></path>
+</svg>
+</span>
+<span>Tools etc.</span>
+</a>
+<a class="header-link" href="#tools">
+<span>Explore tools</span>
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M5 12h14"></path>
+<path d="m13 6 6 6-6 6"></path>
+</svg>
+</a>
+</header>
+<section class="hero"><h1><span class="welcome-line">Welcome to</span><span class="brand-line">Tools etc.</span></h1></section>
+<section aria-label="Tools" class="tools-wrap" id="tools">
+<div class="toolbar">
+<h2 class="section-title">All tools</h2>
+<label aria-label="Search tools" class="search">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<circle cx="11" cy="11" r="6.5"></circle>
+<path d="m16 16 4.2 4.2"></path>
+</svg>
+<input autocomplete="off" id="search" placeholder="Search tools" type="search"/>
+</label>
+</div>
+<div class="grid" id="toolGrid">
+<a class="card wide" data-tool="word counter writing text characters" href="/word-counter">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M4 6.5h16"></path><path d="M4 11.5h10"></path><path d="M4 16.5h13"></path><path d="M17 14v6"></path><path d="m14.5 18 2.5 2 2.5-2"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+</span>
+</div>
+<div class="card-bottom">
+<h2>Word Counter</h2>
 
-    <section class="hero">
-      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Fast browser tools</div>
-      <h1>Welcome to Tools etc.</h1>
-      <p>Clean, focused utilities for everyday work.</p>
-    </section>
+<span class="tag">Text</span>
+</div>
+</a>
+<a class="card mid" data-tool="symbols accents special characters" href="/symbols-accents">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M7 18h10"></path><path d="M9 15 12 6l3 9"></path><path d="M10 12h4"></path><path d="M5 5h2"></path><path d="M17 5h2"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Symbols &amp; Accents</h2>
 
-    <section class="tools-wrap" id="tools" aria-label="Tools">
-      <div class="toolbar">
-        <h2 class="section-title">All tools</h2>
-        <label class="search" aria-label="Search tools">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="6.5" />
-            <path d="m16 16 4.2 4.2" />
-          </svg>
-          <input id="search" type="search" placeholder="Search tools" autocomplete="off" />
-        </label>
-      </div>
+<span class="tag">Text</span>
+</div>
+</a>
+<a class="card mid" data-tool="hex color finder rgb hsl eyedropper" href="/color-picker">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M12 3a9 9 0 1 0 9 9"></path><path d="M12 3v6a3 3 0 0 0 3 3h6"></path><path d="M7.5 12h.01"></path><path d="M9.5 16h.01"></path><path d="M13 18h.01"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Color Picker</h2>
 
-      <div class="grid" id="toolGrid">
-        <a class="card wide" data-tool="word counter writing text characters" href="/word-counter">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 6.5h16" /><path d="M4 11.5h10" /><path d="M4 16.5h13" /><path d="M17 14v6" /><path d="m14.5 18 2.5 2 2.5-2" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-            </span>
-          </div>
-          <div class="card-bottom">
-            <h2>Word Counter</h2>
-            <p>Count words, characters, sentences, and speaking time.</p>
-            <span class="tag">Text</span>
-          </div>
-        </a>
+<span class="tag">Design</span>
+</div>
+</a>
+<a class="card small" data-tool="math fraction calculator algebra" href="/fraction-calculator">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M5 12h14"></path><path d="M12 5v14"></path><path d="M7 7l-2 2 2 2"></path><path d="M17 13l2 2-2 2"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Fraction Calculator</h2>
 
-        <a class="card mid" data-tool="symbols accents special characters" href="/symbols-accents">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 18h10" /><path d="M9 15 12 6l3 9" /><path d="M10 12h4" /><path d="M5 5h2" /><path d="M17 5h2" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Symbols &amp; Accents</h2>
-            <p>Quickly find and copy useful symbols, accents, and special characters.</p>
-            <span class="tag">Text</span>
-          </div>
-        </a>
+<span class="tag">Math</span>
+</div>
+</a>
+<a class="card small" data-tool="interest finance compound savings" href="/interest-calculator">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M5 19V10"></path><path d="M12 19V5"></path><path d="M19 19v-6"></path><path d="M3 19h18"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Interest Calculator</h2>
 
-        <a class="card mid" data-tool="hex color finder rgb hsl eyedropper" href="/color-picker">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3a9 9 0 1 0 9 9" /><path d="M12 3v6a3 3 0 0 0 3 3h6" /><path d="M7.5 12h.01" /><path d="M9.5 16h.01" /><path d="M13 18h.01" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Color Picker</h2>
-            <p>Pick a color and get clean HEX, RGB, and HSL values instantly.</p>
-            <span class="tag">Design</span>
-          </div>
-        </a>
-
-        <a class="card small" data-tool="math fraction calculator algebra" href="/fraction-calculator">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14" /><path d="M12 5v14" /><path d="M7 7l-2 2 2 2" /><path d="M17 13l2 2-2 2" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Fraction Calculator</h2>
-            <p>Handle fractions, percentages, and everyday calculations.</p>
-            <span class="tag">Math</span>
-          </div>
-        </a>
-
-        <a class="card small" data-tool="interest finance compound savings" href="/interest-calculator">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 19V10" /><path d="M12 19V5" /><path d="M19 19v-6" /><path d="M3 19h18" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Interest Calculator</h2>
-            <p>See how compound interest grows over time.</p>
-            <span class="tag">Math</span>
-          </div>
-        </a>
-
-        <a class="card small" data-tool="age calculator age date birthday years months days math calendar time" href="/age-calculator">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="8" r="3" />
-                <path d="M3.5 20a5.5 5.5 0 0 1 11 0" />
-                <path d="M16 6h4" /><path d="M18 4v4" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Age Calculator</h2>
-            <p>Calculate your exact age from a date of birth.</p>
-            <span class="tag">Math</span>
-          </div>
-        </a>
+<span class="tag">Math</span>
+</div>
+</a>
+<a class="card small" data-tool="age calculator age date birthday years months days math calendar time" href="/age-calculator">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<circle cx="9" cy="8" r="3"></circle>
+<path d="M3.5 20a5.5 5.5 0 0 1 11 0"></path>
+<path d="M16 6h4"></path><path d="M18 4v4"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Age Calculator</h2>
 
 
-        <a class="card mid" data-tool="random number rng random integer generator decimal places randomizer" href="/random-number">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 4h12v4H6z" />
-                <path d="M6 16h12v4H6z" />
-                <path d="M9 8v8" />
-                <path d="M15 8v8" />
-                <path d="M12 8v8" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Random Number</h2>
-            <p>Generate random numbers with custom ranges and decimal places.</p>
-            <span class="tag">Math</span>
-          </div>
-        </a>
+<span class="tag">Math</span><span class="tag">Calendar and time</span></div>
+</a>
+<a class="card mid" data-tool="random number rng random integer generator decimal places randomizer" href="/random-number">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M6 4h12v4H6z"></path>
+<path d="M6 16h12v4H6z"></path>
+<path d="M9 8v8"></path>
+<path d="M15 8v8"></path>
+<path d="M12 8v8"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Random Number</h2>
 
-        <a class="card wide" data-tool="imperial metric conversion units kg lb celsius temperature" href="/unit-converter">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 7h13" /><path d="m17 3 4 4-4 4" /><path d="M17 17H4" /><path d="m7 13-4 4 4 4" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Unit Converter</h2>
-            <p>Convert common metric and imperial measurements without clutter.</p>
-            <span class="tag">Conversions</span>
-          </div>
-        </a>
 
-        <a class="card mid" data-tool="file converters jpg png webp images convert" href="/file-converter">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 3h8l4 4v14H6z" /><path d="M14 3v5h5" /><path d="M9 16h6" /><path d="M9 12h3" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>File Converter</h2>
-            <p>Convert common image formats directly in your browser.</p>
-            <span class="tag">Conversions</span>
-          </div>
-        </a>
+<span class="tag">Math</span></div>
+</a>
+<a class="card wide" data-tool="imperial metric conversion units kg lb celsius temperature" href="/unit-converter">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M7 7h13"></path><path d="m17 3 4 4-4 4"></path><path d="M17 17H4"></path><path d="m7 13-4 4 4 4"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Unit Converter</h2>
 
-        <a class="card mid" data-tool="time zones timezone city converter" href="/time-zones">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3.5" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m4.93 19.07 1.41-1.41" /><path d="m17.66 6.34 1.41-1.41" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Time Zones</h2>
-            <p>Search cities and compare time zones.</p>
-            <span class="tag">Calendar and time</span>
-          </div>
-        </a>
 
-        <a class="card mid" data-tool="triangle solver triangles geometry math angles sides hypotenuse" href="/triangle-solver">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19 12 5l8 14H4Z" />
-                <path d="M9.2 15.6h5.6" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Triangle Solver</h2>
-            <p>Solve triangles from their known sides and angles.</p>
-            <span class="tag">Math</span>
-          </div>
-        </a>
+<span class="tag">Conversions</span><span class="tag">Math</span></div>
+</a>
+<a class="card mid" data-tool="file converters jpg png webp images convert" href="/file-converter">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M6 3h8l4 4v14H6z"></path><path d="M14 3v5h5"></path><path d="M9 16h6"></path><path d="M9 12h3"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>File Converter</h2>
 
-        <a class="card mid" data-tool="wheel spinner random picker choices probabilities weighted" href="/wheel-spinner">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="8" />
-                <path d="M12 4v16" /><path d="M4 12h16" />
-                <path d="m6.3 6.3 11.4 11.4" /><path d="m17.7 6.3-11.4 11.4" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Wheel Spinner</h2>
-            <p>Spin a customizable wheel with weighted choices and saved history.</p>
-            <span class="tag">Math</span>
-          </div>
-        </a>
+<span class="tag">Conversions</span>
+</div>
+</a>
+<a class="card mid" data-tool="time zones timezone city converter" href="/time-zones">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="3.5"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m4.93 19.07 1.41-1.41"></path><path d="m17.66 6.34 1.41-1.41"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Time Zones</h2>
 
-        <a class="card mid" data-tool="day of week date day calendar time" href="/day-of-week">
-          <div class="card-top">
-            <span class="icon-box" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4.5" width="18" height="16" rx="2" />
-                <path d="M7 2.5v4" /><path d="M17 2.5v4" /><path d="M3 9h18" />
-                <path d="M8 13h.01" /><path d="M12 13h.01" /><path d="M16 13h.01" /><path d="M8 17h.01" /><path d="M12 17h.01" />
-              </svg>
-            </span>
-            <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
-          </div>
-          <div class="card-bottom">
-            <h2>Day of Week</h2>
-            <p>Find the day of the week for any date.</p>
-            <span class="tag">Calendar and time</span>
-          </div>
-        </a>
-      </div>
+<span class="tag">Calendar and time</span>
+</div>
+</a>
+<a class="card mid" data-tool="triangle solver triangles geometry math angles sides hypotenuse" href="/triangle-solver">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M4 19 12 5l8 14H4Z"></path>
+<path d="M9.2 15.6h5.6"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Triangle Solver</h2>
 
-      <div class="empty" id="empty">No tools match your search.</div>
-    </section>
+<span class="tag">Math</span>
+</div>
+</a>
+<a class="card mid" data-tool="wheel spinner random picker choices probabilities weighted" href="/wheel-spinner">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="8"></circle>
+<path d="M12 4v16"></path><path d="M4 12h16"></path>
+<path d="m6.3 6.3 11.4 11.4"></path><path d="m17.7 6.3-11.4 11.4"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Wheel Spinner</h2>
 
-    <section class="feedback-card" aria-label="Feedback">
-      <div class="feedback-copy">
-        <div class="feedback-kicker">Feedback</div>
-        <h2>Help improve Tools etc.</h2>
-        <p>Found something that could be better, or have an idea for a new tool?</p>
-      </div>
-      <a class="feedback-button" href="/feedback">Give feedback
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-      </a>
-    </section>
 
-    <footer class="footer">
-      <span>Tools etc.</span>
-      <span>Fast, focused, browser-based.</span>
-    </footer>
-  </main>
+<span class="tag">Math</span></div>
+</a>
+<a class="card mid" data-tool="day of week date day calendar time" href="/day-of-week">
+<div class="card-top">
+<span aria-hidden="true" class="icon-box">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
+<rect height="16" rx="2" width="18" x="3" y="4.5"></rect>
+<path d="M7 2.5v4"></path><path d="M17 2.5v4"></path><path d="M3 9h18"></path>
+<path d="M8 13h.01"></path><path d="M12 13h.01"></path><path d="M16 13h.01"></path><path d="M8 17h.01"></path><path d="M12 17h.01"></path>
+</svg>
+</span>
+<span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
+</div>
+<div class="card-bottom">
+<h2>Day of Week</h2>
 
-  <script>
+<span class="tag">Calendar and time</span>
+</div>
+</a>
+<a class="card" data-tool="cps clicks per second click speed tapping speed test" href="/cps-test"><div class="card-top"><span aria-hidden="true" class="icon-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M4 12h3l2-6 4 12 2-6h5"></path></svg></span><span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span></div><div class="card-bottom"><h2>CPS Test</h2><span class="tag">Skills</span></div></a><a class="card" data-tool="reaction time reflex speed test green red" href="/reaction-time-test"><div class="card-top"><span aria-hidden="true" class="icon-box"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span></div><div class="card-bottom"><h2>Reaction Time Test</h2><span class="tag">Skills</span></div></a></div>
+<div class="empty" id="empty">No tools match your search.</div>
+</section>
+<section aria-label="Feedback" class="feedback-card">
+<div class="feedback-copy">
+<div class="feedback-kicker">Feedback</div>
+<h2>Help improve Tools etc.</h2>
+<p>Found something that could be better, or have an idea for a new tool?</p>
+</div>
+<a class="feedback-button" href="/feedback">Give feedback
+        <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+</a>
+</section>
+
+</main>
+<script>
     (() => {
       const search = document.getElementById('search');
       const cards = Array.from(document.querySelectorAll('.card'));
@@ -786,7 +754,7 @@
         cards.forEach(card => {
           const title = card.querySelector('h2')?.textContent || '';
           const description = card.querySelector('p')?.textContent || '';
-          const tags = card.querySelector('.tag')?.textContent || '';
+          const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent || '').join(' ');
           const keywords = card.dataset.tool || '';
           const haystack = normalize(`${title} ${description} ${tags} ${keywords}`);
           const words = haystack.split(/\s+/).filter(Boolean);

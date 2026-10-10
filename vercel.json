@@ -53,8 +53,20 @@
       "destination": "/random-number.html"
     },
     {
+      "source": "/reaction-time-test",
+      "destination": "/reaction-time-test.html"
+    },
+    {
       "source": "/wheel-spinner",
       "destination": "/wheel-spinner.html"
+    },
+    {
+      "source": "/cps-test",
+      "destination": "/cps-test.html"
+    },
+    {
+      "source": "/day-of-week",
+      "destination": "/day-of-week.html"
     }
   ]
 }
