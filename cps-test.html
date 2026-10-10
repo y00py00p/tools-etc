@@ -4,7 +4,7 @@
 *{box-sizing:border-box}html{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg)}body{margin:0;min-height:100vh}button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}.shell{width:min(900px,calc(100% - 32px));margin:auto;padding:22px 0 48px}header{display:flex;justify-content:space-between;align-items:center;padding:6px 0 24px}.brand{display:inline-flex;align-items:center;gap:10px;font-size:18px;font-weight:750;letter-spacing:-.03em}.brand-mark{width:32px;height:32px;display:grid;place-items:center;border-radius:8px;background:var(--text);color:#fff}.brand-mark svg{width:18px;height:18px}.back{font-size:13px;color:var(--muted);padding:9px 11px;border:1px solid var(--border);border-radius:8px;background:#fff}.back:hover{color:var(--text);background:var(--surface2)}.hero{text-align:center;padding:28px 0 26px}.eyebrow{font-size:12px;color:var(--muted);font-weight:750;margin-bottom:12px}.hero h1{font-size:clamp(34px,6vw,54px);line-height:1;letter-spacing:-.05em;margin:0}.hero p{margin:12px auto 0;color:var(--muted);line-height:1.5;font-size:15px}.panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px}.label{display:block;color:var(--muted);font-size:12px;font-weight:700;margin-bottom:9px}.note{color:var(--muted);font-size:12px;line-height:1.5}.status{min-height:22px;margin-top:12px;color:var(--muted);font-size:13px;text-align:center}.primary{border:1px solid var(--text);border-radius:9px;padding:10px 14px;color:#fff;background:var(--text);font-weight:700}.primary:hover{background:#33333a}.analytics-spacer{height:1px}@media(max-width:620px){.shell{width:calc(100% - 22px);padding-top:14px}header{padding-bottom:14px}.hero{padding:24px 0 20px}.panel{padding:15px}}
 </style>
 <style>
-.duration-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 0 14px}.duration{min-width:68px;border:1px solid var(--border);border-radius:8px;padding:9px 12px;background:#fff;color:var(--text);font-size:13px;font-weight:700}.duration[aria-pressed="true"]{border-color:var(--text);background:var(--text);color:#fff}.test-space{width:100%;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1px solid #d8d8df;border-radius:12px;background:#fff;color:var(--text);user-select:none;touch-action:manipulation;text-align:center}.test-space:hover{background:#fafaff}.test-space.running{background:#eeecff;border-color:#c8c4ff}.test-space.done{background:#f0f0f3}.space-main{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.04em}.space-sub{font-size:14px;color:var(--muted)}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.stat{padding:14px;border:1px solid var(--border);border-radius:10px}.stat-label{font-size:11px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.04em}.stat-value{font-size:25px;font-weight:800;letter-spacing:-.04em;margin-top:5px}.progress{height:5px;background:#e5e5eb;border-radius:99px;overflow:hidden;width:min(250px,70%);margin-top:10px}.progress span{display:block;width:0;height:100%;background:var(--accent)}@media(max-width:620px){.test-space{min-height:260px}.duration{flex:1}}
+.duration-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 0 14px}.duration{min-width:68px;border:1px solid var(--border);border-radius:8px;padding:9px 12px;background:#fff;color:var(--text);font-size:13px;font-weight:700}.duration[aria-pressed="true"]{border-color:var(--text);background:var(--text);color:#fff}.test-space{position:relative;overflow:hidden;width:100%;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1px solid #d8d8df;border-radius:12px;background:#fff;color:var(--text);user-select:none;touch-action:manipulation;text-align:center}.test-space:hover{background:#fafaff}.test-space.running{background:#eeecff;border-color:#c8c4ff}.test-space.done{background:#f0f0f3}.space-main{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.04em}.space-sub{font-size:14px;color:var(--muted)}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.stat{padding:14px;border:1px solid var(--border);border-radius:10px}.stat-label{font-size:11px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.04em}.stat-value{font-size:25px;font-weight:800;letter-spacing:-.04em;margin-top:5px}.progress{height:5px;background:#e5e5eb;border-radius:99px;overflow:hidden;width:min(250px,70%);margin-top:10px}.progress span{display:block;width:0;height:100%;background:var(--accent)}.confetti-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none}.confetti-piece{position:absolute;top:-12px;width:7px;height:11px;border-radius:2px;opacity:0;animation:confettiFall var(--fall-time) cubic-bezier(.18,.62,.35,1) forwards;will-change:transform,opacity}@keyframes confettiFall{0%{opacity:1;transform:translate3d(0,-12px,0) rotate(0)}100%{opacity:0;transform:translate3d(var(--drift),var(--fall),0) rotate(var(--spin))}}@media(max-width:620px){.test-space{min-height:260px}.duration{flex:1}}
 </style><script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script><script defer src="/_vercel/insights/script.js"></script></head><body><main class="shell"><header><a class="brand" href="/" aria-label="Tools etc. home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"/><path d="M8.2 15h7.6"/></svg></span><span>Tools etc.</span></a><a class="back" href="/">All tools</a></header><section class="hero"><div class="eyebrow">Skills</div><h1>CPS Test</h1></section><section class="panel"><div class="duration-row" role="group" aria-label="Test duration"><button class="duration" type="button" data-duration="1" aria-pressed="false">1 sec</button><button class="duration" type="button" data-duration="5" aria-pressed="true">5 sec</button><button class="duration" type="button" data-duration="10" aria-pressed="false">10 sec</button><button class="duration" type="button" data-duration="60" aria-pressed="false">1 minute</button></div><button class="test-space" id="testSpace" type="button" aria-label="Click here to start and click repeatedly to test clicking speed"><span id="spaceMain" class="space-main">Click to start</span><span id="spaceSub" class="space-sub">Then click as fast as you can</span><span class="progress" aria-hidden="true"><span id="progressBar"></span></span></button><div class="stats"><div class="stat"><div class="stat-label">Clicks</div><div id="clickCount" class="stat-value">0</div></div><div class="stat"><div class="stat-label">Clicks per second</div><div id="cpsValue" class="stat-value">—</div></div></div><div id="status" class="status" aria-live="polite">Choose a duration, then click the test area.</div></section></main>
 <script>
 (() => {
@@ -21,18 +21,42 @@
   let clicks = 0;
   let startAt = 0;
   let ticker = 0;
-  let cooldownTimer = 0;
   let cooldownEndsAt = 0;
 
   function clearTimers() {
     clearInterval(ticker);
-    clearInterval(cooldownTimer);
     ticker = 0;
-    cooldownTimer = 0;
+  }
+
+  function clearConfetti() {
+    area.querySelector('.confetti-layer')?.remove();
+  }
+
+  function launchConfetti() {
+    clearConfetti();
+    const layer = document.createElement('span');
+    layer.className = 'confetti-layer';
+    layer.setAttribute('aria-hidden', 'true');
+    const colors = ['#635bff', '#16a34a', '#f59e0b', '#ec4899', '#0ea5e9', '#f97316'];
+    for (let i = 0; i < 44; i++) {
+      const piece = document.createElement('span');
+      piece.className = 'confetti-piece';
+      piece.style.left = `${Math.random() * 100}%`;
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.setProperty('--drift', `${Math.round((Math.random() - 0.5) * 150)}px`);
+      piece.style.setProperty('--fall', `${100 + Math.random() * 180}px`);
+      piece.style.setProperty('--spin', `${Math.round((Math.random() - 0.5) * 1080)}deg`);
+      piece.style.setProperty('--fall-time', `${0.7 + Math.random() * 0.65}s`);
+      piece.style.animationDelay = `${Math.random() * 0.12}s`;
+      layer.appendChild(piece);
+    }
+    area.appendChild(layer);
+    window.setTimeout(() => layer.remove(), 1600);
   }
 
   function reset() {
     clearTimers();
+    clearConfetti();
     state = 'ready';
     clicks = 0;
     startAt = 0;
@@ -41,7 +65,7 @@
     cpsEl.textContent = '—';
     main.textContent = 'Click to start';
     sub.textContent = 'Then click as fast as you can';
-    status.textContent = 'Choose a duration, then click the test area.';
+    status.textContent = '';
     bar.style.width = '0%';
     area.className = 'test-space';
   }
@@ -49,14 +73,14 @@
   durationBtns.forEach(btn => btn.addEventListener('click', () => {
     duration = Number(btn.dataset.duration);
     durationBtns.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
-    // Changing the next duration must not bypass a cooldown after a completed test.
     if (state !== 'cooldown') reset();
-    else status.textContent = `New test available in ${Math.max(0, (cooldownEndsAt - performance.now()) / 1000).toFixed(1)} seconds.`;
+    // During the silent cooldown, preserve the just-finished result and simply
+    // apply the new duration to the next test.
   }));
 
   function start() {
-    clearInterval(cooldownTimer);
-    cooldownTimer = 0;
+    clearTimers();
+    clearConfetti();
     state = 'running';
     clicks = 1;
     startAt = performance.now();
@@ -65,7 +89,7 @@
     sub.textContent = `${duration} second${duration === 1 ? '' : 's'} test`;
     countEl.textContent = String(clicks);
     cpsEl.textContent = '…';
-    status.textContent = 'Go!';
+    status.textContent = '';
     const endAt = startAt + duration * 1000;
     ticker = setInterval(() => {
       const now = performance.now();
@@ -78,45 +102,24 @@
 
   function finish() {
     if (state !== 'running') return;
-    clearInterval(ticker);
-    ticker = 0;
+    clearTimers();
     state = 'cooldown';
     cooldownEndsAt = performance.now() + 3000;
+    const cps = clicks / duration;
+    const cpsText = cps.toFixed(2);
     area.className = 'test-space done';
-    main.textContent = 'Test complete';
+    main.textContent = `${cpsText} CPS`;
+    sub.textContent = `${clicks} click${clicks === 1 ? '' : 's'} in ${duration} second${duration === 1 ? '' : 's'}`;
+    countEl.textContent = String(clicks);
+    cpsEl.textContent = cpsText;
+    status.textContent = '';
     bar.style.width = '100%';
-    cpsEl.textContent = (clicks / duration).toFixed(2);
-
-    function updateCooldown() {
-      if (state !== 'cooldown') {
-        clearInterval(cooldownTimer);
-        cooldownTimer = 0;
-        return;
-      }
-      const left = Math.max(0, cooldownEndsAt - performance.now());
-      if (left > 0) {
-        const seconds = (left / 1000).toFixed(1);
-        sub.textContent = `Ready again in ${seconds} seconds`;
-        status.textContent = `${clicks} click${clicks === 1 ? '' : 's'} in ${duration} second${duration === 1 ? '' : 's'}. Please wait ${seconds} seconds before the next test.`;
-      } else {
-        clearInterval(cooldownTimer);
-        cooldownTimer = 0;
-        state = 'ready';
-        main.textContent = 'Click to start';
-        sub.textContent = 'Then click as fast as you can';
-        status.textContent = `${clicks} click${clicks === 1 ? '' : 's'} in ${duration} second${duration === 1 ? '' : 's'}. Ready for another test.`;
-        area.className = 'test-space';
-      }
-    }
-    updateCooldown();
-    cooldownTimer = setInterval(updateCooldown, 50);
+    launchConfetti();
   }
 
   area.addEventListener('click', () => {
     if (state === 'cooldown') {
       if (performance.now() < cooldownEndsAt) return;
-      clearInterval(cooldownTimer);
-      cooldownTimer = 0;
       state = 'ready';
     }
     if (state === 'running') {
