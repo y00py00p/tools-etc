@@ -70,7 +70,10 @@
   .wheel-pointer { position:absolute; top:-1px; left:50%; width:0; height:0; transform:translateX(-50%); border-left:13px solid transparent; border-right:13px solid transparent; border-top:27px solid var(--text); border-bottom:0; z-index:3; filter:drop-shadow(0 3px 3px rgba(0,0,0,.14)); }
   .wheel-center { position:absolute; left:50%; top:50%; width:74px; height:74px; transform:translate(-50%,-50%); border-radius:50%; border:8px solid #fff; background:var(--text); box-shadow:0 4px 12px rgba(0,0,0,.14); z-index:2; }
   .wheel-center::after { content:""; position:absolute; inset:11px; border-radius:50%; background:var(--accent); }
-  .spin-wrap { margin-top:18px; display:flex; justify-content:center; }
+  .spin-wrap { margin-top:18px; display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+  .sound-btn { border:1px solid var(--border); border-radius:13px; padding:12px 14px; background:var(--surface); color:var(--muted); font-size:12px; font-weight:750; transition:background .16s ease,color .16s ease,border-color .16s ease; }
+  .sound-btn:hover { background:var(--surface-2); color:var(--text); }
+  .sound-btn[aria-pressed="true"] { color:var(--text); border-color:rgba(99,91,255,.35); background:var(--accent-soft); }
   .spin-btn { min-width:150px; border:0; border-radius:13px; padding:13px 20px; background:var(--text); color:#fff; font-weight:750; box-shadow:0 8px 18px rgba(23,23,27,.12); transition:transform .16s ease,box-shadow .16s ease,background .16s ease; }
   .spin-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 12px 24px rgba(23,23,27,.16); }
   .spin-btn:active:not(:disabled) { transform:translateY(0); }
@@ -185,7 +188,7 @@
       <div id="pointer" class="wheel-pointer" aria-hidden="true"></div>
       <div class="wheel-center" aria-hidden="true"></div>
     </div>
-    <div class="spin-wrap"><button id="spin" class="spin-btn" type="button">Spin</button></div>
+    <div class="spin-wrap"><button id="spin" class="spin-btn" type="button">Spin</button><button id="soundToggle" class="sound-btn" type="button" aria-pressed="true" title="Turn wheel sounds off">Sound on</button></div>
     <div id="result" class="result" aria-live="polite">
       <div>
         <span class="result-label">Result</span>
@@ -208,7 +211,7 @@
     <div id="items" class="items"></div>
     <button id="addItem" class="add-btn" type="button">+ Add item</button>
     <p id="percentStatus" class="percent-status"></p>
-    <p class="hint">Manual percentages are optional. With manual mode off, every item has an equal chance and the percent boxes stay blank. With manual mode on, each entered percentage is at least 0.1%; the last item automatically gets the remainder, and entered values are capped so every remaining item can still have at least 0.1%.</p>
+    <p class="hint">With manual mode off, each option shows its equal share. In manual mode, blank percentages share the remaining probability equally; the last option is calculated automatically. Wheel sounds can be turned off beside Spin.</p>
   </div>
 </section>
 
@@ -244,6 +247,7 @@
   const resultEl = $('result');
   const resultValueEl = $('resultValue');
   const spinBtn = $('spin');
+  const soundToggleEl = $('soundToggle');
   const pointerEl = $('pointer');
   const manualModeEl = $('manualMode');
   const modeToggleLabel = $('modeToggleLabel');
@@ -253,6 +257,11 @@
   let manualMode = false;
   let rotation = 0;
   let spinning = false;
+  let soundEnabled = true;
+  let audioContext = null;
+  let tickTimer = 0;
+  let soundSpinStartedAt = 0;
+  const SPIN_DURATION_MS = 3750;
 
   const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
   const parsePercent = value => {
@@ -286,6 +295,7 @@
         percent: normalizePercentInput(item.percent ?? '')
       }));
       manualMode = saved?.manualMode === true;
+      soundEnabled = saved?.soundEnabled !== false;
       history = Array.isArray(saved?.history) ? saved.history.slice(0, MAX_HISTORY).map(x => ({
         text:String(x.text ?? ''), time:String(x.time ?? '')
       })) : [];
@@ -295,30 +305,43 @@
     }
     manualModeEl.checked = manualMode;
     updateModeLabel();
+    updateSoundButton();
     renderItems();
     renderHistory();
     drawWheel();
   }
 
   function saveState() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({items, history, manualMode})); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({items, history, manualMode, soundEnabled})); } catch {}
   }
 
   function getEffectiveWeights() {
     if (!manualMode) return items.map(() => 1);
     if (!items.length) return [];
 
+    // In manual mode, every unfilled item plus the final automatic item shares
+    // the remaining percentage equally. Explicit values remain fixed.
     const weights = items.map((item, index) => {
       if (index === items.length - 1) return null;
       return item.percent === '' ? null : parsePercent(item.percent);
     });
-
     const fixedTotal = weights.reduce((sum, value) => sum + (value == null ? 0 : value), 0);
     const blankCount = weights.filter(value => value == null).length;
     const remaining = Math.max(0, 100 - fixedTotal);
     const blankShare = blankCount ? remaining / blankCount : 0;
-
     return weights.map(value => value == null ? blankShare : value);
+  }
+
+  function getDisplayPercentages() {
+    if (!items.length) return [];
+    if (!manualMode) return items.map(() => 100 / items.length);
+    const weights = getEffectiveWeights();
+    const total = weights.reduce((sum, value) => sum + value, 0);
+    return weights.map(value => total > 0 ? value * 100 / total : 0);
+  }
+
+  function formatPercent(value) {
+    return round1(value).toFixed(1);
   }
 
   function updateModeLabel() {
@@ -338,8 +361,8 @@
   }
 
   function getPercentStatus() {
-    if (!manualMode) return {invalid:false, text:'All items have an equal chance.'};
-    if (!items.length) return {invalid:false, text:'Add items to set percentages.'};
+    if (!items.length) return {invalid:false, text:'Add items to start.'};
+    if (!manualMode) return {invalid:false, text:`All items have an equal chance: ${formatPercent(100 / items.length)}% each.`};
 
     const effective = getEffectiveWeights();
     const total = effective.reduce((sum, value) => sum + value, 0);
@@ -353,10 +376,33 @@
     return {invalid:false, text:`Total: 100% • Blank items share ${round1(blankShare).toFixed(1)}% each`};
   }
 
+  function refreshPercentUI() {
+    const effective = getEffectiveWeights();
+    const displayPercentages = getDisplayPercentages();
+    [...itemsEl.querySelectorAll('.prob')].forEach((input, index) => {
+      if (!manualMode) {
+        input.value = formatPercent(displayPercentages[index] || 0);
+      } else if (index === items.length - 1) {
+        input.value = formatPercent(effective[index] || 0);
+      } else if (items[index]?.percent === '') {
+        input.placeholder = formatPercent(effective[index] || 0);
+        input.title = `Blank means ${formatPercent(effective[index] || 0)}%, an equal share of the remaining probability.`;
+      } else {
+        input.max = String(getEditableMax(index));
+        input.title = `Enter 0.1% to ${getEditableMax(index)}%, up to one decimal place.`;
+      }
+    });
+    const status = getPercentStatus();
+    percentStatusEl.textContent = status.text;
+    percentStatusEl.classList.toggle('invalid', status.invalid);
+    spinBtn.disabled = items.length === 0 || effective.reduce((sum, value) => sum + value, 0) <= 0 || status.invalid || spinning;
+  }
+
   function renderItems() {
     itemCountEl.textContent = `${items.length} ${items.length === 1 ? 'item' : 'items'}`;
     itemsEl.innerHTML = '';
     const effective = getEffectiveWeights();
+    const displayPercentages = getDisplayPercentages();
     const status = getPercentStatus();
     percentStatusEl.textContent = status.text;
     percentStatusEl.classList.toggle('invalid', status.invalid);
@@ -395,19 +441,22 @@
       prob.inputMode = 'decimal';
       const isLast = index === items.length - 1;
       if (!manualMode) {
-        prob.value = '';
+        prob.value = formatPercent(displayPercentages[index] || 0);
         prob.disabled = true;
-        prob.title = 'Manual percentages are off; all items have equal chance.';
+        prob.title = 'Equal probability for every item.';
       } else if (isLast) {
-        prob.value = Number.isFinite(effective[index]) ? effective[index].toFixed(1) : '0.0';
+        prob.value = formatPercent(effective[index] || 0);
         prob.disabled = true;
         prob.classList.add('remainder');
         prob.title = 'This value is automatically calculated as the remaining percentage.';
       } else {
         prob.value = item.percent;
+        prob.placeholder = formatPercent(effective[index] || 0);
         const maxAllowed = getEditableMax(index);
         prob.max = String(maxAllowed);
-        prob.title = `Enter 0.1% to ${maxAllowed}%, up to one decimal place.`;
+        prob.title = item.percent === ''
+          ? `Blank means ${formatPercent(effective[index] || 0)}%, an equal share of the remaining probability.`
+          : `Enter 0.1% to ${maxAllowed}%, up to one decimal place.`;
       }
       prob.setAttribute('aria-label', `Percentage for item ${index + 1}`);
       prob.addEventListener('input', () => {
@@ -416,8 +465,7 @@
         if (raw === '') {
           item.percent = '';
           saveState();
-          percentStatusEl.textContent = getPercentStatus().text;
-          percentStatusEl.classList.remove('invalid');
+          refreshPercentUI();
           drawWheel();
           return;
         }
@@ -433,9 +481,7 @@
           item.percent = raw;
         }
         saveState();
-        const statusNow = getPercentStatus();
-        percentStatusEl.textContent = statusNow.text;
-        percentStatusEl.classList.toggle('invalid', statusNow.invalid);
+        refreshPercentUI();
         drawWheel();
       });
       prob.addEventListener('blur', () => {
@@ -457,9 +503,7 @@
           }
         }
         saveState();
-        const statusNow = getPercentStatus();
-        percentStatusEl.textContent = statusNow.text;
-        percentStatusEl.classList.toggle('invalid', statusNow.invalid);
+        refreshPercentUI();
         drawWheel();
       });
       probWrap.appendChild(prob);
@@ -606,6 +650,56 @@
     });
   }
 
+  function updateSoundButton() {
+    soundToggleEl.textContent = soundEnabled ? 'Sound on' : 'Sound off';
+    soundToggleEl.setAttribute('aria-pressed', String(soundEnabled));
+    soundToggleEl.title = soundEnabled ? 'Turn wheel sounds off' : 'Turn wheel sounds on';
+  }
+
+  function getAudioContext() {
+    if (!soundEnabled) return null;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    if (!audioContext) audioContext = new AudioContextClass();
+    if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
+    return audioContext;
+  }
+
+  function playTone(frequency, duration, volume, type = 'sine', delay = 0) {
+    const ac = getAudioContext();
+    if (!ac || !soundEnabled) return;
+    const start = ac.currentTime + delay;
+    const oscillator = ac.createOscillator();
+    const gain = ac.createGain();
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, start);
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(volume, start + 0.006);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    oscillator.connect(gain);
+    gain.connect(ac.destination);
+    oscillator.start(start);
+    oscillator.stop(start + duration + 0.015);
+  }
+
+  function scheduleWheelTick() {
+    if (!spinning || !soundEnabled) return;
+    const elapsed = performance.now() - soundSpinStartedAt;
+    if (elapsed >= SPIN_DURATION_MS - 90) return;
+    // The ticks start quickly and gradually slow as the wheel decelerates.
+    playTone(1150, 0.025, 0.018, 'square');
+    const progress = Math.min(1, elapsed / SPIN_DURATION_MS);
+    const nextDelay = 42 + Math.pow(progress, 2.1) * 225;
+    tickTimer = window.setTimeout(scheduleWheelTick, nextDelay);
+  }
+
+  function playWinnerChime() {
+    if (!soundEnabled) return;
+    playTone(660, 0.16, 0.035, 'sine', 0);
+    playTone(830, 0.19, 0.028, 'sine', 0.075);
+    playTone(990, 0.23, 0.025, 'sine', 0.15);
+  }
+
   function spin() {
     if (spinning) return;
     const selected = chooseWeighted();
@@ -620,6 +714,12 @@
 
     spinning = true;
     renderItems();
+    clearTimeout(tickTimer);
+    soundSpinStartedAt = performance.now();
+    if (soundEnabled) {
+      getAudioContext(); // Create/resume audio during the user's click gesture.
+      scheduleWheelTick();
+    }
     resultEl.classList.remove('pop');
     pointerEl.classList.remove('pointer-pulse');
     void resultEl.offsetWidth;
@@ -635,9 +735,12 @@
       pointerEl.classList.add('pointer-pulse');
       addHistory(value);
       spinning = false;
+      clearTimeout(tickTimer);
+      tickTimer = 0;
+      playWinnerChime();
       renderItems();
       spinBtn.textContent = 'Spin';
-    }, 3750);
+    }, SPIN_DURATION_MS);
   }
 
   $('addItem').addEventListener('click', () => {
@@ -660,6 +763,19 @@
   });
 
   spinBtn.addEventListener('click', spin);
+  soundToggleEl.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    if (!soundEnabled) {
+      clearTimeout(tickTimer);
+      tickTimer = 0;
+    } else if (spinning) {
+      soundSpinStartedAt = performance.now();
+      getAudioContext();
+      scheduleWheelTick();
+    }
+    updateSoundButton();
+    saveState();
+  });
   manualModeEl.addEventListener('change', () => {
     if (spinning) { manualModeEl.checked = manualMode; return; }
     manualMode = manualModeEl.checked;
