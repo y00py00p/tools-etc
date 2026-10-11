@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#635bff">
+<meta name="description" content="Calculate percentages, find what percent one number is of another, and work out percentage change.">
+<title>Percentage Calculator — Tools etc.</title>
+<style>
+:root{--bg:#f7f7f9;--surface:#fff;--surface2:#f1f1f5;--text:#17171b;--muted:#6f7078;--border:#e7e7ec;--accent:#635bff;--accentSoft:#eeecff;--radius:22px;--shadow:0 10px 30px rgba(20,20,30,.06)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(99,91,255,.08),transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.shell{width:min(1100px,calc(100% - 36px));margin:0 auto;padding:24px 0 56px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:inline-flex;align-items:center;gap:11px;margin-left:clamp(2px,calc((100vw - 1132px) / 2),40px);font-weight:750;letter-spacing:-.03em;font-size:19px}.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--text);color:#fff;flex:0 0 auto}.brand-mark svg{width:18px;height:18px}.back{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:14px;font-weight:650}.back svg{width:16px}.hero{padding:54px 0 28px}.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.75);color:var(--muted);font-size:12px;font-weight:700}.hero h1{font-size:clamp(34px,5vw,54px);line-height:1.02;letter-spacing:-.055em;margin:16px 0 12px}.hero p{max-width:640px;color:var(--muted);font-size:16px;line-height:1.65;margin:0}.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}.tool-card{padding:22px}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.btn{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:12px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid rgba(99,91,255,.2);outline-offset:2px}textarea,input,select{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:14px}.muted{color:var(--muted)}.grid{display:grid;gap:14px}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.label{display:block;font-size:12px;font-weight:750;color:var(--muted);margin:0 0 8px}.field{width:100%;padding:13px}.result{margin-top:14px;padding:18px;border-radius:16px;background:var(--surface2);border:1px solid var(--border)}.result strong{font-size:28px;letter-spacing:-.03em}.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px}.stat{padding:16px;border:1px solid var(--border);border-radius:16px;background:var(--surface2)}.stat b{display:block;font-size:22px;letter-spacing:-.03em}.stat span{display:block;margin-top:4px;color:var(--muted);font-size:12px;font-weight:650}.history{margin-top:22px}.history-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.history-title{font-size:18px;font-weight:760;letter-spacing:-.02em}.history-list{display:flex;flex-direction:column;gap:8px;max-height:220px;overflow:auto;padding-right:4px}.history-item{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.72)}.history-equation{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.history-answer{font-size:14px;font-weight:720;white-space:nowrap}.history-empty{padding:14px 12px;border:1px dashed var(--border);border-radius:12px;color:var(--muted);font-size:13px}.danger-btn{border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:6px 0}.danger-btn:hover{color:var(--text)}
+
+.footer-note{margin-top:18px;color:var(--muted);font-size:12px;line-height:1.5}.symbol-grid{display:flex;flex-wrap:wrap;gap:9px}.symbol{min-width:44px;height:44px;border:1px solid var(--border);background:var(--surface);border-radius:12px;display:grid;place-items:center;font-size:20px;cursor:pointer}.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}.swatch{height:92px;border-radius:16px;border:1px solid var(--border);display:flex;align-items:flex-end;padding:9px;font-size:12px;font-weight:750;cursor:pointer}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{border:1px solid var(--border);background:var(--surface);padding:9px 12px;border-radius:10px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.tab.active{background:var(--accentSoft);border-color:rgba(99,91,255,.25);color:var(--accent)}.drop{border:1.5px dashed #cfcfd8;border-radius:18px;padding:35px 18px;text-align:center;background:var(--surface2)}.drop input{display:none}.small{font-size:13px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.two-col{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}@media(max-width:760px){.shell{width:min(100% - 24px,1100px);padding-top:16px}.hero{padding:40px 0 22px}.grid-2,.grid-3,.two-col{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stats .stat:last-child{grid-column:1/-1}.topbar{align-items:flex-start}.back{font-size:13px}}
+
+
+/* Tools etc. shared page chrome */
+header.site-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;padding:8px 0 24px!important;margin:0!important;width:min(1180px,calc(100vw - 32px))!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important}
+header.site-header .brand{display:inline-flex!important;align-items:center!important;gap:11px!important;margin:0!important;font-family:inherit!important;font-size:19px!important;font-weight:750!important;letter-spacing:-.03em!important;line-height:1.2!important;white-space:nowrap!important;text-decoration:none!important}
+header.site-header .brand-mark{width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border-radius:10px!important;background:var(--text)!important;color:#fff!important;flex:0 0 auto!important;box-shadow:none!important}
+header.site-header .brand-mark svg{width:18px!important;height:18px!important}
+header.site-header .back{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:10px 12px!important;border:1px solid var(--border)!important;border-radius:10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:14px!important;font-weight:650!important;line-height:1.2!important;text-decoration:none!important;white-space:nowrap!important}
+header.site-header .back:hover,header.site-header .back:focus-visible{background:var(--surface)!important;color:var(--text)!important;outline:none!important}
+header.site-header .back svg{display:block!important;width:16px!important;height:16px!important;flex:0 0 auto!important;transform:none!important}
+.hero{padding:34px 0 24px!important;text-align:center!important}
+.hero h1,h1{margin:0!important;font-family:inherit!important;font-size:clamp(34px,5.5vw,54px)!important;line-height:1!important;letter-spacing:-.05em!important;font-weight:800!important}
+button{font-family:inherit}
+@media(max-width:620px){header.site-header{padding:4px 0 18px!important}header.site-header .brand{margin:0!important;font-size:18px!important}header.site-header .back{font-size:14px!important;padding:9px 10px!important}.hero{padding:28px 0 20px!important}}
+
+/* Shared history controls */
+.history-head button{appearance:none!important;border:1px solid var(--border)!important;border-radius:10px!important;padding:8px 10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:12px!important;font-weight:700!important;line-height:1.2!important;cursor:pointer!important;transition:background .16s ease,color .16s ease,border-color .16s ease!important}
+.history-head button:hover,.history-head button:focus-visible{background:var(--surface2)!important;color:var(--text)!important;outline:none!important}
+
+.formula-note{margin-top:7px;color:var(--muted);font-size:12px;line-height:1.4}.result .result-label{margin-top:5px;color:var(--muted);font-size:13px}.history-head button{appearance:none;border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:transparent;color:var(--muted);font-family:inherit;font-size:12px;font-weight:700;line-height:1.2;cursor:pointer}.history-head button:hover{background:var(--surface2);color:var(--text)}
+</style>
+<link rel="canonical" href="https://tools-etc.vercel.app/percentage-calculator">
+<meta property="og:title" content="Percentage Calculator — Tools etc."><meta property="og:description" content="Calculate a percentage, find what percent one number is of another, or calculate percentage change."><meta property="og:url" content="https://tools-etc.vercel.app/percentage-calculator"><meta property="og:type" content="website">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script><script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body><div class="shell"><header class="site-header"><a aria-label="Tools etc. home" class="brand" href="/"><span aria-hidden="true" class="brand-mark"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24"><path d="M9 3h6"></path><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"></path><path d="M8.2 15h7.6"></path></svg></span><span>Tools etc.</span></a><a aria-label="All tools" class="back" href="/"><span>All tools</span><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a></header><section class="hero"><h1>Percentage Calculator</h1></section>
+<main class="card tool-card">
+<div class="grid grid-2" style="align-items:end">
+<div><label class="label" for="mode">Calculation</label><select class="field" id="mode"><option value="of">What is X% of Y?</option><option value="is">X is what percent of Y?</option><option value="change">Percentage change</option></select></div>
+<div><div class="muted small" id="mode-help">Find a percentage of a number.</div></div>
+</div>
+<div class="grid grid-2" style="margin-top:16px;align-items:end">
+<div><label class="label" id="labelA" for="valueA">Percentage (%)</label><input class="field" id="valueA" type="number" step="any" inputmode="decimal" autocomplete="off" placeholder="Enter a percentage"></div>
+<div><label class="label" id="labelB" for="valueB">Number</label><input class="field" id="valueB" type="number" step="any" inputmode="decimal" autocomplete="off" placeholder="Enter a number"></div>
+</div>
+<div class="controls" style="margin-top:18px;margin-bottom:0"><button class="btn primary" id="calculate" type="button">Calculate</button></div>
+<div class="result" aria-live="polite" aria-atomic="true"><strong id="result">—</strong><div class="result-label" id="result-label">Result</div></div>
+<div class="small" id="error" role="alert" style="color:var(--danger,#b42318);margin-top:10px;display:none"></div>
+<section aria-label="Calculation history" class="history"><div class="history-head"><div class="history-title">History</div><button id="clear-history" type="button">Clear all history</button></div><div class="history-list" id="history-list"><div class="history-empty">No calculations yet.</div></div></section>
+</main></div>
+<script>
+(() => {
+  const HISTORY_KEY = 'tools-etc-percentage-history';
+  const mode = document.getElementById('mode');
+  const valueA = document.getElementById('valueA');
+  const valueB = document.getElementById('valueB');
+  const labelA = document.getElementById('labelA');
+  const labelB = document.getElementById('labelB');
+  const modeHelp = document.getElementById('mode-help');
+  const result = document.getElementById('result');
+  const resultLabel = document.getElementById('result-label');
+  const error = document.getElementById('error');
+  const historyList = document.getElementById('history-list');
+  const clearHistory = document.getElementById('clear-history');
+  const config = {
+    of: {a:'Percentage (%)', b:'Number', pa:'e.g. 15', pb:'e.g. 200', help:'Find a percentage of a number.', answer:'Value'},
+    is: {a:'Part (X)', b:'Whole (Y)', pa:'e.g. 30', pb:'e.g. 200', help:'Find what percentage the first number is of the second.', answer:'Percentage'},
+    change: {a:'Starting value', b:'Ending value', pa:'e.g. 80', pb:'e.g. 100', help:'Find the percentage increase or decrease from the starting value.', answer:'Percentage change'}
+  };
+  const fmt = (n) => new Intl.NumberFormat('en-CA', {maximumFractionDigits: 10}).format(Number(n));
+  function showError(message='') { error.textContent=message; error.style.display=message?'block':'none'; }
+  function updateMode() {
+    const c=config[mode.value]; labelA.textContent=c.a;labelB.textContent=c.b;
+    valueA.placeholder=c.pa;valueB.placeholder=c.pb;modeHelp.textContent=c.help;resultLabel.textContent=c.answer;
+    result.textContent='—';showError('');
+  }
+  function loadHistory() { try { const h=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]'); return Array.isArray(h)?h.slice(0,50):[]; } catch { return []; } }
+  function saveHistory(h) { try { localStorage.setItem(HISTORY_KEY,JSON.stringify(h.slice(0,50))); } catch {} }
+  function renderHistory() {
+    const h=loadHistory();historyList.replaceChildren();
+    if(!h.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent='No calculations yet.';historyList.appendChild(empty);return;}
+    for(const item of h){const row=document.createElement('div');row.className='history-item';const eq=document.createElement('div');eq.className='history-equation';eq.textContent=item.equation;const ans=document.createElement('div');ans.className='history-answer';ans.textContent=item.answer;row.append(eq,ans);historyList.appendChild(row);}
+  }
+  function calculate() {
+    const ar=valueA.value.trim(), br=valueB.value.trim();
+    if(ar===''||br===''){showError('Enter both numbers to calculate.');return;}
+    const a=Number(ar),b=Number(br);
+    if(!Number.isFinite(a)||!Number.isFinite(b)){showError('Enter valid numbers.');return;}
+    let n, equation, answer;
+    if(mode.value==='of') { n=a/100*b; equation=`${fmt(a)}% of ${fmt(b)}`; answer=fmt(n); resultLabel.textContent=`${fmt(a)}% of ${fmt(b)} =`; }
+    else if(mode.value==='is') { if(b===0){showError('The whole number cannot be zero.');return;} n=a/b*100;equation=`${fmt(a)} is what percent of ${fmt(b)}`;answer=`${fmt(n)}%`;resultLabel.textContent=`${fmt(a)} is ${fmt(n)}% of ${fmt(b)}`; }
+    else { if(a===0){showError('The starting value cannot be zero for percentage change.');return;} n=(b-a)/a*100;equation=`Change from ${fmt(a)} to ${fmt(b)}`;answer=`${n>0?'+':''}${fmt(n)}%`;resultLabel.textContent=n>0?'Percentage increase':n<0?'Percentage decrease':'No percentage change'; }
+    if(!Number.isFinite(n)){showError('This calculation is outside the supported numeric range.');return;}
+    result.textContent=mode.value==='of'?fmt(n):`${n>0&&mode.value==='change'?'+':''}${fmt(n)}%`;
+    if(mode.value==='is') result.textContent=`${fmt(n)}%`;
+    showError('');const history=loadHistory();history.unshift({equation,answer});saveHistory(history);renderHistory();
+  }
+  mode.addEventListener('change',updateMode);
+  document.getElementById('calculate').addEventListener('click',calculate);
+  [valueA,valueB].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')calculate();}));
+  clearHistory.addEventListener('click',()=>{try{localStorage.removeItem(HISTORY_KEY);}catch{}renderHistory();});
+  updateMode();renderHistory();
+})();
+</script></body></html>

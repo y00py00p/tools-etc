@@ -63,6 +63,14 @@
     {
       "source": "/day-of-week",
       "destination": "/day-of-week.html"
+    },
+    {
+      "source": "/percentage-calculator",
+      "destination": "/percentage-calculator.html"
+    },
+    {
+      "source": "/qr-code-generator",
+      "destination": "/qr-code-generator.html"
     }
   ]
 }
