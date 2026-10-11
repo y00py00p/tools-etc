@@ -1,21 +1,22 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#635bff" />
-  <meta name="description" content="Generate random numbers with custom ranges and up to 50 decimal places." />
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#635bff" name="theme-color"/>
+<meta content="Generate random numbers with custom ranges and up to 50 decimal places." name="description"/>
+<script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <link rel="canonical" href="https://tools-etc.vercel.app/random-number" />
-  <meta property="og:title" content="Random Number Generator — Tools etc." />
-  <meta property="og:description" content="Generate random numbers with custom ranges and up to 50 decimal places." />
-  <meta property="og:url" content="https://tools-etc.vercel.app/random-number" />
-  <meta property="og:type" content="website" />
-  <title>Random Number Generator — Tools etc.</title>
-  <style>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<link href="https://tools-etc.vercel.app/random-number" rel="canonical"/>
+<meta content="Random Number Generator — Tools etc." property="og:title"/>
+<meta content="Generate random numbers with custom ranges and up to 50 decimal places." property="og:description"/>
+<meta content="https://tools-etc.vercel.app/random-number" property="og:url"/>
+<meta content="website" property="og:type"/>
+<title>Random Number Generator — Tools etc.</title>
+<style>
     :root {
       --bg: #f7f7f9;
       --surface: #ffffff;
@@ -392,73 +393,63 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition: none !important; animation: none !important; }
     }
-  </style>
+  
+
+/* Tools etc. shared page chrome */
+header.site-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;padding:8px 0 24px!important;margin:0!important;width:min(1180px,calc(100vw - 32px))!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important}
+header.site-header .brand{display:inline-flex!important;align-items:center!important;gap:11px!important;margin:0!important;font-family:inherit!important;font-size:19px!important;font-weight:750!important;letter-spacing:-.03em!important;line-height:1.2!important;white-space:nowrap!important;text-decoration:none!important}
+header.site-header .brand-mark{width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border-radius:10px!important;background:var(--text)!important;color:#fff!important;flex:0 0 auto!important;box-shadow:none!important}
+header.site-header .brand-mark svg{width:18px!important;height:18px!important}
+header.site-header .back{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:10px 12px!important;border:1px solid var(--border)!important;border-radius:10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:14px!important;font-weight:650!important;line-height:1.2!important;text-decoration:none!important;white-space:nowrap!important}
+header.site-header .back:hover,header.site-header .back:focus-visible{background:var(--surface)!important;color:var(--text)!important;outline:none!important}
+header.site-header .back svg{display:block!important;width:16px!important;height:16px!important;flex:0 0 auto!important;transform:none!important}
+.hero{padding:34px 0 24px!important;text-align:center!important}
+.hero h1,h1{margin:0!important;font-family:inherit!important;font-size:clamp(34px,5.5vw,54px)!important;line-height:1!important;letter-spacing:-.05em!important;font-weight:800!important}
+button{font-family:inherit}
+@media(max-width:620px){header.site-header{padding:4px 0 18px!important}header.site-header .brand{margin:0!important;font-size:18px!important}header.site-header .back{font-size:14px!important;padding:9px 10px!important}.hero{padding:28px 0 20px!important}}
+
+/* Shared history controls */
+.history-head button{appearance:none!important;border:1px solid var(--border)!important;border-radius:10px!important;padding:8px 10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:12px!important;font-weight:700!important;line-height:1.2!important;cursor:pointer!important;transition:background .16s ease,color .16s ease,border-color .16s ease!important}
+.history-head button:hover,.history-head button:focus-visible{background:var(--surface2)!important;color:var(--text)!important;outline:none!important}
+</style>
 </head>
 <body>
-  <main class="shell">
-    <header>
-      <a class="brand" href="/" aria-label="Tools etc. home">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 3h6" />
-            <path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3" />
-            <path d="M8.2 15h7.6" />
-          </svg>
-        </span>
-        <span>Tools etc.</span>
-      </a>
-      <a class="back" href="/">
-        <span>All tools</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg>
-      </a>
-    </header>
+<main class="shell">
+<header class="site-header"><a aria-label="Tools etc. home" class="brand" href="/"><span aria-hidden="true" class="brand-mark"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24"><path d="M9 3h6"></path><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"></path><path d="M8.2 15h7.6"></path></svg></span><span>Tools etc.</span></a><a aria-label="All tools" class="back" href="/"><span>All tools</span><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a></header>
+<section class="hero">
+<h1>Random Number</h1>
 
-    <section class="hero">
-      <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Math</div>
-      <h1>Random Number</h1>
-      <p>Spin a random number from 1 up to your chosen maximum, with up to 50 decimal places.</p>
-    </section>
-
-    <section class="card">
-      <div class="fields">
-        <div class="field-group">
-          <label class="label" for="max">Maximum</label>
-          <input id="max" class="field" type="text" inputmode="numeric" autocomplete="off" value="100" aria-describedby="maxHint" />
-          <p id="maxHint" class="hint">Enter a whole number from 1 to 1 followed by 48 zeros.</p>
-        </div>
-        <div class="field-group">
-          <label class="label" for="decimals">Decimal places</label>
-          <input id="decimals" class="field" type="number" inputmode="numeric" min="0" max="50" step="1" value="0" />
-        </div>
-      </div>
-
-      <div class="result-wrap" aria-live="polite" aria-atomic="true">
-        <div class="result-label">Result</div>
-        <div id="result" class="result-value">—</div>
-      </div>
-
-      <div class="button-row">
-        <button id="spin" class="btn primary" type="button">Spin</button>
-      </div>
-      <div id="error" class="error" role="alert"></div>
-    </section>
-
-    <section class="history" aria-label="History">
-      <div class="history-head">
-        <h2 class="history-title">History</h2>
-        <button id="clear" class="clear" type="button">Clear all</button>
-      </div>
-      <div id="historyEmpty" class="history-empty">Your generated numbers will appear here.</div>
-      <div id="historyList" class="history-list" hidden></div>
-    </section>
-
-    <footer class="footer">
-      <span>Tools etc.</span>
-      <span>Fast, focused, browser-based.</span>
-    </footer>
-  </main>
-
-  <script>
+</section>
+<section class="card">
+<div class="fields">
+<div class="field-group">
+<label class="label" for="max">Maximum</label>
+<input autocomplete="off" class="field" id="max" inputmode="numeric" type="text" value="100"/>
+</div>
+<div class="field-group">
+<label class="label" for="decimals">Decimal places</label>
+<input class="field" id="decimals" inputmode="numeric" max="50" min="0" step="1" type="number" value="0"/>
+</div>
+</div>
+<div aria-atomic="true" aria-live="polite" class="result-wrap">
+<div class="result-label">Result</div>
+<div class="result-value" id="result">—</div>
+</div>
+<div class="button-row">
+<button class="btn primary" id="spin" type="button">Generate</button>
+</div>
+<div class="error" id="error" role="alert"></div>
+</section>
+<section aria-label="History" class="history">
+<div class="history-head">
+<h2 class="history-title">History</h2>
+<button class="clear" id="clear" type="button">Clear all history</button>
+</div>
+<div class="history-empty" id="historyEmpty">Your generated numbers will appear here.</div>
+<div class="history-list" hidden="" id="historyList"></div>
+</section>
+</main>
+<script>
     (() => {
       const MAX_MAX = 10n ** 48n;
       const HISTORY_KEY = 'toolsEtcRandomNumberHistoryV1';

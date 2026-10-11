@@ -29,10 +29,6 @@
       "destination": "/file-converter.html"
     },
     {
-      "source": "/time-sun",
-      "destination": "/time-sun.html"
-    },
-    {
       "source": "/time-zones",
       "destination": "/time-zones.html"
     },

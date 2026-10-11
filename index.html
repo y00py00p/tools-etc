@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -469,7 +470,21 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition: none !important; }
     }
-  </style>
+  
+.toolbar{justify-content:flex-end!important}.card{min-height:138px!important}.card-bottom{margin-top:14px!important}.tag{margin-top:9px!important}
+
+
+/* Tools etc. shared homepage header */
+main.shell>header{width:min(1180px,calc(100vw - 32px));position:relative;left:50%;transform:translateX(-50%)}
+main.shell>header .brand{display:inline-flex;align-items:center;gap:11px;margin-left:0!important;font-size:19px;font-weight:750;letter-spacing:-.03em;line-height:1.2}
+main.shell>header .brand-mark{width:34px;height:34px;border-radius:10px;box-shadow:none}
+main.shell>header .header-link{font-size:14px;font-weight:650;line-height:1.2}
+@media(max-width:620px){main.shell>header .brand{margin:0!important;font-size:18px}}
+
+/* Shared history controls */
+.history-head button{appearance:none!important;border:1px solid var(--border)!important;border-radius:10px!important;padding:8px 10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:12px!important;font-weight:700!important;line-height:1.2!important;cursor:pointer!important;transition:background .16s ease,color .16s ease,border-color .16s ease!important}
+.history-head button:hover,.history-head button:focus-visible{background:var(--surface2)!important;color:var(--text)!important;outline:none!important}
+</style>
 <link href="https://tools-etc.vercel.app/" rel="canonical"/>
 <meta content="Tools etc. — Online Tools" property="og:title"/>
 <meta content="Useful online tools for text, math, conversions, calendars, and skills." property="og:description"/>
@@ -500,7 +515,7 @@
 <section class="hero"><h1><span class="welcome-line">Welcome to</span><span class="brand-line">Tools etc.</span></h1></section>
 <section aria-label="Tools" class="tools-wrap" id="tools">
 <div class="toolbar">
-<h2 class="section-title">All tools</h2>
+
 <label aria-label="Search tools" class="search">
 <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24">
 <circle cx="11" cy="11" r="6.5"></circle>
@@ -523,7 +538,6 @@
 </div>
 <div class="card-bottom">
 <h2>Word Counter</h2>
-
 <span class="tag">Text</span>
 </div>
 </a>
@@ -538,7 +552,6 @@
 </div>
 <div class="card-bottom">
 <h2>Symbols &amp; Accents</h2>
-
 <span class="tag">Text</span>
 </div>
 </a>
@@ -553,7 +566,6 @@
 </div>
 <div class="card-bottom">
 <h2>Color Picker</h2>
-
 <span class="tag">Design</span>
 </div>
 </a>
@@ -568,7 +580,6 @@
 </div>
 <div class="card-bottom">
 <h2>Fraction Calculator</h2>
-
 <span class="tag">Math</span>
 </div>
 </a>
@@ -583,7 +594,6 @@
 </div>
 <div class="card-bottom">
 <h2>Interest Calculator</h2>
-
 <span class="tag">Math</span>
 </div>
 </a>
@@ -599,10 +609,7 @@
 <span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
 </div>
 <div class="card-bottom">
-<h2>Age Calculator</h2>
-
-
-<span class="tag">Math</span><span class="tag">Calendar and time</span></div>
+<h2>Age Calculator</h2><span class="tag">Math</span><span class="tag">Calendar and time</span></div>
 </a>
 <a class="card mid" data-tool="random number rng random integer generator decimal places randomizer" href="/random-number">
 <div class="card-top">
@@ -619,8 +626,6 @@
 </div>
 <div class="card-bottom">
 <h2>Random Number</h2>
-
-
 <span class="tag">Math</span></div>
 </a>
 <a class="card wide" data-tool="imperial metric conversion units kg lb celsius temperature" href="/unit-converter">
@@ -633,10 +638,7 @@
 <span aria-hidden="true" class="arrow"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></span>
 </div>
 <div class="card-bottom">
-<h2>Unit Converter</h2>
-
-
-<span class="tag">Conversions</span><span class="tag">Math</span></div>
+<h2>Unit Converter</h2><span class="tag">Conversions</span><span class="tag">Math</span></div>
 </a>
 <a class="card mid" data-tool="file converters jpg png webp images convert" href="/file-converter">
 <div class="card-top">
@@ -649,7 +651,6 @@
 </div>
 <div class="card-bottom">
 <h2>File Converter</h2>
-
 <span class="tag">Conversions</span>
 </div>
 </a>
@@ -664,7 +665,6 @@
 </div>
 <div class="card-bottom">
 <h2>Time Zones</h2>
-
 <span class="tag">Calendar and time</span>
 </div>
 </a>
@@ -680,7 +680,6 @@
 </div>
 <div class="card-bottom">
 <h2>Triangle Solver</h2>
-
 <span class="tag">Math</span>
 </div>
 </a>
@@ -697,8 +696,6 @@
 </div>
 <div class="card-bottom">
 <h2>Wheel Spinner</h2>
-
-
 <span class="tag">Math</span></div>
 </a>
 <a class="card mid" data-tool="day of week date day calendar time" href="/day-of-week">
@@ -714,7 +711,6 @@
 </div>
 <div class="card-bottom">
 <h2>Day of Week</h2>
-
 <span class="tag">Calendar and time</span>
 </div>
 </a>
@@ -725,13 +721,12 @@
 <div class="feedback-copy">
 <div class="feedback-kicker">Feedback</div>
 <h2>Help improve Tools etc.</h2>
-<p>Found something that could be better, or have an idea for a new tool?</p>
+
 </div>
 <a class="feedback-button" href="/feedback">Give feedback
         <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
 </a>
 </section>
-
 </main>
 <script>
     (() => {

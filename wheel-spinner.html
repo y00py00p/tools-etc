@@ -1,829 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#635bff" />
-<meta name="description" content="Spin a customizable wheel with up to 100 items and weighted probabilities." />
-<script>
-  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#635bff">
+<meta name="description" content="Spin a customizable wheel to make random choices, with optional percentages and saved history.">
+<link rel="canonical" href="https://tools-etc.vercel.app/wheel-spinner">
 <title>Wheel Spinner — Tools etc.</title>
 <style>
-  :root {
-    --bg: #f7f7f9;
-    --surface: #fff;
-    --surface-2: #f1f1f5;
-    --text: #17171b;
-    --muted: #6f7078;
-    --border: #e7e7ec;
-    --accent: #635bff;
-    --accent-soft: #eeecff;
-    --shadow: 0 10px 30px rgba(20,20,30,.06);
-    --shadow-hover: 0 18px 48px rgba(20,20,30,.11);
-    --radius-lg: 24px;
-    --radius-md: 16px;
-    --green: #16a34a;
-    --danger: #b42318;
-  }
+:root{--bg:#f7f7f9;--surface:#fff;--surface-2:#f1f1f5;--text:#17171b;--muted:#6f7078;--border:#e7e7ec;--accent:#635bff;--accent-soft:#eeecff;--danger:#b42318;--shadow:0 4px 14px rgba(20,20,30,.045);--radius:16px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}.shell{width:min(1100px,calc(100% - 36px));margin:0 auto;padding:24px 0 48px}
+header.site-header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 0 24px;margin:0;width:100%}header.site-header .brand{display:inline-flex;align-items:center;gap:11px;margin:0;font-weight:750;letter-spacing:-.03em;font-size:19px;line-height:1.2;white-space:nowrap}header.site-header .brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--text);color:#fff;flex:0 0 auto}header.site-header .brand-mark svg{width:18px;height:18px}header.site-header .back{display:inline-flex;align-items:center;gap:7px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:14px;font-weight:650;line-height:1.2}header.site-header .back:hover{background:var(--surface);color:var(--text)}header.site-header .back svg{width:16px;height:16px;transform:none}
+.hero{text-align:center;padding:32px 0 22px}.hero h1{margin:0;font-size:clamp(34px,5.5vw,54px);line-height:1;letter-spacing:-.05em;font-weight:800}
+.layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:15px;align-items:start}.panel{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}.wheel-panel{padding:20px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.panel-title{margin:0;font-size:17px;font-weight:780;letter-spacing:-.025em}.count{color:var(--muted);font-size:12px;font-weight:650}
+.wheel-stage{position:relative;width:min(100%,500px);aspect-ratio:1;margin:0 auto;display:grid;place-items:center;isolation:isolate}#wheel{width:100%;height:100%;display:block;transform:rotate(0deg);filter:drop-shadow(0 4px 9px rgba(20,20,30,.08));transition:none!important}.wheel-pointer{position:absolute;top:-1px;left:50%;width:0;height:0;transform:translateX(-50%);border-left:13px solid transparent;border-right:13px solid transparent;border-top:27px solid var(--text);border-bottom:0;z-index:4;filter:drop-shadow(0 2px 2px rgba(0,0,0,.16))}.wheel-center-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:92px;height:92px;border:7px solid #fff;border-radius:50%;background:var(--text);color:#fff;box-shadow:0 3px 12px rgba(0,0,0,.18);z-index:5;padding:7px;display:grid;place-items:center;text-align:center;font-size:14px;line-height:1.1;font-weight:800;overflow-wrap:anywhere;word-break:break-word}.wheel-center-btn:hover:not(:disabled){background:#32323a}.wheel-center-btn:disabled{cursor:wait;opacity:.9}.wheel-center-btn.has-result{background:var(--accent);font-size:clamp(10px,1.7vw,14px)}.wheel-center-btn.has-result:hover{background:#5148f0}
+.confetti-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:6}.confetti-piece{position:absolute;left:50%;top:45%;width:8px;height:12px;border-radius:2px;opacity:0;animation:confettiBurst .95s cubic-bezier(.12,.72,.24,1) forwards;will-change:transform,opacity}@keyframes confettiBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(.8) rotate(0)}85%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--spin))}}
+.spin-tools{display:flex;justify-content:center;margin-top:12px}.sound-btn{border:1px solid var(--border);border-radius:10px;padding:9px 13px;background:var(--surface);color:var(--muted);font-size:12px;font-weight:750}.sound-btn:hover{background:var(--surface-2);color:var(--text)}.sound-btn[aria-pressed="true"]{background:var(--accent-soft);border-color:#d4d0ff;color:var(--text)}.spin-error{min-height:18px;margin:8px 0 0;color:var(--danger);font-size:12px;text-align:center;line-height:1.4}
+.editor{padding:18px}.editor-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.subtle-btn{border:1px solid var(--border);border-radius:9px;padding:8px 10px;background:var(--surface);color:var(--muted);font-size:12px;font-weight:700}.subtle-btn:hover{background:var(--surface-2);color:var(--text)}.subtle-btn.danger:hover{background:#fff2f0;color:var(--danger);border-color:#f1c8c2}.items{display:grid;gap:8px;max-height:540px;overflow:auto;padding:2px}.item-row{display:grid;grid-template-columns:30px minmax(0,1fr) 86px 32px;align-items:center;gap:7px;padding:7px;border:1px solid var(--border);border-radius:11px;background:var(--surface)}.item-row:focus-within{border-color:rgba(99,91,255,.45);box-shadow:0 0 0 3px rgba(99,91,255,.07)}.color-dot{width:26px;height:26px;border-radius:7px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}.field{width:100%;height:36px;min-width:0;border:1px solid var(--border);border-radius:8px;outline:none;background:var(--surface);color:var(--text);padding:0 8px;font-size:13px}.field:focus{border-color:rgba(99,91,255,.45);box-shadow:0 0 0 3px rgba(99,91,255,.07)}.prob-wrap{position:relative}.prob-wrap:after{content:"%";position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}.prob{padding-right:22px}.remove-btn{width:32px;height:32px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--muted);display:grid;place-items:center}.remove-btn:hover{color:var(--danger);background:#fff2f0;border-color:#f1c8c2}.remove-btn svg{width:14px;height:14px}.add-btn{width:100%;margin-top:9px;border:1px dashed #c9c9d3;border-radius:10px;padding:10px;background:#fff;color:var(--muted);font-weight:750;font-size:13px}.add-btn:hover{border-color:#bcb8ff;color:var(--accent);background:var(--accent-soft)}.limit-note{margin:10px 1px 0;color:var(--muted);font-size:12px}.items input:disabled,.subtle-btn:disabled,.add-btn:disabled{opacity:.55;cursor:not-allowed}
+.history{margin-top:15px;padding:18px}.history-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.history-list{display:grid;gap:8px;max-height:300px;overflow:auto}.history-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff}.history-value{min-width:0;overflow-wrap:anywhere;font-size:13px;font-weight:700}.history-time{color:var(--muted);font-size:11px;white-space:nowrap}.history-empty{padding:18px 8px;text-align:center;color:var(--muted);font-size:12px}.confetti-motion{animation:resultPulse .45s ease}@keyframes resultPulse{0%{transform:translate(-50%,-50%) scale(.92)}60%{transform:translate(-50%,-50%) scale(1.04)}100%{transform:translate(-50%,-50%) scale(1)}}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.wheel-panel{width:100%;max-width:700px;margin:0 auto}}@media(max-width:620px){.shell{width:calc(100% - 22px);padding-top:14px}.site-header{padding-bottom:18px}.hero{padding:28px 0 18px}.wheel-panel,.editor,.history{padding:15px}.wheel-stage{width:min(100%,390px)}.wheel-center-btn{width:78px;height:78px;border-width:6px;font-size:12px}.item-row{grid-template-columns:27px minmax(0,1fr) 76px 30px;gap:5px;padding:6px}.field{height:34px;padding:0 6px;font-size:12px}.color-dot{width:24px;height:24px}.remove-btn{width:30px;height:30px}.editor-top{align-items:flex-start}.history-item{align-items:flex-start;flex-direction:column;gap:4px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-      radial-gradient(circle at 50% -10%, rgba(99,91,255,.08), transparent 34%),
-      var(--bg);
-    color: var(--text);
-    font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; text-decoration: none; }
-  button, input { font: inherit; }
-  button { cursor: pointer; }
-  .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 48px; }
-  header { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:8px 0 28px; }
-  .brand { display:inline-flex; align-items:center; gap:11px; margin-left:clamp(2px, calc((100vw - 1132px) / 2), 40px); font-weight:750; letter-spacing:-.03em; font-size:19px; }
-  .brand-mark { width:34px; height:34px; display:grid; place-items:center; border-radius:10px; background:var(--text); color:#fff; flex:0 0 auto; }
-  .brand-mark svg { width:18px; height:18px; }
-  .back { display:inline-flex; align-items:center; gap:7px; padding:10px 12px; border-radius:10px; color:var(--muted); transition:background .18s ease,color .18s ease; }
-  .back:hover,.back:focus-visible { background:var(--surface); color:var(--text); outline:none; }
-  .back svg { width:16px; height:16px; transform:rotate(180deg); }
 
-  .hero { padding:46px 0 30px; text-align:center; }
-  .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 10px; margin-bottom:18px; border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.82); color:var(--muted); font-size:12px; font-weight:650; letter-spacing:.02em; }
-  .eyebrow-dot { width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--accent-soft); }
-  h1 { margin:0; font-size:clamp(40px,6vw,66px); line-height:.98; letter-spacing:-.055em; font-weight:800; }
-  .hero p { max-width:650px; margin:18px auto 0; color:var(--muted); font-size:16px; line-height:1.55; }
+/* Tools etc. shared page chrome */
+header.site-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;padding:8px 0 24px!important;margin:0!important;width:min(1180px,calc(100vw - 32px))!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important}
+header.site-header .brand{display:inline-flex!important;align-items:center!important;gap:11px!important;margin:0!important;font-family:inherit!important;font-size:19px!important;font-weight:750!important;letter-spacing:-.03em!important;line-height:1.2!important;white-space:nowrap!important;text-decoration:none!important}
+header.site-header .brand-mark{width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border-radius:10px!important;background:var(--text)!important;color:#fff!important;flex:0 0 auto!important;box-shadow:none!important}
+header.site-header .brand-mark svg{width:18px!important;height:18px!important}
+header.site-header .back{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:10px 12px!important;border:1px solid var(--border)!important;border-radius:10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:14px!important;font-weight:650!important;line-height:1.2!important;text-decoration:none!important;white-space:nowrap!important}
+header.site-header .back:hover,header.site-header .back:focus-visible{background:var(--surface)!important;color:var(--text)!important;outline:none!important}
+header.site-header .back svg{display:block!important;width:16px!important;height:16px!important;flex:0 0 auto!important;transform:none!important}
+.hero{padding:34px 0 24px!important;text-align:center!important}
+.hero h1,h1{margin:0!important;font-family:inherit!important;font-size:clamp(34px,5.5vw,54px)!important;line-height:1!important;letter-spacing:-.05em!important;font-weight:800!important}
+button{font-family:inherit}
+@media(max-width:620px){header.site-header{padding:4px 0 18px!important}header.site-header .brand{margin:0!important;font-size:18px!important}header.site-header .back{font-size:14px!important;padding:9px 10px!important}.hero{padding:28px 0 20px!important}}
 
-  .layout { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr); gap:16px; align-items:start; }
-  .panel { border:1px solid var(--border); border-radius:var(--radius-lg); background:rgba(255,255,255,.92); box-shadow:var(--shadow); }
-  .wheel-panel { padding:24px; }
-  .panel-head { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:16px; }
-  .panel-title { margin:0; font-size:17px; letter-spacing:-.02em; }
-  .count { color:var(--muted); font-size:12px; font-weight:650; }
-
-  .wheel-stage { position:relative; width:min(100%, 500px); aspect-ratio:1; margin:0 auto; display:grid; place-items:center; }
-  #wheel { width:100%; height:100%; display:block; filter:drop-shadow(0 14px 24px rgba(20,20,30,.08)); transform:rotate(0deg); transition:none !important; }
-  .wheel-pointer { position:absolute; top:-1px; left:50%; width:0; height:0; transform:translateX(-50%); border-left:13px solid transparent; border-right:13px solid transparent; border-top:27px solid var(--text); border-bottom:0; z-index:3; filter:drop-shadow(0 3px 3px rgba(0,0,0,.14)); }
-  .wheel-center { position:absolute; left:50%; top:50%; width:74px; height:74px; transform:translate(-50%,-50%); border-radius:50%; border:8px solid #fff; background:var(--text); box-shadow:0 4px 12px rgba(0,0,0,.14); z-index:2; }
-  .wheel-center::after { content:""; position:absolute; inset:11px; border-radius:50%; background:var(--accent); }
-  .spin-wrap { margin-top:18px; display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
-  .sound-btn { border:1px solid var(--border); border-radius:13px; padding:12px 14px; background:var(--surface); color:var(--muted); font-size:12px; font-weight:750; transition:background .16s ease,color .16s ease,border-color .16s ease; }
-  .sound-btn:hover { background:var(--surface-2); color:var(--text); }
-  .sound-btn[aria-pressed="true"] { color:var(--text); border-color:rgba(99,91,255,.35); background:var(--accent-soft); }
-  .spin-btn { min-width:150px; border:0; border-radius:13px; padding:13px 20px; background:var(--text); color:#fff; font-weight:750; box-shadow:0 8px 18px rgba(23,23,27,.12); transition:transform .16s ease,box-shadow .16s ease,background .16s ease; }
-  .spin-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 12px 24px rgba(23,23,27,.16); }
-  .spin-btn:active:not(:disabled) { transform:translateY(0); }
-  .spin-btn:disabled { opacity:.6; cursor:wait; }
-
-  .result { margin-top:18px; min-height:82px; display:grid; place-items:center; text-align:center; padding:16px; border:1px solid var(--border); border-radius:16px; background:var(--surface-2); overflow:hidden; }
-  .result-label { display:block; margin-bottom:6px; color:var(--muted); font-size:11px; font-weight:750; text-transform:uppercase; letter-spacing:.05em; }
-  .result-value { max-width:100%; font-size:clamp(22px,4vw,31px); font-weight:800; letter-spacing:-.03em; overflow-wrap:anywhere; }
-  .result.pop .result-value { animation:resultPop .45s ease; }
-  @keyframes resultPop { 0%{opacity:.3; transform:translateY(6px) scale(.98)} 60%{opacity:1; transform:translateY(-2px) scale(1.025)} 100%{transform:translateY(0) scale(1)} }
-  .pointer-pulse { animation:pointerPulse .32s ease; }
-  @keyframes pointerPulse { 0%,100%{transform:translateX(-50%)} 50%{transform:translateX(-50%) rotate(-4deg)} }
-
-  .editor { padding:20px; }
-  .editor-top { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; }
-  .editor-actions { display:flex; align-items:center; gap:9px; }
-  .mode-toggle { display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:var(--surface); color:var(--muted); font-size:12px; font-weight:700; cursor:pointer; user-select:none; }
-  .mode-toggle input { width:16px; height:16px; margin:0; accent-color:var(--accent); }
-  .mode-toggle.enabled { color:var(--text); border-color:rgba(99,91,255,.35); background:var(--accent-soft); }
-  .prob:disabled { color:var(--muted); background:var(--surface-2); cursor:not-allowed; }
-  .prob.remainder { color:var(--accent); font-weight:750; }
-  .prob.error { border-color:#e5aaa2; box-shadow:0 0 0 4px rgba(180,35,24,.08); }
-  .percent-status { margin:10px 1px 0; color:var(--muted); font-size:11px; line-height:1.45; }
-  .percent-status.invalid { color:var(--danger); font-weight:700; }
-  .subtle-btn { border:1px solid var(--border); border-radius:10px; padding:8px 10px; background:var(--surface); color:var(--muted); font-size:12px; font-weight:700; transition:background .16s ease,color .16s ease,border-color .16s ease; }
-  .subtle-btn:hover { background:var(--surface-2); color:var(--text); }
-  .subtle-btn.danger:hover { background:#fff2f0; color:var(--danger); border-color:#f1c8c2; }
-  .items { display:grid; gap:9px; max-height:560px; overflow:auto; padding-right:2px; }
-  .item-row { display:grid; grid-template-columns:38px minmax(0,1fr) 96px 34px; align-items:center; gap:8px; padding:8px; border:1px solid var(--border); border-radius:13px; background:var(--surface); transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease; }
-  .item-row:focus-within { border-color:rgba(99,91,255,.45); box-shadow:0 0 0 4px rgba(99,91,255,.08); transform:translateY(-1px); }
-  .color-dot { width:30px; height:30px; border-radius:9px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.08); }
-  .field { width:100%; height:38px; border:1px solid var(--border); border-radius:10px; outline:none; background:var(--surface); color:var(--text); padding:0 10px; }
-  .field:focus { border-color:rgba(99,91,255,.45); box-shadow:0 0 0 4px rgba(99,91,255,.08); }
-  .remove-btn { width:34px; height:34px; border:1px solid var(--border); border-radius:10px; background:var(--surface); color:var(--muted); display:grid; place-items:center; transition:background .16s ease,color .16s ease,border-color .16s ease; }
-  .remove-btn:hover { color:var(--danger); background:#fff2f0; border-color:#f1c8c2; }
-  .remove-btn svg { width:15px; height:15px; }
-  .prob-wrap { position:relative; }
-  .prob-wrap::after { content:"%"; position:absolute; right:10px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:11px; pointer-events:none; }
-  .prob { padding-right:24px; }
-  .add-btn { width:100%; margin-top:10px; border:1px dashed #cfcfd8; border-radius:12px; padding:10px 12px; background:rgba(255,255,255,.55); color:var(--muted); font-weight:750; transition:background .16s ease,color .16s ease,border-color .16s ease; }
-  .add-btn:hover { border-color:#bcb8ff; color:var(--accent); background:var(--accent-soft); }
-  .hint { margin:11px 1px 0; color:var(--muted); font-size:11px; line-height:1.45; }
-
-  .bottom-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
-  .history { padding:20px; }
-  .history-list { margin-top:12px; display:grid; gap:8px; max-height:260px; overflow:auto; }
-  .history-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 11px; border:1px solid var(--border); border-radius:11px; background:var(--surface); }
-  .history-item span:first-child { min-width:0; overflow-wrap:anywhere; font-size:13px; font-weight:700; }
-  .history-time { color:var(--muted); font-size:10px; white-space:nowrap; }
-  .empty-history { padding:18px 8px; text-align:center; color:var(--muted); font-size:12px; }
-  .save-note { margin-top:12px; color:var(--muted); font-size:11px; line-height:1.45; }
-  .storage-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green); vertical-align:middle; margin-right:5px; }
-
-  @media (max-width: 900px) {
-    .layout { grid-template-columns:1fr; }
-    .wheel-panel { max-width:720px; width:100%; margin:0 auto; }
-  }
-  @media (max-width: 620px) {
-    .shell { width:min(100% - 22px,1180px); padding-top:14px; }
-    header { padding-bottom:14px; }
-    .brand { margin-left:7px; }
-    .back span { display:none; }
-    .hero { padding:40px 0 24px; }
-    .wheel-panel,.editor,.history { padding:16px; }
-    .editor-top { align-items:flex-start; flex-direction:column; }
-    .editor-actions { width:100%; justify-content:space-between; }
-    .wheel-stage { width:min(100%,390px); }
-    .bottom-grid { grid-template-columns:1fr; }
-    .item-row { grid-template-columns:30px minmax(0,1fr) 82px 32px; gap:6px; padding:7px; }
-    .color-dot { width:27px; height:27px; border-radius:8px; }
-    .field { height:36px; padding:0 8px; }
-    .remove-btn { width:32px; height:32px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior:auto; }
-    *,*::before,*::after { transition:none !important; animation:none !important; }
-    #wheel { transition:none !important; }
-  }
+/* Shared history controls */
+.history-head button{appearance:none!important;border:1px solid var(--border)!important;border-radius:10px!important;padding:8px 10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:12px!important;font-weight:700!important;line-height:1.2!important;cursor:pointer!important;transition:background .16s ease,color .16s ease,border-color .16s ease!important}
+.history-head button:hover,.history-head button:focus-visible{background:var(--surface2)!important;color:var(--text)!important;outline:none!important}
 </style>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="shell">
-<header>
-  <a class="brand" href="/" aria-label="Tools etc. home">
-    <span class="brand-mark" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 3h6"/><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"/><path d="M8.2 15h7.6"/>
-      </svg>
-    </span>
-    <span>Tools etc.</span>
-  </a>
-  <a class="back" href="/" aria-label="Back to all tools">
-    <span>All tools</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-  </a>
-</header>
-
-<section class="hero">
-  <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Random picker</div>
-  <h1>Wheel Spinner</h1>
-  <p>Add up to 100 choices, set optional weights, and spin the wheel.</p>
-</section>
-
+<header class="site-header"><a class="brand" href="/" aria-label="Tools etc. home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"/><path d="M8.2 15h7.6"/></svg></span><span>Tools etc.</span></a><a class="back" href="/" aria-label="All tools"><span>All tools</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></header>
+<section class="hero"><h1>Wheel Spinner</h1></section>
 <section class="layout">
   <div class="panel wheel-panel">
-    <div class="panel-head">
-      <h2 class="panel-title">Spin the wheel</h2>
-      <span id="itemCount" class="count">0 items</span>
-    </div>
+    <div class="panel-head"><h2 class="panel-title">Spin the wheel</h2><span id="itemCount" class="count">0 items</span></div>
     <div class="wheel-stage">
       <canvas id="wheel" width="1000" height="1000" aria-label="Random choice wheel"></canvas>
       <div id="pointer" class="wheel-pointer" aria-hidden="true"></div>
-      <div class="wheel-center" aria-hidden="true"></div>
+      <button id="spin" class="wheel-center-btn" type="button">Spin</button>
+      <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
     </div>
-    <div class="spin-wrap"><button id="spin" class="spin-btn" type="button">Spin</button><button id="soundToggle" class="sound-btn" type="button" aria-pressed="true" title="Turn wheel sounds off">Sound on</button></div>
-    <div id="result" class="result" aria-live="polite">
-      <div>
-        <span class="result-label">Result</span>
-        <div id="resultValue" class="result-value">Add an item to start</div>
-      </div>
-    </div>
+    <div class="spin-tools"><button id="soundToggle" class="sound-btn" type="button" aria-pressed="false" title="Mute wheel sounds">Mute</button></div>
+    <div id="spinError" class="spin-error" aria-live="polite"></div>
   </div>
-
   <div class="panel editor">
-    <div class="editor-top">
-      <h2 class="panel-title">Wheel items</h2>
-      <div class="editor-actions">
-        <label id="modeToggleLabel" class="mode-toggle">
-          <input id="manualMode" type="checkbox" />
-          <span>Manual percentages</span>
-        </label>
-        <button id="clearItems" class="subtle-btn danger" type="button">Clear all</button>
-      </div>
-    </div>
+    <div class="editor-top"><h2 class="panel-title">Wheel items</h2><button id="clearItems" class="subtle-btn danger" type="button">Clear all items</button></div>
     <div id="items" class="items"></div>
     <button id="addItem" class="add-btn" type="button">+ Add item</button>
-    <p id="percentStatus" class="percent-status"></p>
-    <p class="hint">With manual mode off, each option shows its equal share. In manual mode, blank percentages share the remaining probability equally; the last option is calculated automatically. Wheel sounds can be turned off beside Spin.</p>
+    <p class="limit-note">Limit: 100 items.</p>
   </div>
 </section>
-
-<section class="bottom-grid">
-  <div class="panel history">
-    <div class="panel-head">
-      <h2 class="panel-title">Recent results</h2>
-      <span id="historyCount" class="count">0 / 50</span>
-    </div>
-    <div id="historyList" class="history-list"></div>
-  </div>
-  <div class="panel history">
-    <div class="panel-head"><h2 class="panel-title">Saved automatically</h2></div>
-    <p class="save-note"><span class="storage-dot"></span>Your wheel items and probabilities are saved in this browser, so they will still be here when you come back.</p>
-    <p class="save-note">The result history is also saved here, with the 50 most recent spins kept.</p>
-  </div>
+<section class="panel history">
+  <div class="history-head"><h2 class="panel-title">History</h2><button id="clearHistory" class="subtle-btn" type="button">Clear all history</button></div>
+  <div id="historyList" class="history-list"></div>
 </section>
 </div>
-
 <script>
 (() => {
-  const MAX_ITEMS = 100;
-  const MAX_HISTORY = 50;
-  const STORAGE_KEY = 'toolsEtcWheelSpinnerStateV1';
+  'use strict';
+  const MAX_ITEMS = 100, MAX_HISTORY = 50;
+  const STORAGE_KEY = 'toolsEtcWheelSpinnerStateV2';
+  const LEGACY_KEY = 'toolsEtcWheelSpinnerStateV1';
   const COLORS = ['#5B8FF9', '#F6BD16', '#61DDAA', '#F08BB4'];
   const $ = id => document.getElementById(id);
-  const wheel = $('wheel');
-  const ctx = wheel.getContext('2d');
-  const itemsEl = $('items');
-  const itemCountEl = $('itemCount');
-  const historyCountEl = $('historyCount');
-  const historyListEl = $('historyList');
-  const resultEl = $('result');
-  const resultValueEl = $('resultValue');
-  const spinBtn = $('spin');
-  const soundToggleEl = $('soundToggle');
-  const pointerEl = $('pointer');
-  const manualModeEl = $('manualMode');
-  const modeToggleLabel = $('modeToggleLabel');
-  const percentStatusEl = $('percentStatus');
-  let items = [];
-  let history = [];
-  let manualMode = false;
-  let rotation = 0;
-  let spinning = false;
-  let soundEnabled = true;
-  let audioContext = null;
-  let spinAnimationFrame = 0;
-  const SPIN_DURATION_MS = 3750;
-
+  const canvas = $('wheel'), ctx = canvas.getContext('2d');
+  const itemsEl = $('items'), itemCountEl = $('itemCount'), historyListEl = $('historyList');
+  const spinBtn = $('spin'), muteBtn = $('soundToggle'), pointer = $('pointer');
+  const confettiLayer = $('confettiLayer'), spinError = $('spinError');
+  let items = [], history = [], rotation = 0, spinning = false, muted = false, audioContext = null, animationFrame = 0;
+  const SPIN_DURATION_MS = 3800;
   const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
-  const parsePercent = value => {
-    if (value === '' || value == null) return 0;
+  const round1 = n => Math.round((n + Number.EPSILON) * 10) / 10;
+  const fmtPct = n => round1(n).toFixed(1);
+  const parsedPercent = value => {
+    if (value === '' || value == null) return null;
     const n = Number(value);
-    if (!Number.isFinite(n)) return 0;
-    return Math.max(0.1, Math.min(n, 100));
+    return Number.isFinite(n) ? n : null;
   };
-
-  const round1 = value => Math.round((value + Number.EPSILON) * 10) / 10;
-
-  const normalizePercentInput = value => {
-    if (value === '' || value == null) return '';
-    const n = Number(value);
-    if (!Number.isFinite(n)) return '';
-    return String(Math.max(0.1, Math.min(n, 100)));
-  };
-  const defaultItems = () => [
-    { id:uid(), text:'Option 1', percent:'' },
-    { id:uid(), text:'Option 2', percent:'' },
-    { id:uid(), text:'Option 3', percent:'' },
-    { id:uid(), text:'Option 4', percent:'' }
-  ];
+  const defaultItems = () => [1,2,3,4].map(n => ({id:uid(),text:`Item ${n}`,percent:''}));
 
   function loadState() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-      if (saved && Array.isArray(saved.items)) items = saved.items.slice(0, MAX_ITEMS).map(item => ({
-        id: String(item.id || uid()),
-        text: String(item.text ?? ''),
-        percent: normalizePercentInput(item.percent ?? '')
-      }));
-      manualMode = saved?.manualMode === true;
-      soundEnabled = saved?.soundEnabled !== false;
-      history = Array.isArray(saved?.history) ? saved.history.slice(0, MAX_HISTORY).map(x => ({
-        text:String(x.text ?? ''), time:String(x.time ?? '')
-      })) : [];
-    } catch {
-      items = [];
-      history = [];
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch {}
+    if (!saved) { try { saved = JSON.parse(localStorage.getItem(LEGACY_KEY) || 'null'); } catch {} }
+    if (saved && Array.isArray(saved.items)) {
+      items = saved.items.slice(0, MAX_ITEMS).map((item, i) => {
+        const existingName = String(item.text ?? '');
+        const convertedName = existingName.replace(/^Option (\d+)$/, 'Item $1');
+        let percent = item.percent == null ? '' : String(item.percent).trim();
+        if (percent !== '' && (!Number.isFinite(Number(percent)) || Number(percent) < 0.1)) percent = '';
+        return {id:String(item.id || uid()), text:convertedName || `Item ${i+1}`, percent};
+      });
+      history = Array.isArray(saved.history) ? saved.history.slice(0, MAX_HISTORY).map(x => ({text:String(x.text ?? ''),time:String(x.time ?? '')})) : [];
+      muted = saved.muted === true || saved.soundEnabled === false;
+    } else {
+      items = defaultItems(); history = []; muted = false;
     }
-    manualModeEl.checked = manualMode;
-    updateModeLabel();
-    updateSoundButton();
-    renderItems();
-    renderHistory();
-    drawWheel();
+    renderItems(); renderHistory(); drawWheel(); updateMuteButton();
   }
-
   function saveState() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({items, history, manualMode, soundEnabled})); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({items,history,muted})); } catch {}
   }
-
-  function getEffectiveWeights() {
-    if (!manualMode) return items.map(() => 1);
-    if (!items.length) return [];
-
-    // In manual mode, every unfilled item plus the final automatic item shares
-    // the remaining percentage equally. Explicit values remain fixed.
-    const weights = items.map((item, index) => {
-      if (index === items.length - 1) return null;
-      return item.percent === '' ? null : parsePercent(item.percent);
+  function rawEnteredValues() {
+    return items.map(item => {
+      const p = parsedPercent(item.percent);
+      return p === null ? null : Math.max(0.1, Math.min(100, p));
     });
-    const fixedTotal = weights.reduce((sum, value) => sum + (value == null ? 0 : value), 0);
-    const blankCount = weights.filter(value => value == null).length;
-    const remaining = Math.max(0, 100 - fixedTotal);
-    const blankShare = blankCount ? remaining / blankCount : 0;
-    return weights.map(value => value == null ? blankShare : value);
   }
-
-  function getDisplayPercentages() {
+  function effectivePercentages() {
     if (!items.length) return [];
-    if (!manualMode) return items.map(() => 100 / items.length);
-    const weights = getEffectiveWeights();
-    const total = weights.reduce((sum, value) => sum + value, 0);
-    return weights.map(value => total > 0 ? value * 100 / total : 0);
+    const raw = rawEnteredValues();
+    const fixedSum = raw.reduce((sum,v)=>sum+(v===null?0:v),0);
+    const blanks = raw.filter(v=>v===null).length;
+    if (fixedSum > 100 + 1e-7) return {values:raw.map(v=>v===null?0:v),valid:false,message:'Percentages cannot exceed 100%. Leave unassigned entries blank to share the remainder.'};
+    if (blanks > 0) {
+      const remainder = Math.max(0,100-fixedSum);
+      if (remainder + 1e-7 < blanks*0.1) return {values:raw.map(v=>v===null?0:v),valid:false,message:'Each item needs at least 0.1%.'};
+      const share = remainder / blanks;
+      return {values:raw.map(v=>v===null?share:v),valid:true,message:''};
+    }
+    const total = raw.reduce((sum,v)=>sum+(v||0),0);
+    if (Math.abs(total-100) > 0.051) return {values:raw.map(v=>(v||0)*100/total),valid:false,message:'The entered percentages must add up to 100%. Leave any unassigned percentages blank to split the remainder.'};
+    // Round-off can create a hundredth-point difference; normalize it away.
+    return {values:raw.map(v=>(v||0)*100/total),valid:true,message:''};
   }
-
-  function formatPercent(value) {
-    return round1(value).toFixed(1);
-  }
-
-  function updateModeLabel() {
-    modeToggleLabel.classList.toggle('enabled', manualMode);
-  }
-
-  function getEditableMax(index) {
-    if (!manualMode || index >= items.length - 1) return null;
-    const otherEntered = items.reduce((sum, item, i) => {
-      if (i === index || i === items.length - 1) return sum;
-      return sum + (item.percent === '' ? 0 : parsePercent(item.percent));
-    }, 0);
-    const otherBlankEditable = items.slice(index + 1, -1).filter(item => item.percent === '').length
-      + items.slice(0, index).filter(item => item.percent === '').length;
-    const reservedMinimums = 0.1 * (otherBlankEditable + 1);
-    return round1(Math.max(0.1, 100 - otherEntered - reservedMinimums));
-  }
-
-  function getPercentStatus() {
-    if (!items.length) return {invalid:false, text:'Add items to start.'};
-    if (!manualMode) return {invalid:false, text:`All items have an equal chance: ${formatPercent(100 / items.length)}% each.`};
-
-    const effective = getEffectiveWeights();
-    const total = effective.reduce((sum, value) => sum + value, 0);
-    const fixedTotal = items.slice(0, -1).reduce((sum, item) => sum + (item.percent === '' ? 0 : parsePercent(item.percent)), 0);
-    const blankCount = items.slice(0, -1).filter(item => item.percent === '').length + 1;
-    const remaining = Math.max(0, 100 - fixedTotal);
-    const blankShare = blankCount ? remaining / blankCount : 0;
-    const roundedTotal = round1(total);
-
-    if (roundedTotal < 99.9) return {invalid:true, text:'The percentages cannot be completed with the current values.'};
-    return {invalid:false, text:`Total: 100% • Blank items share ${round1(blankShare).toFixed(1)}% each`};
-  }
-
-  function refreshPercentUI() {
-    const effective = getEffectiveWeights();
-    const displayPercentages = getDisplayPercentages();
-    [...itemsEl.querySelectorAll('.prob')].forEach((input, index) => {
-      if (!manualMode) {
-        input.value = formatPercent(displayPercentages[index] || 0);
-      } else if (index === items.length - 1) {
-        input.value = formatPercent(effective[index] || 0);
-      } else if (items[index]?.percent === '') {
-        input.placeholder = formatPercent(effective[index] || 0);
-        input.title = `Blank means ${formatPercent(effective[index] || 0)}%, an equal share of the remaining probability.`;
-      } else {
-        input.max = String(getEditableMax(index));
-        input.title = `Enter 0.1% to ${getEditableMax(index)}%, up to one decimal place.`;
-      }
+  function maxAllowed(index, candidate='') {
+    let otherFixed = 0, otherBlank = 0;
+    items.forEach((item,i)=>{
+      if (i === index) return;
+      const value = parsedPercent(item.percent);
+      if (value === null) otherBlank++;
+      else otherFixed += Math.max(0.1, Math.min(100,value));
     });
-    const status = getPercentStatus();
-    percentStatusEl.textContent = status.text;
-    percentStatusEl.classList.toggle('invalid', status.invalid);
-    spinBtn.disabled = items.length === 0 || effective.reduce((sum, value) => sum + value, 0) <= 0 || status.invalid || spinning;
+    return round1(Math.max(0.1, 100 - otherFixed - 0.1*otherBlank));
+  }
+  function clampTypedPercent(index, raw) {
+    const parsed = parsedPercent(raw);
+    if (parsed === null) return '';
+    const max = maxAllowed(index);
+    return fmtPct(Math.max(0.1, Math.min(parsed,max)));
+  }
+  function updateSpinEligibility() {
+    const effective = effectivePercentages();
+    spinBtn.disabled = spinning || items.length === 0 || !effective.valid || effective.values.every(v=>v<=0);
+    spinError.textContent = '';
     $('addItem').disabled = spinning || items.length >= MAX_ITEMS;
     $('clearItems').disabled = spinning || items.length === 0;
+    for (const el of itemsEl.querySelectorAll('input,button')) el.disabled = spinning;
   }
-
   function renderItems() {
-    itemCountEl.textContent = `${items.length} ${items.length === 1 ? 'item' : 'items'}`;
     itemsEl.innerHTML = '';
-    const effective = getEffectiveWeights();
-    const displayPercentages = getDisplayPercentages();
-    const status = getPercentStatus();
-    percentStatusEl.textContent = status.text;
-    percentStatusEl.classList.toggle('invalid', status.invalid);
-
-    items.forEach((item, index) => {
-      const row = document.createElement('div');
-      row.className = 'item-row';
-      row.dataset.id = item.id;
-
-      const dot = document.createElement('span');
-      dot.className = 'color-dot';
-      dot.style.background = COLORS[index % COLORS.length];
-      dot.title = `Section ${index % COLORS.length + 1}`;
-
-      const input = document.createElement('input');
-      input.className = 'field';
-      input.type = 'text';
-      input.maxLength = 120;
-      input.value = item.text;
-      input.setAttribute('aria-label', `Item ${index + 1}`);
-      input.placeholder = `Item ${index + 1}`;
-      input.addEventListener('input', () => {
-        item.text = input.value;
-        saveState();
-        drawWheel();
+    itemCountEl.textContent = `${items.length} ${items.length===1?'item':'items'}`;
+    const effective = effectivePercentages();
+    items.forEach((item,index)=>{
+      const row=document.createElement('div'); row.className='item-row';
+      const dot=document.createElement('span'); dot.className='color-dot'; dot.style.background=COLORS[index%COLORS.length]; dot.title=`Section ${index%COLORS.length+1}`;
+      const name=document.createElement('input'); name.className='field'; name.type='text'; name.maxLength=120; name.value=item.text; name.placeholder=`Item ${index+1}`; name.setAttribute('aria-label',`Item ${index+1}`);
+      name.addEventListener('input',()=>{item.text=name.value;saveState();drawWheel();});
+      const wrap=document.createElement('div'); wrap.className='prob-wrap';
+      const percent=document.createElement('input'); percent.className='field prob'; percent.type='text'; percent.inputMode='decimal'; percent.maxLength=7; percent.value=item.percent; percent.placeholder=effective.values[index]===undefined?'':fmtPct(effective.values[index]); percent.setAttribute('aria-label',`Percentage for Item ${index+1}`); percent.title='Enter a percentage; leave blank to split remaining percentage equally.';
+      percent.addEventListener('input',()=>{
+        // Store the raw keystrokes without re-rendering, so multi-digit edits remain easy.
+        item.percent=percent.value.trim(); saveState(); drawWheel(); refreshPercentPlaceholders(index); updateSpinEligibility();
       });
-
-      const probWrap = document.createElement('div');
-      probWrap.className = 'prob-wrap';
-      const prob = document.createElement('input');
-      prob.className = 'field prob';
-      prob.type = 'text';
-      prob.min = '0.1';
-      prob.max = '100';
-      prob.step = 'any';
-      prob.inputMode = 'decimal';
-      const isLast = index === items.length - 1;
-      if (!manualMode) {
-        prob.value = formatPercent(displayPercentages[index] || 0);
-        prob.disabled = true;
-        prob.title = 'Equal probability for every item.';
-      } else if (isLast) {
-        prob.value = formatPercent(effective[index] || 0);
-        prob.disabled = true;
-        prob.classList.add('remainder');
-        prob.title = 'This value is automatically calculated as the remaining percentage.';
-      } else {
-        prob.value = item.percent;
-        prob.placeholder = formatPercent(effective[index] || 0);
-        const maxAllowed = getEditableMax(index);
-        prob.max = String(maxAllowed);
-        prob.title = item.percent === ''
-          ? `Blank means ${formatPercent(effective[index] || 0)}%, an equal share of the remaining probability.`
-          : `Enter 0.1% to ${maxAllowed}%, up to one decimal place.`;
-      }
-      prob.setAttribute('aria-label', `Percentage for item ${index + 1}`);
-      prob.addEventListener('input', () => {
-        if (!manualMode || isLast) return;
-        const raw = prob.value.trim();
-        if (raw === '') {
-          item.percent = '';
-          saveState();
-          refreshPercentUI();
-          drawWheel();
-          return;
-        }
-
-        const parsed = Number(raw);
-        if (!Number.isFinite(parsed)) return;
-        const maxAllowed = getEditableMax(index);
-        const capped = Math.max(0.1, Math.min(parsed, maxAllowed));
-        if (parsed > maxAllowed) {
-          item.percent = String(round1(capped));
-          prob.value = item.percent;
-        } else {
-          item.percent = raw;
-        }
-        saveState();
-        refreshPercentUI();
-        drawWheel();
+      percent.addEventListener('blur',()=>{
+        const raw=percent.value.trim();
+        if(raw===''){item.percent='';percent.value='';}
+        else {item.percent=clampTypedPercent(index,raw);percent.value=item.percent;}
+        saveState(); renderItems(); drawWheel();
       });
-      prob.addEventListener('blur', () => {
-        if (!manualMode || isLast) return;
-        const maxAllowed = getEditableMax(index);
-        const raw = prob.value.trim();
-        if (raw === '') {
-          item.percent = '';
-          prob.value = '';
-        } else {
-          const parsed = Number(raw);
-          if (!Number.isFinite(parsed)) {
-            item.percent = '';
-            prob.value = '';
-          } else {
-            const capped = Math.max(0.1, Math.min(parsed, maxAllowed));
-            item.percent = parsed > maxAllowed ? String(round1(capped)) : raw;
-            prob.value = item.percent;
-          }
-        }
-        saveState();
-        refreshPercentUI();
-        drawWheel();
-      });
-      probWrap.appendChild(prob);
-
-      const remove = document.createElement('button');
-      remove.className = 'remove-btn';
-      remove.type = 'button';
-      remove.setAttribute('aria-label', `Remove item ${index + 1}`);
-      remove.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>';
-      remove.addEventListener('click', () => {
-        if (spinning) return;
-        items = items.filter(x => x.id !== item.id);
-        saveState();
-        renderItems();
-        drawWheel();
-      });
-
-      if (spinning) { input.disabled = true; prob.disabled = true; remove.disabled = true; }
-      row.append(dot, input, probWrap, remove);
-      itemsEl.appendChild(row);
+      wrap.appendChild(percent);
+      const remove=document.createElement('button'); remove.className='remove-btn'; remove.type='button'; remove.setAttribute('aria-label',`Remove Item ${index+1}`); remove.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+      remove.addEventListener('click',()=>{if(spinning)return;items=items.filter(x=>x.id!==item.id);saveState();renderItems();drawWheel();});
+      row.append(dot,name,wrap,remove); itemsEl.appendChild(row);
     });
-
-    spinBtn.disabled = items.length === 0 || effective.reduce((sum, value) => sum + value, 0) <= 0 || status.invalid || spinning;
-    $('addItem').disabled = spinning || items.length >= MAX_ITEMS;
-    $('clearItems').disabled = spinning || items.length === 0;
+    updateSpinEligibility();
   }
-
+  function refreshPercentPlaceholders(activeIndex=-1) {
+    const effective=effectivePercentages();
+    [...itemsEl.querySelectorAll('.prob')].forEach((input,index)=>{
+      if(index!==activeIndex && items[index]?.percent==='') input.placeholder=effective.values[index]===undefined?'':fmtPct(effective.values[index]);
+    });
+  }
+  function buildGeometry() {
+    const effective=effectivePercentages();
+    const weights=effective.values.map(v=>Number.isFinite(v)&&v>0?v:0);
+    const total=weights.reduce((a,b)=>a+b,0), segments=[];
+    let cursor=0, remaining=weights.filter(v=>v>0).length;
+    weights.forEach((weight,index)=>{
+      let span=total>0?360*weight/total:0;
+      if(weight>0){remaining--;if(remaining===0)span=360-cursor;}
+      segments.push({index,weight,start:cursor,end:cursor+span,span}); cursor+=span;
+    });
+    return {segments,weights,total,valid:effective.valid};
+  }
   function drawWheel() {
-    const w = wheel.width;
-    const h = wheel.height;
-    const cx = w / 2;
-    const cy = h / 2;
-    const radius = Math.min(w, h) / 2 - 18;
-    ctx.clearRect(0, 0, w, h);
-    const geometry = buildWheelGeometry();
-
-    if (!items.length || geometry.totalWeight <= 0) {
-      ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.fillStyle = '#ededf2'; ctx.fill();
-      ctx.lineWidth = 8; ctx.strokeStyle = '#fff'; ctx.stroke();
-      return;
+    const w=canvas.width,h=canvas.height,cx=w/2,cy=h/2,r=Math.min(w,h)/2-18;
+    ctx.clearRect(0,0,w,h);
+    const geometry=buildGeometry();
+    if(!items.length || geometry.total<=0){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle='#ececf1';ctx.fill();ctx.lineWidth=8;ctx.strokeStyle='#fff';ctx.stroke();return;}
+    geometry.segments.forEach(segment=>{
+      if(segment.span<=0)return;
+      const start=-Math.PI/2+segment.start*Math.PI/180,end=-Math.PI/2+segment.end*Math.PI/180;
+      ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,end);ctx.closePath();ctx.fillStyle=COLORS[segment.index%COLORS.length];ctx.fill();ctx.lineWidth=5;ctx.strokeStyle='#fff';ctx.stroke();
+    });
+    if(items.length<=24){geometry.segments.forEach(segment=>{
+      if(segment.span*Math.PI/180<=0.115)return;
+      const center=-Math.PI/2+(segment.start+segment.span/2)*Math.PI/180;
+      const source=items[segment.index].text.trim()||`Item ${segment.index+1}`;
+      const label=source.length>18?source.slice(0,17)+'…':source;
+      ctx.save();ctx.translate(cx+Math.cos(center)*r*.66,cy+Math.sin(center)*r*.66);ctx.rotate(center+Math.PI/2);ctx.fillStyle='rgba(255,255,255,.97)';ctx.font='700 24px Inter,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='rgba(0,0,0,.15)';ctx.shadowBlur=3;ctx.fillText(label,0,0);ctx.restore();
+    });}
+    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.lineWidth=12;ctx.strokeStyle='#fff';ctx.stroke();
+  }
+  function uniformAngle() {
+    if (window.crypto && window.crypto.getRandomValues) {
+      const data=new Uint32Array(1);window.crypto.getRandomValues(data);return (data[0]/4294967296)*360;
     }
-
-    // The exact same segment angles are used by winner selection and animation.
-    geometry.segments.forEach(segment => {
-      if (segment.span <= 0) return;
-      const start = -Math.PI / 2 + segment.start * Math.PI / 180;
-      const end = -Math.PI / 2 + segment.end * Math.PI / 180;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, start, end);
-      ctx.closePath();
-      ctx.fillStyle = COLORS[segment.index % COLORS.length];
-      ctx.fill();
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = '#fff';
-      ctx.stroke();
-    });
-
-    // Draw labels only where they remain readable.
-    geometry.segments.forEach(segment => {
-      if (segment.span <= 0 || items.length > 24 || segment.span * Math.PI / 180 <= 0.115) return;
-      const center = -Math.PI / 2 + (segment.start + segment.span / 2) * Math.PI / 180;
-      const text = (items[segment.index].text.trim() || `Item ${segment.index + 1}`);
-      const label = text.length > 18 ? text.slice(0, 17) + '…' : text;
-      ctx.save();
-      ctx.translate(cx + Math.cos(center) * radius * .66, cy + Math.sin(center) * radius * .66);
-      ctx.rotate(center + Math.PI / 2);
-      ctx.fillStyle = 'rgba(255,255,255,.97)';
-      ctx.font = '700 24px Inter, Arial, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.shadowColor = 'rgba(0,0,0,.15)';
-      ctx.shadowBlur = 3;
-      ctx.fillText(label, 0, 0);
-      ctx.restore();
-    });
-
-    ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.lineWidth = 12; ctx.strokeStyle = '#fff'; ctx.stroke();
+    return Math.random()*360;
   }
-
-  function buildWheelGeometry() {
-    const rawWeights = getEffectiveWeights();
-    const weights = rawWeights.map(value => Number.isFinite(Number(value)) && Number(value) > 0 ? Number(value) : 0);
-    const totalWeight = weights.reduce((sum, value) => sum + value, 0);
-    const segments = [];
-    let cursor = 0;
-    let activeLeft = weights.filter(value => value > 0).length;
-
-    weights.forEach((weight, index) => {
-      let span = totalWeight > 0 ? 360 * weight / totalWeight : 0;
-      if (weight > 0) {
-        activeLeft--;
-        // Ensure the last nonzero segment ends at exactly 360°, avoiding a gap
-        // caused by floating-point rounding.
-        if (activeLeft === 0) span = 360 - cursor;
-      }
-      segments.push({index, weight, start:cursor, end:cursor + span, span, center:cursor + span / 2});
-      cursor += span;
-    });
-
-    return {weights, totalWeight, segments};
-  }
-
   function chooseWinner(geometry) {
-    // One uniform angle draw chooses the winning segment according to its exact
-    // rendered arc size. That very same angle becomes the final pointer landing
-    // position, so the selected result and the visible wheel cannot disagree.
-    const landingAngle = Math.random() * 360;
-    let segment = geometry.segments.find(item =>
-      item.span > 0 && landingAngle >= item.start && landingAngle < item.end
-    );
-    if (!segment) segment = [...geometry.segments].reverse().find(item => item.span > 0) || null;
-    return segment ? {selected:segment.index, landingAngle} : null;
+    const landingAngle=uniformAngle();
+    let seg=geometry.segments.find(segment=>segment.span>0 && landingAngle>=segment.start && landingAngle<segment.end);
+    if(!seg)seg=[...geometry.segments].reverse().find(segment=>segment.span>0)||null;
+    return seg?{selected:seg.index,landingAngle}:null;
   }
-
-  function addHistory(textValue) {
-    history.unshift({text:textValue, time:new Date().toLocaleString([], {month:'short', day:'numeric', hour:'numeric', minute:'2-digit'})});
-    history = history.slice(0, MAX_HISTORY);
-    renderHistory();
-    saveState();
-  }
-
   function renderHistory() {
-    historyCountEl.textContent = `${history.length} / ${MAX_HISTORY}`;
-    if (!history.length) {
-      historyListEl.innerHTML = '<div class="empty-history">No spins yet.</div>';
-      return;
-    }
-    historyListEl.innerHTML = '';
-    history.forEach(entry => {
-      const row = document.createElement('div');
-      row.className = 'history-item';
-      const value = document.createElement('span');
-      value.textContent = entry.text;
-      const time = document.createElement('span');
-      time.className = 'history-time';
-      time.textContent = entry.time;
-      row.append(value, time);
-      historyListEl.appendChild(row);
+    historyListEl.innerHTML='';
+    if(!history.length){historyListEl.innerHTML='<div class="history-empty">No spins yet.</div>';return;}
+    history.slice(0,MAX_HISTORY).forEach(entry=>{
+      const row=document.createElement('div');row.className='history-item';
+      const value=document.createElement('span');value.className='history-value';value.textContent=entry.text;
+      const time=document.createElement('span');time.className='history-time';time.textContent=entry.time;
+      row.append(value,time);historyListEl.appendChild(row);
     });
   }
-
-  function updateSoundButton() {
-    soundToggleEl.textContent = soundEnabled ? 'Sound on' : 'Sound off';
-    soundToggleEl.setAttribute('aria-pressed', String(soundEnabled));
-    soundToggleEl.title = soundEnabled ? 'Turn wheel sounds off' : 'Turn wheel sounds on';
+  function addHistory(value) {
+    history.unshift({text:value,time:new Date().toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})});history=history.slice(0,MAX_HISTORY);renderHistory();saveState();
   }
-
+  function updateMuteButton() { muteBtn.textContent=muted?'Unmute':'Mute';muteBtn.setAttribute('aria-pressed',String(muted));muteBtn.title=muted?'Unmute wheel sounds':'Mute wheel sounds'; }
   function getAudioContext() {
-    if (!soundEnabled) return null;
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContextClass) return null;
-    if (!audioContext) audioContext = new AudioContextClass();
-    if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
-    return audioContext;
+    if(muted)return null;const AudioContextClass=window.AudioContext||window.webkitAudioContext;if(!AudioContextClass)return null;
+    if(!audioContext)audioContext=new AudioContextClass();if(audioContext.state==='suspended')audioContext.resume().catch(()=>{});return audioContext;
   }
-
-  function playTone(frequency, duration, volume, type = 'sine', delay = 0) {
-    const ac = getAudioContext();
-    if (!ac || !soundEnabled) return;
-    const start = ac.currentTime + delay;
-    const oscillator = ac.createOscillator();
-    const gain = ac.createGain();
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, start);
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + 0.006);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-    oscillator.connect(gain);
-    gain.connect(ac.destination);
-    oscillator.start(start);
-    oscillator.stop(start + duration + 0.015);
+  function playTick() {
+    if(muted)return;const ac=getAudioContext();if(!ac)return;const start=ac.currentTime;const osc=ac.createOscillator(),gain=ac.createGain();osc.type='square';osc.frequency.setValueAtTime(1150,start);gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(.014,start+.003);gain.gain.exponentialRampToValueAtTime(.0001,start+.018);osc.connect(gain);gain.connect(ac.destination);osc.start(start);osc.stop(start+.02);
   }
-
-  function playWheelTick() {
-    if (!soundEnabled) return;
-    // A short click-like tone plays only on a section-boundary crossing.
-    playTone(1320, 0.014, 0.018, 'square');
+  function cubic(t,p1,p2){const u=1-t;return 3*u*u*t*p1+3*u*t*t*p2+t*t*t;}
+  function easing(progress){let lo=0,hi=1,t=progress;for(let i=0;i<14;i++){if(cubic(t,.12,.18)<progress)lo=t;else hi=t;t=(lo+hi)/2;}return cubic(t,.78,1);}
+  function playCrossedBoundaries(prev,now,boundaries){
+    if(muted||now<=prev)return;const crossed=[];
+    for(const boundary of boundaries){let turn=Math.floor((prev+boundary)/360)+1;let pos=360*turn-boundary;while(pos<=now+1e-7){if(pos>prev+1e-7)crossed.push(pos);turn++;pos=360*turn-boundary;}}
+    crossed.sort((a,b)=>a-b);crossed.forEach(()=>playTick());
   }
-
-  function cubicBezierCoordinate(t, p1, p2) {
-    const inverse = 1 - t;
-    return 3 * inverse * inverse * t * p1 + 3 * inverse * t * t * p2 + t * t * t;
+  function burstConfetti(){
+    confettiLayer.innerHTML='';const colors=['#635bff','#f6bd16','#61ddaa','#f08bb4','#5b8ff9','#ff8b5e'];
+    for(let i=0;i<48;i++){const piece=document.createElement('span');piece.className='confetti-piece';piece.style.background=colors[i%colors.length];piece.style.setProperty('--dx',`${(Math.random()-.5)*Math.min(520,window.innerWidth*.8)}px`);piece.style.setProperty('--dy',`${100+Math.random()*280}px`);piece.style.setProperty('--spin',`${(Math.random()-.5)*900}deg`);piece.style.animationDelay=`${Math.random()*.12}s`;confettiLayer.appendChild(piece);}
+    window.setTimeout(()=>{confettiLayer.innerHTML='';},1250);
   }
-
-  function spinEasing(progress) {
-    // Match cubic-bezier(.12, .78, .18, 1) without relying on CSS timing,
-    // so the audio and rendered wheel use the same animation progress.
-    let low = 0;
-    let high = 1;
-    let t = progress;
-    for (let i = 0; i < 14; i++) {
-      const x = cubicBezierCoordinate(t, 0.12, 0.18);
-      if (x < progress) low = t;
-      else high = t;
-      t = (low + high) / 2;
+  function finishSpin(selected){
+    const label=items[selected]?.text.trim()||`Item ${selected+1}`;
+    spinBtn.textContent=label;spinBtn.title=`Result: ${label}. Spin again.`;spinBtn.classList.add('has-result','confetti-motion');pointer.classList.add('pointer-pulse');addHistory(label);burstConfetti();
+    spinning=false;animationFrame=0;spinBtn.disabled=false;spinBtn.setAttribute('aria-label',`Result ${label}. Spin again`);renderItems();
+    window.setTimeout(()=>spinBtn.classList.remove('confetti-motion'),500);
+  }
+  function spin(){
+    if(spinning||!items.length)return;
+    const geometry=buildGeometry();
+    if(!geometry.valid){spinError.textContent='Check the percentages. Leave any unassigned fields blank to share the remainder.';return;}
+    if(!geometry.total||geometry.weights.every(v=>v<=0))return;
+    const selection=chooseWinner(geometry);if(!selection)return;
+    const {selected,landingAngle}=selection; // Winner decided before motion begins.
+    const boundaries=geometry.segments.filter(s=>s.span>0).map(s=>s.start);
+    const currentMod=((rotation%360)+360)%360;const targetMod=((360-landingAngle)%360+360)%360;
+    let delta=targetMod-currentMod;if(delta<0)delta+=360;delta+=360*5;
+    spinning=true;spinError.textContent='';updateSpinEligibility();if(!muted)getAudioContext();
+    spinBtn.classList.remove('has-result','confetti-motion');spinBtn.textContent='…';spinBtn.title='Spinning';pointer.classList.remove('pointer-pulse');
+    const startRotation=rotation,targetRotation=startRotation+delta,startedAt=performance.now();let last=startRotation;
+    function animate(now){
+      if(!spinning)return;const progress=Math.min(1,Math.max(0,(now-startedAt)/SPIN_DURATION_MS));const visual=startRotation+delta*easing(progress);
+      playCrossedBoundaries(last,visual,boundaries);canvas.style.transform=`rotate(${visual}deg)`;last=visual;
+      if(progress<1){animationFrame=requestAnimationFrame(animate);}else{canvas.style.transform=`rotate(${targetRotation}deg)`;rotation=targetRotation;finishSpin(selected);}
     }
-    return cubicBezierCoordinate(t, 0.78, 1);
+    animationFrame=requestAnimationFrame(animate);
   }
-
-  function playCrossedBoundaries(previousDegrees, currentDegrees, boundaries) {
-    if (!soundEnabled || currentDegrees <= previousDegrees) return;
-    // With the canvas starting at -90 degrees, each segment's cumulative start
-    // angle is exactly the point where that new segment reaches the top pointer.
-    // Iterate in chronological order, including multiple crossings in one frame.
-    const crossings = [];
-    for (const boundary of boundaries) {
-      let turn = Math.floor((previousDegrees + boundary) / 360) + 1;
-      let crossing = 360 * turn - boundary;
-      while (crossing <= currentDegrees + 1e-7) {
-        if (crossing > previousDegrees + 1e-7) crossings.push(crossing);
-        turn++;
-        crossing = 360 * turn - boundary;
-      }
-    }
-    crossings.sort((a, b) => a - b);
-    crossings.forEach(() => playWheelTick());
-  }
-
-  function finishSpin(selected) {
-    const chosen = items[selected];
-    const value = chosen.text.trim() || `Item ${selected + 1}`;
-    resultValueEl.textContent = value;
-    resultEl.classList.add('pop');
-    pointerEl.classList.add('pointer-pulse');
-    addHistory(value);
-    spinning = false;
-    spinAnimationFrame = 0;
-    renderItems();
-    spinBtn.textContent = 'Spin';
-  }
-
-  function spin() {
-    if (spinning) return;
-
-    // Determine the winner and its landing angle before starting the animation.
-    // Geometry comes from the same source as the canvas rendering.
-    const geometry = buildWheelGeometry();
-    const selection = chooseWinner(geometry);
-    if (!selection) return;
-    const {selected, landingAngle} = selection;
-    const boundaries = geometry.segments.filter(segment => segment.span > 0).map(segment => segment.start);
-
-    const currentMod = ((rotation % 360) + 360) % 360;
-    const targetMod = ((360 - landingAngle) % 360 + 360) % 360;
-    let delta = targetMod - currentMod;
-    if (delta < 0) delta += 360;
-    delta += 360 * 5;
-
-    spinning = true;
-    renderItems();
-    if (soundEnabled) getAudioContext(); // Browser audio requires a user gesture.
-    resultEl.classList.remove('pop');
-    pointerEl.classList.remove('pointer-pulse');
-    void resultEl.offsetWidth;
-
-    const startRotation = rotation;
-    const targetRotation = startRotation + delta;
-    const startedAt = performance.now();
-    let lastRotation = startRotation;
-    spinBtn.textContent = 'Spinning…';
-
-    function animate(now) {
-      if (!spinning) return;
-      const progress = Math.min(1, Math.max(0, (now - startedAt) / SPIN_DURATION_MS));
-      const visualRotation = startRotation + delta * spinEasing(progress);
-      playCrossedBoundaries(lastRotation, visualRotation, boundaries);
-      // CSS transitions are disabled on the canvas; this JS animation is the
-      // only source of motion, so the audio crossings match the displayed wheel.
-      wheel.style.transform = `rotate(${visualRotation}deg)`;
-      lastRotation = visualRotation;
-
-      if (progress < 1) {
-        spinAnimationFrame = window.requestAnimationFrame(animate);
-      } else {
-        wheel.style.transform = `rotate(${targetRotation}deg)`;
-        rotation = targetRotation;
-        finishSpin(selected);
-      }
-    }
-    spinAnimationFrame = window.requestAnimationFrame(animate);
-  }
-
-  $('addItem').addEventListener('click', () => {
-    if (spinning || items.length >= MAX_ITEMS) return;
-    items.push({id:uid(), text:`Option ${items.length + 1}`, percent:''});
-    saveState();
-    renderItems();
-    drawWheel();
-    const rows = itemsEl.querySelectorAll('.item-row');
-    rows[rows.length - 1]?.querySelector('input')?.focus();
-  });
-
-  $('clearItems').addEventListener('click', () => {
-    if (spinning || !items.length) return;
-    items = [];
-    saveState();
-    resultValueEl.textContent = 'Add an item to start';
-    renderItems();
-    drawWheel();
-  });
-
-  spinBtn.addEventListener('click', spin);
-  soundToggleEl.addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    if (soundEnabled && spinning) getAudioContext();
-    updateSoundButton();
-    saveState();
-  });
-  manualModeEl.addEventListener('change', () => {
-    if (spinning) { manualModeEl.checked = manualMode; return; }
-    manualMode = manualModeEl.checked;
-    saveState();
-    updateModeLabel();
-    renderItems();
-    drawWheel();
-  });
+  $('addItem').addEventListener('click',()=>{if(spinning||items.length>=MAX_ITEMS)return;items.push({id:uid(),text:`Item ${items.length+1}`,percent:''});saveState();renderItems();drawWheel();itemsEl.querySelector('.item-row:last-child input')?.focus();});
+  $('clearItems').addEventListener('click',()=>{if(spinning||!items.length)return;items=[];saveState();spinBtn.textContent='Spin';spinBtn.title='Spin the wheel';spinBtn.classList.remove('has-result');spinError.textContent='';renderItems();drawWheel();});
+  $('clearHistory').addEventListener('click',()=>{history=[];saveState();renderHistory();});
+  spinBtn.addEventListener('click',spin);
+  muteBtn.addEventListener('click',()=>{muted=!muted;if(!muted&&spinning)getAudioContext();updateMuteButton();saveState();});
   loadState();
 })();
 </script>

@@ -1,20 +1,21 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#635bff">
-<meta name="description" content="Solve general triangles from known sides and angles, with perimeter, area, and a scale-aware diagram.">
-<link rel="canonical" href="https://tools-etc.vercel.app/triangle-solver">
-<meta property="og:title" content="Triangle Solver — Sides, Angles, Area & Perimeter | Tools, etc.">
-<meta property="og:description" content="Solve general triangles from known sides and angles, with perimeter, area, and a scale-aware diagram.">
-<meta property="og:url" content="https://tools-etc.vercel.app/triangle-solver">
-<meta property="og:type" content="website">
-<title>Triangle Solver — Sides, Angles, Area & Perimeter | Tools, etc.</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#635bff" name="theme-color"/>
+<meta content="Solve general triangles from known sides and angles, with perimeter, area, and a scale-aware diagram." name="description"/>
+<link href="https://tools-etc.vercel.app/triangle-solver" rel="canonical"/>
+<meta content="Triangle Solver — Sides, Angles, Area &amp; Perimeter | Tools etc." property="og:title"/>
+<meta content="Solve general triangles from known sides and angles, with perimeter, area, and a scale-aware diagram." property="og:description"/>
+<meta content="https://tools-etc.vercel.app/triangle-solver" property="og:url"/>
+<meta content="website" property="og:type"/>
+<title>Triangle Solver — Sides, Angles, Area &amp; Perimeter | Tools etc.</title>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
-<script defer src="/_vercel/insights/script.js"></script>
+<script defer="" src="/_vercel/insights/script.js"></script>
 <style>
 :root{--bg:#f7f7f9;--surface:#fff;--surface2:#f1f1f5;--text:#17171b;--muted:#6f7078;--border:#e7e7ec;--accent:#635bff;--accentSoft:#eeecff;--danger:#b42318;--radius:22px;--shadow:0 10px 30px rgba(20,20,30,.06)}
 *{box-sizing:border-box}
@@ -39,31 +40,46 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px;pa
 @media(max-width:820px){.solution-body{grid-template-columns:1fr}.diagram-wrap{min-height:280px}.diagram{height:280px}}
 @media(max-width:680px){.shell{width:calc(100% - 24px);padding-top:16px}header{padding-bottom:18px}.brand{margin-left:0}.hero{padding:34px 0 22px}.input-grid{grid-template-columns:1fr 1fr}.values{grid-template-columns:1fr 1fr}.meta-grid{grid-template-columns:1fr}.solution-body{padding:14px}.panel{padding:16px}.panel-head{margin-bottom:14px}}
 @media(max-width:430px){.input-grid{grid-template-columns:1fr}.values{grid-template-columns:1fr 1fr}.hero h1{font-size:38px}.current{} }
+
+
+/* Tools etc. shared page chrome */
+header.site-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;padding:8px 0 24px!important;margin:0!important;width:min(1180px,calc(100vw - 32px))!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important}
+header.site-header .brand{display:inline-flex!important;align-items:center!important;gap:11px!important;margin:0!important;font-family:inherit!important;font-size:19px!important;font-weight:750!important;letter-spacing:-.03em!important;line-height:1.2!important;white-space:nowrap!important;text-decoration:none!important}
+header.site-header .brand-mark{width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border-radius:10px!important;background:var(--text)!important;color:#fff!important;flex:0 0 auto!important;box-shadow:none!important}
+header.site-header .brand-mark svg{width:18px!important;height:18px!important}
+header.site-header .back{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:10px 12px!important;border:1px solid var(--border)!important;border-radius:10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:14px!important;font-weight:650!important;line-height:1.2!important;text-decoration:none!important;white-space:nowrap!important}
+header.site-header .back:hover,header.site-header .back:focus-visible{background:var(--surface)!important;color:var(--text)!important;outline:none!important}
+header.site-header .back svg{display:block!important;width:16px!important;height:16px!important;flex:0 0 auto!important;transform:none!important}
+.hero{padding:34px 0 24px!important;text-align:center!important}
+.hero h1,h1{margin:0!important;font-family:inherit!important;font-size:clamp(34px,5.5vw,54px)!important;line-height:1!important;letter-spacing:-.05em!important;font-weight:800!important}
+button{font-family:inherit}
+@media(max-width:620px){header.site-header{padding:4px 0 18px!important}header.site-header .brand{margin:0!important;font-size:18px!important}header.site-header .back{font-size:14px!important;padding:9px 10px!important}.hero{padding:28px 0 20px!important}}
+
+/* Shared history controls */
+.history-head button{appearance:none!important;border:1px solid var(--border)!important;border-radius:10px!important;padding:8px 10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:12px!important;font-weight:700!important;line-height:1.2!important;cursor:pointer!important;transition:background .16s ease,color .16s ease,border-color .16s ease!important}
+.history-head button:hover,.history-head button:focus-visible{background:var(--surface2)!important;color:var(--text)!important;outline:none!important}
 </style>
 </head>
 <body>
 <div class="shell">
-<header>
-<a class="brand" href="/" aria-label="Tools, etc. home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"/><path d="M8.2 15h7.6"/></svg></span><span>Tools, etc.</span></a>
-<a class="header-link" href="/"><span>All tools</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-</header>
-<section class="hero"><span class="eyebrow">Math</span><h1>Triangle Solver</h1><p>Enter the known sides and angles of a triangle to solve the rest, including perimeter and area.</p></section>
+<header class="site-header"><a aria-label="Tools etc. home" class="brand" href="/"><span aria-hidden="true" class="brand-mark"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24"><path d="M9 3h6"></path><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"></path><path d="M8.2 15h7.6"></path></svg></span><span>Tools etc.</span></a><a aria-label="All tools" class="back" href="/"><span>All tools</span><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a></header>
+<section class="hero"><h1>Triangle Solver</h1></section>
 <main>
 <section class="card panel">
-<div class="panel-head"><div><h2>Known values</h2><p class="panel-sub">Use degrees for angles and any consistent unit for side lengths. Enter at least two values.</p></div></div>
+<div class="panel-head"><div><h2>Known values</h2></div></div>
 <div class="input-grid">
-<div class="field-wrap"><label class="field-label" for="A">Angle A <span class="unit">degrees</span></label><input class="field angle-input" id="A" inputmode="decimal" autocomplete="off" placeholder="e.g. 45"></div>
-<div class="field-wrap"><label class="field-label" for="B">Angle B <span class="unit">degrees</span></label><input class="field angle-input" id="B" inputmode="decimal" autocomplete="off" placeholder="e.g. 60"></div>
-<div class="field-wrap"><label class="field-label" for="C">Angle C <span class="unit">degrees</span></label><input class="field angle-input" id="C" inputmode="decimal" autocomplete="off" placeholder="e.g. 75"></div>
-<div class="field-wrap"><label class="field-label" for="a">Side a</label><input class="field side-input" id="a" inputmode="decimal" autocomplete="off" placeholder="opposite A"></div>
-<div class="field-wrap"><label class="field-label" for="b">Side b</label><input class="field side-input" id="b" inputmode="decimal" autocomplete="off" placeholder="opposite B"></div>
-<div class="field-wrap"><label class="field-label" for="c">Side c</label><input class="field side-input" id="c" inputmode="decimal" autocomplete="off" placeholder="opposite C"></div>
+<div class="field-wrap"><label class="field-label" for="A">Angle A <span class="unit">degrees</span></label><input autocomplete="off" class="field angle-input" id="A" inputmode="decimal" placeholder="e.g. 45"/></div>
+<div class="field-wrap"><label class="field-label" for="B">Angle B <span class="unit">degrees</span></label><input autocomplete="off" class="field angle-input" id="B" inputmode="decimal" placeholder="e.g. 60"/></div>
+<div class="field-wrap"><label class="field-label" for="C">Angle C <span class="unit">degrees</span></label><input autocomplete="off" class="field angle-input" id="C" inputmode="decimal" placeholder="e.g. 75"/></div>
+<div class="field-wrap"><label class="field-label" for="a">Side a</label><input autocomplete="off" class="field side-input" id="a" inputmode="decimal" placeholder="opposite A"/></div>
+<div class="field-wrap"><label class="field-label" for="b">Side b</label><input autocomplete="off" class="field side-input" id="b" inputmode="decimal" placeholder="opposite B"/></div>
+<div class="field-wrap"><label class="field-label" for="c">Side c</label><input autocomplete="off" class="field side-input" id="c" inputmode="decimal" placeholder="opposite C"/></div>
 </div>
 <div class="section-gap"></div>
 <div class="notice"><strong>Important:</strong> a general triangle needs enough information to fix both its shape and scale. Two angles determine the shape but not the side lengths; two sides alone also leave infinitely many possibilities. Add a side or angle when needed.</div>
-<div id="error" class="error" hidden></div>
+<div class="error" hidden="" id="error"></div>
 </section>
-<section id="results" class="results"><div class="card"><div class="empty">Enter your values above to solve the triangle.</div></div></section>
+<section class="results" id="results"><div class="card"><div class="empty">Enter your values above to solve the triangle.</div></div></section>
 </main>
 </div>
 <script>
@@ -216,7 +232,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px;pa
       const perimeter=s.a+s.b+s.c;
       const area=.5*s.b*s.c*Math.sin(rad(s.A));
       const label=result.solutions.length>1?`Solution ${i+1}`:'Solution';
-      return `<article class="card solution"><div class="solution-head"><div class="solution-title">${label}</div><span class="solution-badge">Solved</span></div><div class="solution-body"><div><div class="values"><div class="value"><div class="value-label">Angle A</div><div class="value-num">${fmt(s.A,4)}°</div></div><div class="value"><div class="value-label">Angle B</div><div class="value-num">${fmt(s.B,4)}°</div></div><div class="value"><div class="value-label">Angle C</div><div class="value-num">${fmt(s.C,4)}°</div></div><div class="value"><div class="value-label">Side a</div><div class="value-num">${fmt(s.a)}</div></div><div class="value"><div class="value-label">Side b</div><div class="value-num">${fmt(s.b)}</div></div><div class="value"><div class="value-label">Side c</div><div class="value-num">${fmt(s.c)}</div></div></div><div class="meta-grid"><div class="meta"><div class="meta-label">Perimeter</div><div class="meta-value">${fmt(perimeter)}</div></div><div class="meta"><div class="meta-label">Area</div><div class="meta-value">${fmt(area)}</div></div></div></div><div class="diagram-wrap">${svgFor(s)}</div></div></article>`;
+      return `<article class="card solution"><div class="solution-head"><div class="solution-title">${label}</div></div><div class="solution-body"><div><div class="values"><div class="value"><div class="value-label">Angle A</div><div class="value-num">${fmt(s.A,4)}°</div></div><div class="value"><div class="value-label">Angle B</div><div class="value-num">${fmt(s.B,4)}°</div></div><div class="value"><div class="value-label">Angle C</div><div class="value-num">${fmt(s.C,4)}°</div></div><div class="value"><div class="value-label">Side a</div><div class="value-num">${fmt(s.a)}</div></div><div class="value"><div class="value-label">Side b</div><div class="value-num">${fmt(s.b)}</div></div><div class="value"><div class="value-label">Side c</div><div class="value-num">${fmt(s.c)}</div></div></div><div class="meta-grid"><div class="meta"><div class="meta-label">Perimeter</div><div class="meta-value">${fmt(perimeter)}</div></div><div class="meta"><div class="meta-label">Area</div><div class="meta-value">${fmt(area)}</div></div></div></div><div class="diagram-wrap">${svgFor(s)}</div></div></article>`;
     }).join('');
   }
   function recalc(){

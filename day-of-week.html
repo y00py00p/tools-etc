@@ -1,18 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#635bff">
-  <meta name="description" content="Find the day of the week for any date with this free online day of the week calculator.">
-  <link rel="canonical" href="https://tools-etc.vercel.app/day-of-week">
-  <meta property="og:title" content="Day of the Week Calculator | Tools, etc.">
-  <meta property="og:description" content="Find the day of the week for any date with this free online calculator.">
-  <meta property="og:url" content="https://tools-etc.vercel.app/day-of-week">
-  <meta property="og:type" content="website">
-  <title>Day of the Week Calculator | Tools, etc.</title>
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#635bff" name="theme-color"/>
+<meta content="Find the day of the week for any date with this free online day of the week calculator." name="description"/>
+<link href="https://tools-etc.vercel.app/day-of-week" rel="canonical"/>
+<meta content="Day of the Week Calculator | Tools etc." property="og:title"/>
+<meta content="Find the day of the week for any date with this free online calculator." property="og:description"/>
+<meta content="https://tools-etc.vercel.app/day-of-week" property="og:url"/>
+<meta content="website" property="og:type"/>
+<title>Day of the Week Calculator | Tools etc.</title>
+<style>
     :root{
       --bg:#f7f7f9;
       --surface:#ffffff;
@@ -163,58 +163,59 @@
       .btn{width:100%}
       .card{padding:18px}
     }
-  </style>
+  
 
-  <!-- Vercel Web Analytics -->
-  <script>
+/* Tools etc. shared page chrome */
+header.site-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;padding:8px 0 24px!important;margin:0!important;width:min(1180px,calc(100vw - 32px))!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important}
+header.site-header .brand{display:inline-flex!important;align-items:center!important;gap:11px!important;margin:0!important;font-family:inherit!important;font-size:19px!important;font-weight:750!important;letter-spacing:-.03em!important;line-height:1.2!important;white-space:nowrap!important;text-decoration:none!important}
+header.site-header .brand-mark{width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border-radius:10px!important;background:var(--text)!important;color:#fff!important;flex:0 0 auto!important;box-shadow:none!important}
+header.site-header .brand-mark svg{width:18px!important;height:18px!important}
+header.site-header .back{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:10px 12px!important;border:1px solid var(--border)!important;border-radius:10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:14px!important;font-weight:650!important;line-height:1.2!important;text-decoration:none!important;white-space:nowrap!important}
+header.site-header .back:hover,header.site-header .back:focus-visible{background:var(--surface)!important;color:var(--text)!important;outline:none!important}
+header.site-header .back svg{display:block!important;width:16px!important;height:16px!important;flex:0 0 auto!important;transform:none!important}
+.hero{padding:34px 0 24px!important;text-align:center!important}
+.hero h1,h1{margin:0!important;font-family:inherit!important;font-size:clamp(34px,5.5vw,54px)!important;line-height:1!important;letter-spacing:-.05em!important;font-weight:800!important}
+button{font-family:inherit}
+@media(max-width:620px){header.site-header{padding:4px 0 18px!important}header.site-header .brand{margin:0!important;font-size:18px!important}header.site-header .back{font-size:14px!important;padding:9px 10px!important}.hero{padding:28px 0 20px!important}}
+
+/* Shared history controls */
+.history-head button{appearance:none!important;border:1px solid var(--border)!important;border-radius:10px!important;padding:8px 10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:12px!important;font-weight:700!important;line-height:1.2!important;cursor:pointer!important;transition:background .16s ease,color .16s ease,border-color .16s ease!important}
+.history-head button:hover,.history-head button:focus-visible{background:var(--surface2)!important;color:var(--text)!important;outline:none!important}
+</style>
+<!-- Vercel Web Analytics -->
+<script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
-  <script defer src="/_vercel/insights/script.js"></script>
+<script defer="" src="/_vercel/insights/script.js"></script>
 </head>
-
 <body>
-  <div class="shell">
-    <header class="topbar">
-      <a class="brand" href="/" aria-label="Tools, etc. homepage">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 3h6" />
-            <path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3" />
-            <path d="M8.2 15h7.6" />
-          </svg>
-        </span>
-        <span>Tools, etc.</span>
-      </a>
-    </header>
+<div class="shell">
+<header class="site-header"><a aria-label="Tools etc. home" class="brand" href="/"><span aria-hidden="true" class="brand-mark"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewbox="0 0 24 24"><path d="M9 3h6"></path><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"></path><path d="M8.2 15h7.6"></path></svg></span><span>Tools etc.</span></a><a aria-label="All tools" class="back" href="/"><span>All tools</span><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a></header>
+<section class="hero">
 
-    <section class="hero">
-      <span class="eyebrow">Tools, etc.</span>
-      <h1>Day of the Week</h1>
-      <p>Enter a date to find out exactly which day of the week it falls on.</p>
-    </section>
+<h1>Day of the Week</h1>
 
-    <main class="card">
-      <div class="date-row">
-        <div>
-          <label class="label" for="dateInput">Date</label>
-          <input id="dateInput" class="field" type="date" aria-describedby="dateHelp">
-          <div id="dateHelp" class="footer-note">Your date stays in your browser.</div>
-        </div>
-        <button id="clearButton" class="btn" type="button">Clear</button>
-      </div>
+</section>
+<main class="card">
+<div class="date-row">
+<div>
+<label class="label" for="dateInput">Date</label>
+<input class="field" id="dateInput" type="date"/>
 
-      <section id="result" class="result" aria-live="polite">
-        <div id="emptyState" class="empty-state">Choose a date to see the day of the week.</div>
-        <div id="resultInner" class="result-inner" hidden>
-          <div class="result-kicker">That date falls on</div>
-          <div id="weekday" class="weekday"></div>
-          <div id="formattedDate" class="formatted-date"></div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script>
+</div>
+<button class="btn" id="clearButton" type="button">Clear</button>
+</div>
+<section aria-live="polite" class="result" id="result">
+<div class="empty-state" id="emptyState">Choose a date to see the day of the week.</div>
+<div class="result-inner" hidden="" id="resultInner">
+<div class="result-kicker">That date falls on</div>
+<div class="weekday" id="weekday"></div>
+<div class="formatted-date" id="formattedDate"></div>
+</div>
+</section>
+</main>
+</div>
+<script>
     (function(){
       "use strict";
 
