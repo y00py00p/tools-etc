@@ -66,7 +66,7 @@
   .count { color:var(--muted); font-size:12px; font-weight:650; }
 
   .wheel-stage { position:relative; width:min(100%, 500px); aspect-ratio:1; margin:0 auto; display:grid; place-items:center; }
-  #wheel { width:100%; height:100%; display:block; filter:drop-shadow(0 14px 24px rgba(20,20,30,.08)); transform:rotate(0deg); transition:none; }
+  #wheel { width:100%; height:100%; display:block; filter:drop-shadow(0 14px 24px rgba(20,20,30,.08)); transform:rotate(0deg); transition:none !important; }
   .wheel-pointer { position:absolute; top:-1px; left:50%; width:0; height:0; transform:translateX(-50%); border-left:13px solid transparent; border-right:13px solid transparent; border-top:27px solid var(--text); border-bottom:0; z-index:3; filter:drop-shadow(0 3px 3px rgba(0,0,0,.14)); }
   .wheel-center { position:absolute; left:50%; top:50%; width:74px; height:74px; transform:translate(-50%,-50%); border-radius:50%; border:8px solid #fff; background:var(--text); box-shadow:0 4px 12px rgba(0,0,0,.14); z-index:2; }
   .wheel-center::after { content:""; position:absolute; inset:11px; border-radius:50%; background:var(--accent); }
@@ -539,92 +539,87 @@
     const cy = h / 2;
     const radius = Math.min(w, h) / 2 - 18;
     ctx.clearRect(0, 0, w, h);
-    const effective = getEffectiveWeights();
-    if (!items.length) {
+    const geometry = buildWheelGeometry();
+
+    if (!items.length || geometry.totalWeight <= 0) {
       ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.fillStyle = '#ededf2'; ctx.fill();
       ctx.lineWidth = 8; ctx.strokeStyle = '#fff'; ctx.stroke();
       return;
     }
 
-    const weightTotal = effective.reduce((sum, value) => sum + value, 0);
-    if (weightTotal <= 0) {
-      ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.fillStyle = '#ededf2'; ctx.fill();
-      ctx.lineWidth = 8; ctx.strokeStyle = '#fff'; ctx.stroke();
-      return;
-    }
-
-    let start = -Math.PI / 2;
-    items.forEach((item, index) => {
-      const weight = effective[index] || 0;
-      const span = weightTotal ? (Math.PI * 2 * weight / weightTotal) : 0;
-      if (!span) return;
+    // The exact same segment angles are used by winner selection and animation.
+    geometry.segments.forEach(segment => {
+      if (segment.span <= 0) return;
+      const start = -Math.PI / 2 + segment.start * Math.PI / 180;
+      const end = -Math.PI / 2 + segment.end * Math.PI / 180;
       ctx.beginPath();
       ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius, start, start + span);
+      ctx.arc(cx, cy, radius, start, end);
       ctx.closePath();
-      ctx.fillStyle = COLORS[index % COLORS.length];
+      ctx.fillStyle = COLORS[segment.index % COLORS.length];
       ctx.fill();
       ctx.lineWidth = 5;
       ctx.strokeStyle = '#fff';
       ctx.stroke();
-      start += span;
     });
 
     // Draw labels only where they remain readable.
-    start = -Math.PI / 2;
-    items.forEach((item, index) => {
-      const weight = effective[index] || 0;
-      const span = weightTotal ? (Math.PI * 2 * weight / weightTotal) : 0;
-      if (!span) return;
-      if (items.length <= 24 && span > 0.115) {
-        const center = start + span / 2;
-        const text = (item.text.trim() || `Item ${index + 1}`);
-        const label = text.length > 18 ? text.slice(0, 17) + '…' : text;
-        ctx.save();
-        ctx.translate(cx + Math.cos(center) * radius * .66, cy + Math.sin(center) * radius * .66);
-        ctx.rotate(center + Math.PI / 2);
-        ctx.fillStyle = 'rgba(255,255,255,.97)';
-        ctx.font = '700 24px Inter, Arial, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(0,0,0,.15)';
-        ctx.shadowBlur = 3;
-        ctx.fillText(label, 0, 0);
-        ctx.restore();
-      }
-      start += span;
+    geometry.segments.forEach(segment => {
+      if (segment.span <= 0 || items.length > 24 || segment.span * Math.PI / 180 <= 0.115) return;
+      const center = -Math.PI / 2 + (segment.start + segment.span / 2) * Math.PI / 180;
+      const text = (items[segment.index].text.trim() || `Item ${segment.index + 1}`);
+      const label = text.length > 18 ? text.slice(0, 17) + '…' : text;
+      ctx.save();
+      ctx.translate(cx + Math.cos(center) * radius * .66, cy + Math.sin(center) * radius * .66);
+      ctx.rotate(center + Math.PI / 2);
+      ctx.fillStyle = 'rgba(255,255,255,.97)';
+      ctx.font = '700 24px Inter, Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = 'rgba(0,0,0,.15)';
+      ctx.shadowBlur = 3;
+      ctx.fillText(label, 0, 0);
+      ctx.restore();
     });
 
     ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.lineWidth = 12; ctx.strokeStyle = '#fff'; ctx.stroke();
   }
 
-  function chooseWeighted() {
-    const effective = getEffectiveWeights();
-    const valid = effective.map((weight, index) => ({index, weight})).filter(x => x.weight > 0);
-    if (!valid.length) return null;
-    const total = valid.reduce((sum, x) => sum + x.weight, 0);
-    let r = Math.random() * total;
-    for (const x of valid) {
-      r -= x.weight;
-      if (r <= 0) return x.index;
-    }
-    return valid[valid.length - 1].index;
+  function buildWheelGeometry() {
+    const rawWeights = getEffectiveWeights();
+    const weights = rawWeights.map(value => Number.isFinite(Number(value)) && Number(value) > 0 ? Number(value) : 0);
+    const totalWeight = weights.reduce((sum, value) => sum + value, 0);
+    const segments = [];
+    let cursor = 0;
+    let activeLeft = weights.filter(value => value > 0).length;
+
+    weights.forEach((weight, index) => {
+      let span = totalWeight > 0 ? 360 * weight / totalWeight : 0;
+      if (weight > 0) {
+        activeLeft--;
+        // Ensure the last nonzero segment ends at exactly 360°, avoiding a gap
+        // caused by floating-point rounding.
+        if (activeLeft === 0) span = 360 - cursor;
+      }
+      segments.push({index, weight, start:cursor, end:cursor + span, span, center:cursor + span / 2});
+      cursor += span;
+    });
+
+    return {weights, totalWeight, segments};
   }
 
-  function buildAngles() {
-    const effective = getEffectiveWeights();
-    const total = effective.reduce((sum, value) => sum + value, 0);
-    const angles = [];
-    let start = 0;
-    effective.forEach(value => {
-      const span = total > 0 ? 360 * value / total : 0;
-      angles.push({start, end:start + span, center:start + span / 2});
-      start += span;
-    });
-    return angles;
+  function chooseWinner(geometry) {
+    // One uniform angle draw chooses the winning segment according to its exact
+    // rendered arc size. That very same angle becomes the final pointer landing
+    // position, so the selected result and the visible wheel cannot disagree.
+    const landingAngle = Math.random() * 360;
+    let segment = geometry.segments.find(item =>
+      item.span > 0 && landingAngle >= item.start && landingAngle < item.end
+    );
+    if (!segment) segment = [...geometry.segments].reverse().find(item => item.span > 0) || null;
+    return segment ? {selected:segment.index, landingAngle} : null;
   }
 
   function addHistory(textValue) {
@@ -746,12 +741,17 @@
 
   function spin() {
     if (spinning) return;
-    const selected = chooseWeighted();
-    if (selected === null) return;
-    const angles = buildAngles();
-    const center = angles[selected].center;
+
+    // Determine the winner and its landing angle before starting the animation.
+    // Geometry comes from the same source as the canvas rendering.
+    const geometry = buildWheelGeometry();
+    const selection = chooseWinner(geometry);
+    if (!selection) return;
+    const {selected, landingAngle} = selection;
+    const boundaries = geometry.segments.filter(segment => segment.span > 0).map(segment => segment.start);
+
     const currentMod = ((rotation % 360) + 360) % 360;
-    const targetMod = ((360 - center) % 360 + 360) % 360;
+    const targetMod = ((360 - landingAngle) % 360 + 360) % 360;
     let delta = targetMod - currentMod;
     if (delta < 0) delta += 360;
     delta += 360 * 5;
@@ -765,10 +765,8 @@
 
     const startRotation = rotation;
     const targetRotation = startRotation + delta;
-    const boundaries = angles.map(angle => angle.start);
     const startedAt = performance.now();
     let lastRotation = startRotation;
-    rotation = targetRotation;
     spinBtn.textContent = 'Spinning…';
 
     function animate(now) {
@@ -776,6 +774,8 @@
       const progress = Math.min(1, Math.max(0, (now - startedAt) / SPIN_DURATION_MS));
       const visualRotation = startRotation + delta * spinEasing(progress);
       playCrossedBoundaries(lastRotation, visualRotation, boundaries);
+      // CSS transitions are disabled on the canvas; this JS animation is the
+      // only source of motion, so the audio crossings match the displayed wheel.
       wheel.style.transform = `rotate(${visualRotation}deg)`;
       lastRotation = visualRotation;
 
@@ -783,6 +783,7 @@
         spinAnimationFrame = window.requestAnimationFrame(animate);
       } else {
         wheel.style.transform = `rotate(${targetRotation}deg)`;
+        rotation = targetRotation;
         finishSpin(selected);
       }
     }
