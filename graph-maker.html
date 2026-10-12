@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#635bff">
-<meta name="description" content="Make bar, line, pie, doughnut, and area graphs from your own labels and values, then export them to PDF or PNG.">
+<meta name="description" content="Make bar, line, pie, doughnut, area, and scatter graphs from your own items and values, then export to PDF or PNG.">
 <title>Graph Maker — Tools etc.</title>
 <link rel="canonical" href="https://tools-etc.vercel.app/graph-maker">
 <meta property="og:title" content="Graph Maker — Tools etc."><meta property="og:description" content="Create and export custom graphs and charts."><meta property="og:url" content="https://tools-etc.vercel.app/graph-maker"><meta property="og:type" content="website">
 <style>
 :root{--bg:#f7f7f9;--surface:#fff;--surface2:#f1f1f5;--text:#17171b;--muted:#6f7078;--border:#e7e7ec;--accent:#635bff;--accentSoft:#eeecff;--radius:18px;--shadow:0 8px 24px rgba(20,20,30,.045)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(99,91,255,.08),transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.shell{width:min(1180px,calc(100% - 32px));margin:0 auto;padding:20px 0 56px}header.site-header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 0 24px;margin:0}.brand{display:inline-flex;align-items:center;gap:11px;font-size:19px;font-weight:750;letter-spacing:-.03em;white-space:nowrap}.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--text);color:#fff;flex:0 0 auto}.brand-mark svg{width:18px;height:18px}.back{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--muted);font-size:14px;font-weight:650;white-space:nowrap}.back:hover{background:var(--surface);color:var(--text)}.back svg{display:block;width:16px;height:16px}.hero{padding:30px 0 24px;text-align:center}.hero h1{margin:0;font-size:clamp(34px,5.5vw,54px);line-height:1;letter-spacing:-.05em;font-weight:800}.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}.layout{display:grid;grid-template-columns:minmax(320px,.88fr) minmax(0,1.5fr);gap:16px;align-items:start}.panel{padding:20px;min-width:0}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.section-title{font-size:16px;font-weight:780;letter-spacing:-.02em}.field-label{display:block;margin:0 0 7px;color:var(--muted);font-size:12px;font-weight:750}.field{width:100%;min-width:0;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;padding:11px 12px;outline:none}.field:focus-visible,button:focus-visible{outline:3px solid rgba(99,91,255,.22);outline-offset:2px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}.wide-field{margin-bottom:15px}.type-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:16px}.type-button{min-height:42px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;font-size:13px;font-weight:700;cursor:pointer}.type-button.active{border-color:rgba(99,91,255,.5);background:var(--accentSoft);color:var(--accent)}.type-button:hover{border-color:#b7b2ff}.rows{display:flex;flex-direction:column;gap:8px}.data-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(82px,.7fr) 34px;gap:7px;align-items:center}.data-row .field{padding:10px 9px;border-radius:9px;font-size:13px}.row-head{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(82px,.7fr) 34px;gap:7px;margin:0 0 7px}.row-head span{font-size:11px;font-weight:750;color:var(--muted)}.remove-row{height:35px;border:1px solid var(--border);background:#fff;border-radius:9px;color:var(--muted);font-size:18px;cursor:pointer}.remove-row:hover{color:#b42318;border-color:#e6b8b8}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;appearance:none;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:10px;padding:10px 13px;font:inherit;font-size:13px;font-weight:740;cursor:pointer}.btn:hover{background:var(--surface2)}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.primary:hover{filter:brightness(.96)}.btn svg{width:16px;height:16px;flex:0 0 auto}.add-row{margin-top:10px;width:100%;border-style:dashed;color:var(--muted)}.settings{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:17px;padding-top:16px;border-top:1px solid var(--border)}.check-row{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;font-weight:650;margin-top:12px}.check-row input{accent-color:var(--accent);width:15px;height:15px}.action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.action-row .btn.primary{flex:1}.preview-panel{padding:18px}.preview-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}.preview-title{font-size:16px;font-weight:780;letter-spacing:-.02em}.preview-badge{font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:5px 8px;white-space:nowrap}.chart-wrap{width:100%;min-height:300px;border:1px solid var(--border);border-radius:13px;overflow:hidden;background:#fff}.chart-wrap svg{display:block;width:100%;height:auto;min-height:300px}.hint{font-size:12px;line-height:1.5;color:var(--muted);margin:12px 2px 0}.error{display:none;color:#b42318;font-size:12px;line-height:1.45;margin-top:10px}.error.show{display:block}.mobile-actions{display:none}.chart-wrap svg text{font-family:Arial,Helvetica,sans-serif}.btn:disabled{opacity:.45;cursor:not-allowed}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(99,91,255,.08),transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.shell{width:min(1180px,calc(100% - 32px));margin:0 auto;padding:20px 0 56px}header.site-header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 0 24px;margin:0}.brand{display:inline-flex;align-items:center;gap:11px;font-size:19px;font-weight:750;letter-spacing:-.03em;white-space:nowrap}.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--text);color:#fff;flex:0 0 auto}.brand-mark svg{width:18px;height:18px}.back{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--muted);font-size:14px;font-weight:650;white-space:nowrap}.back:hover{background:var(--surface);color:var(--text)}.back svg{display:block;width:16px;height:16px}.hero{padding:30px 0 24px;text-align:center}.hero h1{margin:0;font-size:clamp(34px,5.5vw,54px);line-height:1;letter-spacing:-.05em;font-weight:800}.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}.layout{display:grid;grid-template-columns:minmax(320px,.88fr) minmax(0,1.5fr);gap:16px;align-items:start}.panel{padding:20px;min-width:0}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.section-title{font-size:16px;font-weight:780;letter-spacing:-.02em}.field-label{display:block;margin:0 0 7px;color:var(--muted);font-size:12px;font-weight:750}.field{width:100%;min-width:0;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;padding:11px 12px;outline:none}.field:focus-visible,button:focus-visible{outline:3px solid rgba(99,91,255,.22);outline-offset:2px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}.wide-field{margin-bottom:15px}.type-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:16px}.type-button{min-height:42px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;font-size:13px;font-weight:700;cursor:pointer}.type-button.active{border-color:rgba(99,91,255,.5);background:var(--accentSoft);color:var(--accent)}.type-button:hover{border-color:#b7b2ff}.rows{display:flex;flex-direction:column;gap:8px}.data-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(82px,.7fr) 34px;gap:7px;align-items:center}.data-row .field{padding:10px 9px;border-radius:9px;font-size:13px}.row-head{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(82px,.7fr) 34px;gap:7px;margin:0 0 7px}.row-head span{font-size:11px;font-weight:750;color:var(--muted)}.remove-row{height:35px;border:1px solid var(--border);background:#fff;border-radius:9px;color:var(--muted);font-size:18px;cursor:pointer}.remove-row:hover{color:#b42318;border-color:#e6b8b8}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;appearance:none;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:10px;padding:10px 13px;font:inherit;font-size:13px;font-weight:740;cursor:pointer}.btn:hover{background:var(--surface2)}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.primary:hover{filter:brightness(.96)}.btn svg{width:16px;height:16px;flex:0 0 auto}.items-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.items-actions .btn{width:100%;min-width:0}.add-row{margin-top:0;border-style:dashed;color:var(--muted)}.row-head.scatter-head{grid-template-columns:minmax(0,1.2fr) minmax(56px,.65fr) minmax(56px,.65fr) 34px}.data-row.scatter-row{grid-template-columns:minmax(0,1.2fr) minmax(56px,.65fr) minmax(56px,.65fr) 34px}.data-row.scatter-row .field{padding:9px 6px}.check-row[hidden]{display:none!important}.settings{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:17px;padding-top:16px;border-top:1px solid var(--border)}.check-row{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;font-weight:650;margin-top:12px}.check-row input{accent-color:var(--accent);width:15px;height:15px}.action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.action-row .btn.primary{flex:1}.preview-panel{padding:18px}.preview-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}.preview-title{font-size:16px;font-weight:780;letter-spacing:-.02em}.preview-badge{font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:5px 8px;white-space:nowrap}.chart-wrap{width:100%;min-height:300px;border:1px solid var(--border);border-radius:13px;overflow:hidden;background:#fff}.chart-wrap svg{display:block;width:100%;height:auto;min-height:300px}.hint{font-size:12px;line-height:1.5;color:var(--muted);margin:12px 2px 0}.error{display:none;color:#b42318;font-size:12px;line-height:1.45;margin-top:10px}.error.show{display:block}.mobile-actions{display:none}.chart-wrap svg text{font-family:Arial,Helvetica,sans-serif}.btn:disabled{opacity:.45;cursor:not-allowed}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.panel{padding:16px}.chart-wrap svg{min-height:250px}.hero{padding:26px 0 20px}}
-@media(max-width:520px){.shell{width:calc(100% - 22px);padding-top:13px}.hero{padding:24px 0 18px}.hero h1{font-size:38px}.layout{gap:11px}.field-grid{grid-template-columns:1fr 1fr;gap:9px}.settings{grid-template-columns:1fr 1fr;gap:9px}.preview-panel{padding:10px}.chart-wrap{min-height:230px}.chart-wrap svg{min-height:230px}.type-button{font-size:12px}.action-row .btn{flex:1}.brand{font-size:18px}.back{font-size:13px;padding:9px 10px}}
+@media(max-width:520px){.shell{width:calc(100% - 22px);padding-top:13px}.hero{padding:24px 0 18px}.hero h1{font-size:38px}.layout{gap:11px}.field-grid{grid-template-columns:1fr 1fr;gap:9px}.settings{grid-template-columns:1fr 1fr;gap:9px}.preview-panel{padding:10px}.chart-wrap{min-height:230px}.chart-wrap svg{min-height:230px}.type-button{font-size:12px}.action-row .btn{flex:1}.items-actions .btn{padding:10px 7px;font-size:12px}.row-head.scatter-head span{font-size:10px}.brand{font-size:18px}.back{font-size:13px;padding:9px 10px}}
 @media print{body{background:#fff}.shell{width:100%;padding:0}.site-header,.hero,.layout>.panel:first-child,.preview-head,.hint,.action-row{display:none!important}.layout{display:block}.preview-panel{border:0;box-shadow:none;padding:0}.chart-wrap{border:0;min-height:0}.chart-wrap svg{min-height:0;width:100%;height:auto}}
 </style>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script><script defer src="/_vercel/insights/script.js"></script>
@@ -25,13 +25,15 @@
 <div class="field-grid"><div><label class="field-label" for="xAxis">Horizontal axis</label><input class="field" id="xAxis" maxlength="50" placeholder="e.g. Month"></div><div><label class="field-label" for="yAxis">Vertical axis</label><input class="field" id="yAxis" maxlength="50" placeholder="e.g. Sales"></div></div>
 <label class="field-label">Chart type</label>
 <div class="type-grid" role="group" aria-label="Chart type">
-<button class="type-button active" type="button" data-type="bar" aria-pressed="true">Bar</button><button class="type-button" type="button" data-type="line" aria-pressed="false">Line</button><button class="type-button" type="button" data-type="pie" aria-pressed="false">Pie / circle</button><button class="type-button" type="button" data-type="doughnut" aria-pressed="false">Doughnut</button><button class="type-button" type="button" data-type="area" aria-pressed="false">Area</button></div>
-<div class="section-head" style="margin-bottom:8px"><div class="section-title">Labels and values</div><span class="preview-badge" id="rowCount">4 items</span></div>
-<div class="row-head" aria-hidden="true"><span>Name / label</span><span>Value</span><span></span></div>
+<button class="type-button active" type="button" data-type="bar" aria-pressed="true">Bar</button><button class="type-button" type="button" data-type="line" aria-pressed="false">Line</button><button class="type-button" type="button" data-type="pie" aria-pressed="false">Pie / circle</button><button class="type-button" type="button" data-type="doughnut" aria-pressed="false">Doughnut</button><button class="type-button" type="button" data-type="area" aria-pressed="false">Area</button><button class="type-button" type="button" data-type="scatter" aria-pressed="false">Scatter</button></div>
+<div class="section-head" style="margin-bottom:8px"><div class="section-title">Items and values</div><span class="preview-badge" id="rowCount">4 items</span></div>
+<div class="row-head" id="rowHeader" aria-hidden="true"><span>Item name</span><span>Value</span><span></span></div>
 <div class="rows" id="dataRows"></div>
-<button class="btn add-row" id="addRow" type="button">＋ Add row</button>
+<div class="items-actions"><button class="btn add-row" id="addRow" type="button">＋ Add item</button><button class="btn" id="clearAllItems" type="button">Clear all items</button></div>
 <div class="settings"><div><label class="field-label" for="palette">Colors</label><select class="field" id="palette"><option value="violet">Violet</option><option value="ocean">Ocean</option><option value="warm">Warm</option><option value="green">Green</option><option value="mono">Greyscale</option></select></div><div><label class="field-label" for="numberFormat">Value labels</label><select class="field" id="numberFormat"><option value="value">Show values</option><option value="none">Hide values</option></select></div></div>
 <label class="check-row"><input id="gridlines" type="checkbox" checked> Show gridlines</label>
+<label class="check-row" id="averageLineOption" hidden><input id="averageLine" type="checkbox"> Show average line</label>
+<label class="check-row" id="bestFitOption" hidden><input id="bestFit" type="checkbox"> Show line of best fit</label>
 <div class="action-row"><button class="btn primary" id="exportPdf" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 20h14"></path></svg>Export PDF</button><button class="btn" id="exportPng" type="button">Download PNG</button></div>
 <div class="error" id="error" role="alert"></div>
 </section>
@@ -40,6 +42,7 @@
 <script>
 (() => {
   const $ = id => document.getElementById(id);
+  const STORAGE_KEY = 'tools-etc-graph-maker-v2';
   const PALETTES = {
     violet:['#635bff','#8c84ff','#b5afff','#d4d0ff','#4338ca','#a5a0f5','#7169df','#e5e3ff'],
     ocean:['#087e8b','#0b9fa8','#57c4c2','#9bded9','#176b87','#4c9fbd','#9dc9da','#d0edf0'],
@@ -47,28 +50,79 @@
     green:['#2d6a4f','#40916c','#74c69d','#b7e4c7','#1b4332','#52b788','#95d5b2','#d8f3dc'],
     mono:['#222222','#4a4a4a','#707070','#969696','#b1b1b1','#c5c5c5','#d7d7d7','#e6e6e6']
   };
-  const LABELS={bar:'Bar graph',line:'Line graph',pie:'Pie / circle graph',doughnut:'Doughnut graph',area:'Area graph'};
+  const LABELS={bar:'Bar graph',line:'Line graph',pie:'Pie / circle graph',doughnut:'Doughnut graph',area:'Area graph',scatter:'Scatter graph'};
+  const validTypes = Object.keys(LABELS);
+  const freshRows = () => [1,2,3,4].map(i=>({label:`Item ${i}`,x:String(i),value:'0'}));
   let chartType='bar';
-  let rows=[{label:'Category 1',value:'12'},{label:'Category 2',value:'19'},{label:'Category 3',value:'8'},{label:'Category 4',value:'15'}];
+  let rows=freshRows();
   const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
   const fmt = n => new Intl.NumberFormat('en-CA',{maximumFractionDigits:4}).format(n);
   function setError(text=''){ $('error').textContent=text; $('error').classList.toggle('show',!!text); }
-  function getData(){return rows.map((r,i)=>({label:r.label.trim(),raw:r.value.trim(),value:Number(r.value),index:i})).filter(r=>r.label!==''&&r.raw!==''&&Number.isFinite(r.value));}
+  function getData(){
+    if(chartType==='scatter') return rows.map((r,i)=>({label:r.label.trim(),xRaw:String(r.x??'').trim(),raw:String(r.value??'').trim(),x:Number(r.x),value:Number(r.value),index:i})).filter(r=>r.label!==''&&r.xRaw!==''&&r.raw!==''&&Number.isFinite(r.x)&&Number.isFinite(r.value));
+    return rows.map((r,i)=>({label:r.label.trim(),raw:String(r.value??'').trim(),value:Number(r.value),x:i,index:i})).filter(r=>r.label!==''&&r.raw!==''&&Number.isFinite(r.value));
+  }
+  function persistState(){
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({chartType,rows,graphTitle:$('graphTitle').value,xAxis:$('xAxis').value,yAxis:$('yAxis').value,palette:$('palette').value,numberFormat:$('numberFormat').value,gridlines:$('gridlines').checked,averageLine:$('averageLine').checked,bestFit:$('bestFit').checked}));
+    } catch(e) { /* Keep the graph usable if browser storage is unavailable. */ }
+  }
+  function restoreState(){
+    try {
+      const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
+      if(!s||typeof s!=='object')return;
+      if(Array.isArray(s.rows)&&s.rows.length>=2&&s.rows.length<=50){
+        rows=s.rows.map((r,i)=>({label:String(r?.label??`Item ${i+1}`).slice(0,60),x:String(r?.x??i+1),value:String(r?.value??'0')}));
+      }
+      if(validTypes.includes(s.chartType))chartType=s.chartType;
+      if(typeof s.graphTitle==='string')$('graphTitle').value=s.graphTitle.slice(0,100);
+      if(typeof s.xAxis==='string')$('xAxis').value=s.xAxis.slice(0,50);
+      if(typeof s.yAxis==='string')$('yAxis').value=s.yAxis.slice(0,50);
+      if(Object.prototype.hasOwnProperty.call(PALETTES,s.palette))$('palette').value=s.palette;
+      if(['value','none'].includes(s.numberFormat))$('numberFormat').value=s.numberFormat;
+      if(typeof s.gridlines==='boolean')$('gridlines').checked=s.gridlines;
+      if(typeof s.bestFit==='boolean')$('bestFit').checked=s.bestFit;
+      if(typeof s.averageLine==='boolean')$('averageLine').checked=s.averageLine;
+    } catch(e) { /* Ignore damaged or unavailable saved state. */ }
+  }
+  function syncTypeButtons(){
+    document.querySelectorAll('[data-type]').forEach(btn=>{const active=btn.dataset.type===chartType;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active));});
+    const showTrendOptions=chartType==='line'||chartType==='scatter';
+    $('bestFitOption').hidden=!showTrendOptions;
+    $('averageLineOption').hidden=!showTrendOptions;
+  }
   function renderRows(){
     const host=$('dataRows');host.replaceChildren();
+    const scatter=chartType==='scatter';
+    const header=$('rowHeader');
+    header.innerHTML=scatter?'<span>Item name</span><span>X value</span><span>Y value</span><span></span>':'<span>Item name</span><span>Value</span><span></span>';
+    header.classList.toggle('scatter-head',scatter);
     rows.forEach((row,i)=>{
-      const line=document.createElement('div');line.className='data-row';
-      const name=document.createElement('input');name.className='field';name.type='text';name.maxLength=60;name.autocomplete='off';name.value=row.label;name.setAttribute('aria-label',`Label for row ${i+1}`);name.placeholder=`Item ${i+1}`;
+      const line=document.createElement('div');line.className='data-row'+(scatter?' scatter-row':'');
+      const name=document.createElement('input');name.className='field';name.type='text';name.maxLength=60;name.autocomplete='off';name.value=row.label;name.setAttribute('aria-label',`Name for item ${i+1}`);name.placeholder=`Item ${i+1}`;
       name.addEventListener('input',()=>{rows[i].label=name.value;renderChart();});
-      const value=document.createElement('input');value.className='field';value.type='number';value.step='any';value.inputMode='decimal';value.value=row.value;value.setAttribute('aria-label',`Value for ${row.label||`row ${i+1}`}`);value.placeholder='Value';
-      value.addEventListener('input',()=>{rows[i].value=value.value;renderChart();});
-      const remove=document.createElement('button');remove.className='remove-row';remove.type='button';remove.textContent='×';remove.title=`Remove row ${i+1}`;remove.setAttribute('aria-label',`Remove row ${i+1}`);remove.disabled=rows.length<=2;remove.addEventListener('click',()=>{if(rows.length>2){rows.splice(i,1);renderRows();renderChart();}});
-      line.append(name,value,remove);host.appendChild(line);
+      const fields=[name];
+      if(scatter){
+        const xField=document.createElement('input');xField.className='field';xField.type='number';xField.step='any';xField.inputMode='decimal';xField.value=row.x??String(i+1);xField.setAttribute('aria-label',`X value for ${row.label||`item ${i+1}`}`);xField.placeholder='X';
+        xField.addEventListener('input',()=>{rows[i].x=xField.value;renderChart();});fields.push(xField);
+      }
+      const value=document.createElement('input');value.className='field';value.type='number';value.step='any';value.inputMode='decimal';value.value=row.value;value.setAttribute('aria-label',`Value for ${row.label||`item ${i+1}`}`);value.placeholder=scatter?'Y':'Value';
+      value.addEventListener('input',()=>{rows[i].value=value.value;renderChart();});fields.push(value);
+      const remove=document.createElement('button');remove.className='remove-row';remove.type='button';remove.textContent='×';remove.title=`Remove item ${i+1}`;remove.setAttribute('aria-label',`Remove item ${i+1}`);remove.disabled=rows.length<=2;remove.addEventListener('click',()=>{if(rows.length>2){rows.splice(i,1);renderRows();renderChart();}});
+      fields.push(remove);line.append(...fields);host.appendChild(line);
     });
     $('rowCount').textContent=`${rows.length} items`;
-    $('addRow').disabled=rows.length>=20;
+    $('addRow').disabled=rows.length>=50;
   }
   function svgStart(){return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img" aria-label="${esc($('graphTitle').value||'Graph')}"><rect width="1000" height="620" fill="#ffffff"/>`;}
+  function linearRegression(points){
+    if(points.length<2)return null;
+    const n=points.length,meanX=points.reduce((a,p)=>a+p.x,0)/n,meanY=points.reduce((a,p)=>a+p.y,0)/n;
+    let numerator=0,denominator=0;
+    for(const p of points){numerator+=(p.x-meanX)*(p.y-meanY);denominator+=(p.x-meanX)*(p.x-meanX);}
+    if(Math.abs(denominator)<1e-12)return null;
+    const slope=numerator/denominator;return {slope,intercept:meanY-slope*meanX};
+  }
   function drawPie(data,colors,type){
     const sum=data.reduce((a,d)=>a+d.value,0);const cx=345,cy=305,r=190,inner=type==='doughnut'?105:0;
     let angle=-Math.PI/2,svg='';
@@ -86,19 +140,49 @@
     data.forEach((d,i)=>{const y=ly+i*step; const percent=d.value/sum*100;svg+=`<rect x="590" y="${y-11}" width="13" height="13" rx="3" fill="${colors[i%colors.length]}"/><text x="613" y="${y}" font-size="14" fill="#26262c">${esc(d.label.length>25?d.label.slice(0,24)+'…':d.label)}</text><text x="925" y="${y}" text-anchor="end" font-size="13" fill="#6f7078">${fmt(percent)}%${$('numberFormat').value==='value'?' · '+fmt(d.value):''}</text>`;});
     return svg;
   }
+  function drawScatter(data,colors){
+    const left=105,right=950,top=105,bottom=480,w=right-left,h=bottom-top;
+    let minX=Math.min(...data.map(d=>d.x)),maxX=Math.max(...data.map(d=>d.x)),minY=Math.min(...data.map(d=>d.value)),maxY=Math.max(...data.map(d=>d.value));
+    if(minX===maxX){const pad=Math.abs(minX)*.05||1;minX-=pad;maxX+=pad;}else{const pad=(maxX-minX)*.06;minX-=pad;maxX+=pad;}
+    if(minY===maxY){const pad=Math.abs(minY)*.12||1;minY-=pad;maxY+=pad;}else{const pad=(maxY-minY)*.12;minY-=pad;maxY+=pad;}
+    const xRange=maxX-minX||1,yRange=maxY-minY||1;
+    const sx=x=>left+(x-minX)/xRange*w,sy=y=>bottom-(y-minY)/yRange*h;
+    let svg='';
+    if($('gridlines').checked){for(let i=0;i<=5;i++){
+      const x=minX+xRange*i/5,y=maxY-yRange*i/5,px=sx(x),py=sy(y);
+      svg+=`<line x1="${px}" y1="${top}" x2="${px}" y2="${bottom}" stroke="#e9e9ee" stroke-width="1"/><text x="${px}" y="${bottom+22}" text-anchor="middle" font-size="12" fill="#6f7078">${esc(fmt(x))}</text>`;
+      svg+=`<line x1="${left}" y1="${py}" x2="${right}" y2="${py}" stroke="#e9e9ee" stroke-width="1"/><text x="${left-15}" y="${py+4}" text-anchor="end" font-size="12" fill="#6f7078">${esc(fmt(y))}</text>`;
+    }} else {for(let i=0;i<=5;i++){const x=minX+xRange*i/5,y=maxY-yRange*i/5;svg+=`<text x="${sx(x)}" y="${bottom+22}" text-anchor="middle" font-size="12" fill="#6f7078">${esc(fmt(x))}</text><text x="${left-15}" y="${sy(y)+4}" text-anchor="end" font-size="12" fill="#6f7078">${esc(fmt(y))}</text>`;}}
+    svg+=`<line x1="${left}" y1="${top}" x2="${left}" y2="${bottom}" stroke="#bfc0c8" stroke-width="1.2"/><line x1="${left}" y1="${bottom}" x2="${right}" y2="${bottom}" stroke="#bfc0c8" stroke-width="1.2"/>`;
+    const averageY=data.reduce((sum,d)=>sum+d.value,0)/data.length;
+    if($('averageLine').checked){
+      svg+=`<line x1="${left}" y1="${sy(averageY)}" x2="${right}" y2="${sy(averageY)}" stroke="#e76f51" stroke-width="3" stroke-dasharray="3 7" stroke-linecap="round"/><text x="${right-4}" y="${sy(averageY)-9}" text-anchor="end" font-size="12" font-weight="700" fill="#c8553d">Average</text>`;
+    }
+    const fit=linearRegression(data.map(d=>({x:d.x,y:d.value})));
+    if($('bestFit').checked&&fit){svg+=`<line x1="${sx(minX)}" y1="${sy(fit.slope*minX+fit.intercept)}" x2="${sx(maxX)}" y2="${sy(fit.slope*maxX+fit.intercept)}" stroke="${colors[0]}" stroke-width="3.5" stroke-dasharray="10 7" stroke-linecap="round"/>`;}
+    data.forEach((d,i)=>{
+      const x=sx(d.x),y=sy(d.value),color=colors[i%colors.length];
+      svg+=`<circle cx="${x}" cy="${y}" r="7" fill="${color}" stroke="#fff" stroke-width="2"/>`;
+      const label=d.label.length>13?d.label.slice(0,12)+'…':d.label;
+      svg+=`<text x="${x+10}" y="${y-10}" font-size="12" fill="#3b3b43">${esc(label)}</text>`;
+      if($('numberFormat').value==='value')svg+=`<text x="${x+10}" y="${y+8}" font-size="10.5" fill="#6f7078">${esc(fmt(d.x))}, ${esc(fmt(d.value))}</text>`;
+    });
+    const xLabel=$('xAxis').value.trim(),yLabel=$('yAxis').value.trim();if(xLabel)svg+=`<text x="${(left+right)/2}" y="${bottom+67}" text-anchor="middle" font-size="14" font-weight="600" fill="#4e4e57">${esc(xLabel)}</text>`;if(yLabel)svg+=`<text x="30" y="${(top+bottom)/2}" text-anchor="middle" transform="rotate(-90 30 ${(top+bottom)/2})" font-size="14" font-weight="600" fill="#4e4e57">${esc(yLabel)}</text>`;
+    return svg;
+  }
   function renderChart(){
     const data=getData();const colors=PALETTES[$('palette').value]||PALETTES.violet;const title=$('graphTitle').value.trim()||'Untitled graph';
     $('previewType').textContent=LABELS[chartType];
     let svg=svgStart()+`<text x="500" y="47" text-anchor="middle" font-size="28" font-weight="700" fill="#17171b">${esc(title.length>58?title.slice(0,57)+'…':title)}</text>`;
-    if(data.length<2){svg+=`<text x="500" y="310" text-anchor="middle" font-size="19" fill="#6f7078">Enter at least two labels and numeric values</text>`;}
+    if(data.length<2){svg+=`<text x="500" y="310" text-anchor="middle" font-size="19" fill="#6f7078">Enter at least two items with numeric values</text>`;}
     else if((chartType==='pie'||chartType==='doughnut')&&(data.some(d=>d.value<0)||data.reduce((a,d)=>a+d.value,0)<=0)){
       svg+=`<text x="500" y="300" text-anchor="middle" font-size="18" fill="#b42318">Pie charts need non-negative values and a total above zero.</text>`;
     }else if(chartType==='pie'||chartType==='doughnut')svg+=drawPie(data,colors,chartType);
+    else if(chartType==='scatter')svg+=drawScatter(data,colors);
     else {
       const left=100,right=950,top=100,bottom=485,w=right-left,h=bottom-top;
       let min=Math.min(0,...data.map(d=>d.value)),max=Math.max(0,...data.map(d=>d.value));if(min===max){max=min===0?1:max+1;}const range=max-min||1;
-      const scaleY=v=>bottom-(v-min)/range*h;const baseline=scaleY(0);
-      const ticks=5;
+      const scaleY=v=>bottom-(v-min)/range*h;const baseline=scaleY(0);const ticks=5;
       if($('gridlines').checked){for(let i=0;i<=ticks;i++){const v=min+(range/ticks)*i,y=scaleY(v);svg+=`<line x1="${left}" y1="${y}" x2="${right}" y2="${y}" stroke="#e9e9ee" stroke-width="1"/><text x="${left-15}" y="${y+4}" text-anchor="end" font-size="12" fill="#6f7078">${esc(fmt(v))}</text>`;}}
       svg+=`<line x1="${left}" y1="${top}" x2="${left}" y2="${bottom}" stroke="#bfc0c8" stroke-width="1.2"/><line x1="${left}" y1="${baseline}" x2="${right}" y2="${baseline}" stroke="#bfc0c8" stroke-width="1.2"/>`;
       const slot=w/data.length,points=[];
@@ -107,6 +191,9 @@
         const bw=Math.min(86,slot*.58);points.forEach(([x,y,d],i)=>{const y0=Math.min(y,baseline),bh=Math.max(1,Math.abs(baseline-y));svg+=`<rect x="${x-bw/2}" y="${y0}" width="${bw}" height="${bh}" rx="5" fill="${colors[i%colors.length]}"/>`;if($('numberFormat').value==='value')svg+=`<text x="${x}" y="${d.value>=0?y-9:y+17}" text-anchor="middle" font-size="12" font-weight="700" fill="#3b3b43">${esc(fmt(d.value))}</text>`;});
       } else if(chartType==='line'){
         svg+=`<polyline points="${points.map(p=>p[0]+','+p[1]).join(' ')}" fill="none" stroke="${colors[0]}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>`;
+        const averageY=data.reduce((sum,d)=>sum+d.value,0)/data.length;
+        if($('averageLine').checked){svg+=`<line x1="${left}" y1="${scaleY(averageY)}" x2="${right}" y2="${scaleY(averageY)}" stroke="#e76f51" stroke-width="3" stroke-dasharray="3 7" stroke-linecap="round"/><text x="${right-4}" y="${scaleY(averageY)-9}" text-anchor="end" font-size="12" font-weight="700" fill="#c8553d">Average</text>`;}
+        if($('bestFit').checked){const fit=linearRegression(data.map((d,i)=>({x:i,y:d.value})));if(fit){svg+=`<line x1="${points[0][0]}" y1="${scaleY(fit.intercept)}" x2="${points[points.length-1][0]}" y2="${scaleY(fit.slope*(data.length-1)+fit.intercept)}" stroke="#24242b" stroke-width="3" stroke-dasharray="10 7" stroke-linecap="round"/>`;}}
         points.forEach(([x,y,d],i)=>{svg+=`<circle cx="${x}" cy="${y}" r="6" fill="${colors[0]}" stroke="#fff" stroke-width="2"/>`;if($('numberFormat').value==='value')svg+=`<text x="${x}" y="${y-13}" text-anchor="middle" font-size="12" font-weight="700" fill="#3b3b43">${esc(fmt(d.value))}</text>`;});
       }else{
         const first=points[0][0],last=points[points.length-1][0];svg+=`<path d="M ${first} ${baseline} ${points.map(p=>'L '+p[0]+' '+p[1]).join(' ')} L ${last} ${baseline} Z" fill="${colors[1]}" fill-opacity=".27" stroke="none"/><polyline points="${points.map(p=>p[0]+','+p[1]).join(' ')}" fill="none" stroke="${colors[0]}" stroke-width="3.5" stroke-linejoin="round"/>`;
@@ -116,12 +203,21 @@
       const xLabel=$('xAxis').value.trim(),yLabel=$('yAxis').value.trim();if(xLabel)svg+=`<text x="${(left+right)/2}" y="${bottom+73}" text-anchor="middle" font-size="14" font-weight="600" fill="#4e4e57">${esc(xLabel)}</text>`;if(yLabel)svg+=`<text x="30" y="${(top+bottom)/2}" text-anchor="middle" transform="rotate(-90 30 ${(top+bottom)/2})" font-size="14" font-weight="600" fill="#4e4e57">${esc(yLabel)}</text>`;
     }
     svg+='</svg>';$('chartWrap').innerHTML=svg;
+    persistState();
   }
   function validateForExport(){
     const data=getData();
-    const incomplete=rows.some(r=>{const hasLabel=r.label.trim()!=='';const hasValue=r.value.trim()!=='';return (hasLabel||hasValue)&&(!hasLabel||!hasValue||!Number.isFinite(Number(r.value)));});
-    if(incomplete){setError('Complete or clear each row before exporting: every included row needs a label and a valid number.');return null;}
-    if(data.length<2){setError('Add at least two rows with a label and a valid number before exporting.');return null;}
+    const incomplete=rows.some(r=>{
+      const hasLabel=String(r.label??'').trim()!=='';
+      if(chartType==='scatter'){
+        const hasX=String(r.x??'').trim()!=='',hasY=String(r.value??'').trim()!=='';
+        return (hasLabel||hasX||hasY)&&(!hasLabel||!hasX||!hasY||!Number.isFinite(Number(r.x))||!Number.isFinite(Number(r.value)));
+      }
+      const hasValue=String(r.value??'').trim()!=='';
+      return (hasLabel||hasValue)&&(!hasLabel||!hasValue||!Number.isFinite(Number(r.value)));
+    });
+    if(incomplete){setError(chartType==='scatter'?'Complete or clear each item before exporting: every included item needs a name and valid X and Y numbers.':'Complete or clear each item before exporting: every included item needs a name and a valid number.');return null;}
+    if(data.length<2){setError(chartType==='scatter'?'Add at least two items with names and valid X and Y numbers before exporting.':'Add at least two items with a name and a valid number before exporting.');return null;}
     if((chartType==='pie'||chartType==='doughnut')&&(data.some(d=>d.value<0)||data.reduce((a,d)=>a+d.value,0)<=0)){setError('Pie and doughnut charts require values that are zero or higher, with a total above zero.');return null;}
     setError('');return data;
   }
@@ -141,9 +237,7 @@
       function pushBytes(b){chunks.push(b);offset+=b.length;}function pushText(s){pushBytes(enc(s));}
       pushText('%PDF-1.4\n%PDF-tools-etc\n');
       function obj(id,body){offsets[id]=offset;pushText(`${id} 0 obj\n${body}\nendobj\n`);}
-      obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
-      obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
-      obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R >>');
+      obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R >>');
       const content=enc('q\n842 0 0 595 0 0 cm\n/Im0 Do\nQ\n');offsets[4]=offset;pushText(`4 0 obj\n<< /Length ${content.length} >>\nstream\n`);pushBytes(content);pushText('endstream\nendobj\n');
       offsets[5]=offset;pushText(`5 0 obj\n<< /Type /XObject /Subtype /Image /Width 1684 /Height 1190 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`);pushBytes(jpeg);pushText('\nendstream\nendobj\n');
       const xref=offset;pushText('xref\n0 6\n0000000000 65535 f \n');for(let i=1;i<=5;i++)pushText(String(offsets[i]).padStart(10,'0')+' 00000 n \n');pushText(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
@@ -154,10 +248,14 @@
   function safeFilename(name){return String(name).trim().normalize('NFKD').replace(/[^a-zA-Z0-9 _-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,70)||'graph';}
   function downloadBlob(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);}
   function makePng(){if(!validateForExport())return;const svg=$('chartWrap').querySelector('svg').outerHTML;svgToCanvasBlob(svg,2000,1240,'image/png').then(blob=>{downloadBlob(blob,`${safeFilename($('graphTitle').value||'graph')}.png`);}).catch(e=>setError(e.message||'Image export failed.'));}
-  document.querySelectorAll('[data-type]').forEach(btn=>btn.addEventListener('click',()=>{chartType=btn.dataset.type;document.querySelectorAll('[data-type]').forEach(b=>{const active=b===btn;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});renderChart();}));
-  $('addRow').addEventListener('click',()=>{if(rows.length<20){rows.push({label:`Category ${rows.length+1}`,value:''});renderRows();renderChart();const inputs=$('dataRows').querySelectorAll('input');inputs[inputs.length-2]?.focus();}});
-  ['graphTitle','xAxis','yAxis','palette','numberFormat','gridlines'].forEach(id=>$(id).addEventListener('input',renderChart));
+  function clearAllItems(){
+    rows=freshRows();renderRows();renderChart();setError('');
+  }
+  restoreState();syncTypeButtons();renderRows();renderChart();
+  document.querySelectorAll('[data-type]').forEach(btn=>btn.addEventListener('click',()=>{chartType=btn.dataset.type;syncTypeButtons();renderRows();renderChart();}));
+  $('addRow').addEventListener('click',()=>{if(rows.length<50){const n=rows.length+1;rows.push({label:`Item ${n}`,x:String(n),value:'0'});renderRows();renderChart();const inputs=$('dataRows').querySelectorAll('input');inputs[inputs.length-(chartType==='scatter'?3:2)]?.focus();}});
+  $('clearAllItems').addEventListener('click',clearAllItems);
+  ['graphTitle','xAxis','yAxis','palette','numberFormat','gridlines','averageLine','bestFit'].forEach(id=>$(id).addEventListener('input',renderChart));
   $('exportPdf').addEventListener('click',makePdf);$('exportPng').addEventListener('click',makePng);
-  renderRows();renderChart();
 })();
 </script></body></html>
