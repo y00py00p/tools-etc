@@ -71,6 +71,10 @@
     {
       "source": "/qr-code-generator",
       "destination": "/qr-code-generator.html"
+    },
+    {
+      "source": "/graph-maker",
+      "destination": "/graph-maker.html"
     }
   ]
 }
