@@ -17,6 +17,10 @@
       "destination": "/fraction-calculator.html"
     },
     {
+      "source": "/decimal-to-fraction",
+      "destination": "/decimal-to-fraction.html"
+    },
+    {
       "source": "/interest-calculator",
       "destination": "/interest-calculator.html"
     },

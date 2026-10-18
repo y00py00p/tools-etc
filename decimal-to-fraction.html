@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#635bff" />
+<meta name="description" content="Convert decimals into simplified fractions exactly with the free Decimal to Fraction calculator." />
+<title>Decimal to Fraction Calculator | Tools etc.</title>
+<style>
+:root{--bg:#f7f7f9;--surface:#fff;--surface2:#f1f1f5;--text:#17171b;--muted:#6f7078;--border:#e7e7ec;--accent:#635bff;--accentSoft:#eeecff;--radius:22px;--shadow:0 10px 30px rgba(20,20,30,.06)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,rgba(99,91,255,.08),transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.shell{width:min(1100px,calc(100% - 36px));margin:0 auto;padding:24px 0 56px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:inline-flex;align-items:center;gap:11px;margin-left:clamp(2px,calc((100vw - 1132px) / 2),40px);font-weight:750;letter-spacing:-.03em;font-size:19px}.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--text);color:#fff;flex:0 0 auto;box-shadow:none}.brand-mark svg{width:18px;height:18px}.back{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:14px;font-weight:650}.back svg{width:16px}.hero{padding:54px 0 28px}.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.75);color:var(--muted);font-size:12px;font-weight:700}.hero h1{font-size:clamp(34px,5vw,54px);line-height:1.02;letter-spacing:-.055em;margin:16px 0 12px}.hero p{max-width:640px;color:var(--muted);font-size:16px;line-height:1.65;margin:0}.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}.tool-card{padding:22px}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.btn{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:12px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid rgba(99,91,255,.2);outline-offset:2px}textarea,input,select{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:14px}.muted{color:var(--muted)}.grid{display:grid;gap:14px}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.label{display:block;font-size:12px;font-weight:750;color:var(--muted);margin:0 0 8px}.field{width:100%;padding:13px}.result{margin-top:14px;padding:18px;border-radius:16px;background:var(--surface2);border:1px solid var(--border)}.result strong{font-size:28px;letter-spacing:-.03em}.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px}.stat{padding:16px;border:1px solid var(--border);border-radius:16px;background:var(--surface2)}.stat b{display:block;font-size:22px;letter-spacing:-.03em}.stat span{display:block;margin-top:4px;color:var(--muted);font-size:12px;font-weight:650}.footer-note{margin-top:18px;color:var(--muted);font-size:12px;line-height:1.5}.symbol-grid{display:flex;flex-wrap:wrap;gap:9px}.symbol{min-width:44px;height:44px;border:1px solid var(--border);background:var(--surface);border-radius:12px;display:grid;place-items:center;font-size:20px;cursor:pointer}.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}.swatch{height:92px;border-radius:16px;border:1px solid var(--border);display:flex;align-items:flex-end;padding:9px;font-size:12px;font-weight:750;cursor:pointer}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{border:1px solid var(--border);background:var(--surface);padding:9px 12px;border-radius:10px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.tab.active{background:var(--accentSoft);border-color:rgba(99,91,255,.25);color:var(--accent)}.drop{border:1.5px dashed #cfcfd8;border-radius:18px;padding:35px 18px;text-align:center;background:var(--surface2)}.drop input{display:none}.small{font-size:13px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.two-col{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}@media(max-width:760px){.shell{width:min(100% - 24px,1100px);padding-top:16px}.hero{padding:40px 0 22px}.grid-2,.grid-3,.two-col{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stats .stat:last-child{grid-column:1/-1}.topbar{align-items:flex-start}.back{font-size:13px}}
+
+.expression-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:16px}.expression{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:92px;padding:18px;border:1px solid var(--border);border-radius:18px;background:var(--surface2);overflow-x:auto}.fraction-box{display:inline-flex;flex-direction:column;align-items:stretch;width:92px;min-width:92px}.fraction-input{width:100%;height:38px;padding:7px 9px;border-radius:9px;border:1px solid var(--border);background:var(--surface);font-size:18px;text-align:center}.fraction-input.top{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-bottom-color:var(--text)}.fraction-input.bottom{border-top-left-radius:4px;border-top-right-radius:4px}.operator-wrap{display:inline-flex;align-items:center;justify-content:center;min-width:38px}.operator{width:38px;height:38px;padding:0;text-align:center;border-radius:10px;font-weight:800}.term-remove{width:28px;height:28px;padding:0;border:0;background:transparent;color:var(--muted);font-size:18px;cursor:pointer;border-radius:8px;line-height:1}.term-remove:hover{background:var(--surface);color:var(--text)}.expression-controls{margin-top:16px;margin-bottom:0}.expression .fraction-wrap{display:flex;align-items:center;gap:5px}@media(max-width:760px){.expression-head{align-items:flex-start;flex-direction:column}.expression{padding:14px}.fraction-box{width:82px;min-width:82px}.operator-wrap{min-width:32px}.operator{width:32px}}
+
+.expression-shell{margin-top:4px;border:1px solid var(--border);border-radius:18px;background:var(--surface2);padding:14px 16px}.expression-input{width:100%;height:72px;border:0;background:transparent;border-radius:12px;padding:8px 2px;font-size:30px;line-height:1.2;letter-spacing:-.03em;outline:none;box-shadow:none}.expression-input::placeholder{color:#b4b4bc}.keypad{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}.key{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:14px;min-height:54px;font:inherit;font-size:18px;font-weight:750;cursor:pointer;touch-action:manipulation}.key:hover{background:var(--surface2)}.key:active{transform:translateY(1px)}.key-muted{background:var(--surface2);color:var(--muted)}.key.primary{background:var(--accent);border-color:var(--accent);color:#fff}.key[data-key="space"]{font-size:14px}.fraction-forms{display:grid;gap:10px;margin-top:10px}.form-line{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.form-label{color:var(--muted);font-size:12px;font-weight:750;min-width:70px}.form-value{font-size:22px;font-weight:750;letter-spacing:-.03em}.result .decimal{margin-top:6px}.result .mixed{margin-top:6px}.error-text{color:#a02a2a}.result .mono{font-size:18px}@media(max-width:760px){.expression-input{font-size:25px;height:64px}.key{min-height:52px}.keypad{gap:8px}.history-list{max-height:260px}}
+.history-card{margin-top:16px;padding:18px}.history-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.history-title{font-size:16px;font-weight:800;letter-spacing:-.02em}.history-list{display:grid;gap:10px;max-height:320px;overflow-y:auto;padding-right:4px}.history-empty{padding:18px;border:1px dashed #cfcfd8;border-radius:16px;color:var(--muted);font-size:13px;text-align:center}.history-item{padding:11px 13px;border:1px solid var(--border);border-radius:16px;background:var(--surface2)}.history-equation{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:15px;word-break:break-word}.history-answer{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-top:7px}.history-answer strong{font-size:18px;letter-spacing:-.02em}.history-answer .mixed-form{color:var(--muted);font-size:13px}.history-meta{margin-top:6px;color:var(--muted);font-size:11px}
+
+
+/* Tools etc. shared page chrome */
+header.site-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;padding:8px 0 24px!important;margin:0!important;width:min(1180px,calc(100vw - 32px))!important;position:relative!important;left:50%!important;transform:translateX(-50%)!important}
+header.site-header .brand{display:inline-flex!important;align-items:center!important;gap:11px!important;margin:0!important;font-family:inherit!important;font-size:19px!important;font-weight:750!important;letter-spacing:-.03em!important;line-height:1.2!important;white-space:nowrap!important;text-decoration:none!important}
+header.site-header .brand-mark{width:34px!important;height:34px!important;display:grid!important;place-items:center!important;border-radius:10px!important;background:var(--text)!important;color:#fff!important;flex:0 0 auto!important;box-shadow:none!important}
+header.site-header .brand-mark svg{width:18px!important;height:18px!important}
+header.site-header .back{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:10px 12px!important;border:1px solid var(--border)!important;border-radius:10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:14px!important;font-weight:650!important;line-height:1.2!important;text-decoration:none!important;white-space:nowrap!important}
+header.site-header .back:hover,header.site-header .back:focus-visible{background:var(--surface)!important;color:var(--text)!important;outline:none!important}
+header.site-header .back svg{display:block!important;width:16px!important;height:16px!important;flex:0 0 auto!important;transform:none!important}
+.hero{padding:34px 0 24px!important;text-align:center!important}
+.hero h1,h1{margin:0!important;font-family:inherit!important;font-size:clamp(34px,5.5vw,54px)!important;line-height:1!important;letter-spacing:-.05em!important;font-weight:800!important}
+button{font-family:inherit}
+@media(max-width:620px){header.site-header{padding:4px 0 18px!important}header.site-header .brand{margin:0!important;font-size:18px!important}header.site-header .back{font-size:14px!important;padding:9px 10px!important}.hero{padding:28px 0 20px!important}}
+
+/* Shared history controls */
+.history-head button{appearance:none!important;border:1px solid var(--border)!important;border-radius:10px!important;padding:8px 10px!important;background:transparent!important;color:var(--muted)!important;font-family:inherit!important;font-size:12px!important;font-weight:700!important;line-height:1.2!important;cursor:pointer!important;transition:background .16s ease,color .16s ease,border-color .16s ease!important}
+.history-head button:hover,.history-head button:focus-visible{background:var(--surface2)!important;color:var(--text)!important;outline:none!important}
+
+.decimal-field-wrap{margin-top:2px}
+.field-help{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.45}
+.result .fraction-large{display:block;font-size:clamp(28px,5vw,36px);letter-spacing:-.04em;overflow-wrap:anywhere}
+.result .fraction-subtitle{margin-top:4px;color:var(--muted);font-size:12px}
+.result .result-detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:grid;gap:7px}
+.error-text{color:#a02a2a}
+@media(max-width:760px){.tool-card{padding:16px}.field{font-size:16px}}
+</style>
+<link rel="canonical" href="https://tools-etc.vercel.app/decimal-to-fraction" />
+<meta property="og:title" content="Decimal to Fraction Calculator — Tools etc." />
+<meta property="og:description" content="Convert decimals into simplified fractions exactly." />
+<meta property="og:url" content="https://tools-etc.vercel.app/decimal-to-fraction" />
+<meta property="og:type" content="website" />
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<div class="shell">
+<header class="site-header">
+  <a aria-label="Tools etc. home" class="brand" href="/"><span aria-hidden="true" class="brand-mark"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24"><path d="M9 3h6"></path><path d="M10 3v5l-5.2 9.1A2.6 2.6 0 0 0 7.05 21h9.9a2.6 2.6 0 0 0 2.25-3.9L14 8V3"></path><path d="M8.2 15h7.6"></path></svg></span><span>Tools etc.</span></a>
+  <a aria-label="All tools" class="back" href="/"><span>All tools</span><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a>
+</header>
+<section class="hero"><h1>Decimal to Fraction</h1></section>
+<main class="card tool-card">
+  <div class="decimal-field-wrap">
+    <label class="label" for="decimalInput">Decimal</label>
+    <input class="field" id="decimalInput" type="text" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. 0.125" aria-describedby="decimal-help" />
+    <div class="field-help" id="decimal-help">Enter a terminating decimal, such as 0.125, 2.75, or −0.4.</div>
+  </div>
+  <div class="controls" style="margin-top:18px;margin-bottom:0">
+    <button class="btn primary" id="convertButton" type="button">Convert</button>
+    <button class="btn" id="clearInput" type="button">Clear input</button>
+  </div>
+  <div class="result" id="result" aria-live="polite" aria-atomic="true"><div class="muted small">Enter a decimal to convert it.</div></div>
+  <div class="small error-text" id="error" role="alert" style="display:none;margin-top:10px"></div>
+</main>
+<section aria-labelledby="historyTitle" class="card history-card">
+  <div class="history-head"><div class="history-title" id="historyTitle">History</div><button class="btn" id="clearHistory" type="button">Clear all history</button></div>
+  <div class="history-list" id="historyList"><div class="history-empty">No calculations yet.</div></div>
+</section>
+</div>
+<script>
+(() => {
+  'use strict';
+  const HISTORY_KEY = 'toolsEtc_decimalToFraction_history_v1';
+  const MAX_HISTORY = 50;
+  const input = document.getElementById('decimalInput');
+  const result = document.getElementById('result');
+  const error = document.getElementById('error');
+  const historyList = document.getElementById('historyList');
+
+  const gcd = (a, b) => {
+    a = a < 0n ? -a : a;
+    b = b < 0n ? -b : b;
+    while (b !== 0n) { const r = a % b; a = b; b = r; }
+    return a || 1n;
+  };
+  const simplify = (n, d) => {
+    if (d < 0n) { n = -n; d = -d; }
+    const g = gcd(n, d);
+    return [n / g, d / g];
+  };
+  const formatFraction = (n, d) => d === 1n ? String(n) : `${n}/${d}`;
+  const formatMixed = (n, d) => {
+    if (d === 1n || n === 0n) return String(n);
+    const negative = n < 0n;
+    const absolute = negative ? -n : n;
+    const whole = absolute / d;
+    const remainder = absolute % d;
+    if (whole === 0n) return `${negative ? '-' : ''}${remainder}/${d}`;
+    if (remainder === 0n) return `${negative ? '-' : ''}${whole}`;
+    return `${negative ? '-' : ''}${whole} ${remainder}/${d}`;
+  };
+  function showError(message = '') {
+    error.textContent = message;
+    error.style.display = message ? 'block' : 'none';
+  }
+  function loadHistory() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+      return Array.isArray(parsed) ? parsed.slice(0, MAX_HISTORY).filter(item => item && typeof item.decimal === 'string' && typeof item.fraction === 'string') : [];
+    } catch { return []; }
+  }
+  let history = loadHistory();
+  function saveHistory() {
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, MAX_HISTORY))); } catch {}
+  }
+  function appendText(parent, tag, className, text) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    el.textContent = text;
+    parent.appendChild(el);
+    return el;
+  }
+  function renderHistory() {
+    historyList.replaceChildren();
+    if (!history.length) {
+      appendText(historyList, 'div', 'history-empty', 'No calculations yet.');
+      return;
+    }
+    for (const item of history) {
+      const row = document.createElement('div'); row.className = 'history-item';
+      appendText(row, 'div', 'history-equation', item.decimal);
+      const answer = document.createElement('div'); answer.className = 'history-answer';
+      appendText(answer, 'strong', '', item.fraction);
+      if (item.mixed && item.mixed !== item.fraction) appendText(answer, 'span', 'mixed-form', `Mixed: ${item.mixed}`);
+      row.appendChild(answer);
+      if (item.time) appendText(row, 'div', 'history-meta', item.time);
+      historyList.appendChild(row);
+    }
+  }
+  function parseDecimal(value) {
+    const s = value.trim().replace(/[−–—]/g, '-');
+    const match = s.match(/^([+-]?)(?:(\d+)(?:\.(\d*))?|\.(\d+))$/);
+    if (!match) throw new Error('Enter a decimal using digits and an optional decimal point, such as 0.375.');
+    const whole = match[2] || '0';
+    const fraction = match[3] !== undefined ? match[3] : (match[4] || '');
+    if (whole.length + fraction.length > 100) throw new Error('Please use no more than 100 digits in one number.');
+    const digitString = (whole + fraction).replace(/^0+(?=\d)/, '') || '0';
+    let numerator = BigInt(digitString);
+    if (match[1] === '-') numerator = -numerator;
+    const denominator = 10n ** BigInt(fraction.length);
+    return simplify(numerator, denominator);
+  }
+  function convert() {
+    if (!input.value.trim()) {
+      showError('Enter a decimal first.');
+      result.replaceChildren(); appendText(result, 'div', 'muted small', 'Enter a decimal to convert it.');
+      input.focus(); return;
+    }
+    try {
+      const [n, d] = parseDecimal(input.value);
+      const fraction = formatFraction(n, d);
+      const mixed = formatMixed(n, d);
+      result.replaceChildren();
+      appendText(result, 'strong', 'fraction-large', fraction);
+      appendText(result, 'div', 'fraction-subtitle', d === 1n ? 'Whole number' : 'Simplified fraction');
+      if (mixed !== fraction) {
+        const details = document.createElement('div'); details.className = 'result-detail';
+        const line = document.createElement('div'); line.className = 'form-line';
+        appendText(line, 'span', 'form-label', 'Mixed number');
+        appendText(line, 'span', 'form-value', mixed);
+        details.appendChild(line); result.appendChild(details);
+      }
+      showError('');
+      const item = { decimal: input.value.trim(), fraction, mixed, time: new Date().toLocaleString() };
+      history.unshift(item); history = history.slice(0, MAX_HISTORY); saveHistory(); renderHistory();
+    } catch (err) {
+      showError(err instanceof Error ? err.message : 'Could not convert that number.');
+    }
+  }
+  document.getElementById('convertButton').addEventListener('click', convert);
+  input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); convert(); } });
+  document.getElementById('clearInput').addEventListener('click', () => {
+    input.value = ''; showError(''); result.replaceChildren(); appendText(result, 'div', 'muted small', 'Enter a decimal to convert it.'); input.focus();
+  });
+  document.getElementById('clearHistory').addEventListener('click', () => { history = []; saveHistory(); renderHistory(); });
+  renderHistory();
+})();
+</script>
+</body>
+</html>
